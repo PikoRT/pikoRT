@@ -1,0 +1,92 @@
+#include <kernel/compiler.h>
+
+#include "platform.h"
+
+struct timer_operations;
+
+void config_timer_operations(struct timer_operations *tops);
+
+extern struct timer_operations systick_tops;
+
+void stm32f429_init(void);
+
+__weak void __platform_init(void)
+{
+	config_timer_operations(&systick_tops);
+
+	/* create /dev/ttyS0, serial interface for QEMU UART0 */
+	stm32f429_init();
+}
+
+__weak void __platform_halt(void)
+{
+	for (;;)
+		;
+}
+
+void __printk_init(void)
+{
+
+	/*##-1- Enable peripherals and GPIO Clocks #################################*/
+	/* Enable GPIO TX/RX clock */
+	__HAL_RCC_GPIOA_CLK_ENABLE();
+	/* Enable USART1 clock */
+	__HAL_RCC_USART1_CLK_ENABLE();
+
+	/**
+	 * GPIO init
+	 */
+	GPIO_InitTypeDef  GPIO_InitStruct;
+
+	/*##-2- Configure peripheral GPIO ##########################################*/
+	/* UART TX/RX GPIO pin configuration  */
+	GPIO_InitStruct.Pin       = GPIO_PIN_9 | GPIO_PIN_10;
+	GPIO_InitStruct.Mode      = GPIO_MODE_AF_PP;
+	GPIO_InitStruct.Pull      = GPIO_NOPULL;
+	GPIO_InitStruct.Speed     = GPIO_SPEED_FAST;
+	GPIO_InitStruct.Alternate = GPIO_AF7_USART1;
+
+	HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+	/*##-3- Configure the NVIC for UART ########################################*/
+	/* NVIC for USART1 */
+	//HAL_NVIC_SetPriority(USARTx_IRQn, 0, 1
+
+	/**
+	 * USART init
+	 */
+	UART_HandleTypeDef UartHandle;
+
+	/*##-1- Configure the UART peripheral ######################################*/
+	/* Put the USART peripheral in the Asynchronous mode (UART Mode) */
+	/* UART1 configured as follow:
+	    - Word Length = 8 Bits
+	    - Stop Bit = One Stop bit
+	    - Parity = None
+	    - BaudRate = 9600 baud
+	    - Hardware flow control disabled (RTS and CTS signals) */
+	UartHandle.Instance          = USART1;
+
+	UartHandle.Init.BaudRate     = 115200;
+	UartHandle.Init.WordLength   = UART_WORDLENGTH_8B;
+	UartHandle.Init.StopBits     = UART_STOPBITS_1;
+	UartHandle.Init.Parity       = UART_PARITY_NONE;
+	UartHandle.Init.HwFlowCtl    = UART_HWCONTROL_NONE;
+	UartHandle.Init.Mode         = UART_MODE_TX_RX | UART_IT_RXNE;
+	UartHandle.Init.OverSampling = UART_OVERSAMPLING_16;
+
+	HAL_UART_Init(&UartHandle);
+
+	NVIC_SetPriority(USART2_IRQn, 0xE);
+}
+
+void __printk_putchar(char c)
+{
+	if(c == '\n') __printk_putchar('\r');
+
+	while (!(USART1->SR & USART_SR_TXE))
+		;
+	USART1->DR = (0xff) & c;
+
+	//USART1->CR1 |= (USART_CR1_UE | USART_CR1_TE | USART_CR1_RE);
+}
