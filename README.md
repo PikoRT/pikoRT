@@ -1,2 +1,3 @@
-# piko
-Piko is a tiny Linux-like real-time kernel with optimization for ARM Cortex-M series microcontroller.
+# Piko/RT
+
+This is `Piko/RT`, a tiny Linux-like real-time operating system kernel, optimized for ARM Cortex-M series microprocessors.
