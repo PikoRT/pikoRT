@@ -17,4 +17,4 @@ static int echo(int argc, char *argv[])
     return 0;
 }
 
-SHELLCMD_REGIST(echo, echo);
+HOOK_BUILTIN_CMD(echo, echo);

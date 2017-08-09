@@ -29,4 +29,4 @@ static int ls(int argc, char *argv[])
     return 0;
 }
 
-SHELLCMD_REGIST(ls, ls);
+HOOK_BUILTIN_CMD(ls, ls);

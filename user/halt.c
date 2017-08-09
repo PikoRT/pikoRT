@@ -7,4 +7,4 @@ static int halt(__unused int argc, __unused char *argv[])
     return 0;
 }
 
-SHELLCMD_REGIST(halt, halt);
+HOOK_BUILTIN_CMD(halt, halt);

@@ -26,4 +26,4 @@ static int cat(__unused int argc, char *argv[])
     return retval;
 }
 
-SHELLCMD_REGIST(cat, cat);
+HOOK_BUILTIN_CMD(cat, cat);

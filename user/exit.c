@@ -7,4 +7,4 @@ static int _exit(__unused int argc, __unused char *argv[])
     return 0;
 }
 
-SHELLCMD_REGIST(exit, _exit);
+HOOK_BUILTIN_CMD(exit, _exit);
