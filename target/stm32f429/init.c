@@ -80,7 +80,7 @@ void __printk_init(void)
 
     HAL_UART_Init(&UartHandle);
 
-    NVIC_SetPriority(USART2_IRQn, 0xE);
+    NVIC_SetPriority(USART1_IRQn, 0xE);
 }
 
 void __printk_putchar(char c)
