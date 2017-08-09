@@ -91,6 +91,4 @@ void __printk_putchar(char c)
     while (!(USART1->SR & USART_SR_TXE))
         ;
     USART1->DR = (0xff) & c;
-
-    // USART1->CR1 |= (USART_CR1_UE | USART_CR1_TE | USART_CR1_RE);
 }

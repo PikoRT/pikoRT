@@ -19,9 +19,6 @@ int stm32p103_getc(struct serial_info *serial, char *c)
     return 0;
 }
 
-/* int serial_gets(struct serial_info *serial, size_t len, */
-/* 		size_t *retlen, char *buf); */
-
 int stm32p103_putc(struct serial_info *serial, char c)
 {
     USART_TypeDef *uart = serial->priv;
@@ -59,8 +56,6 @@ static void stm32p103_uart2_isr(void)
         char c = (char) USART2->DR;
         cbuf_putc(&cbuf, c);
         stm32p103_uart2.rx_count++;
-        // FIXME:
-        // USART2->ICR = 1 << LM3S_UARTICR_RXIC_Pos; /* ack */
         serial_activity_callback(&stm32p103_uart2);
     }
 }
@@ -81,14 +76,9 @@ int stm32p103_init(void)
     init_tmpfs_inode(&stm32p103_inode);
     vfs_link(0, dev_inode(), &dentry);
 
-    /* configure link */
-    // USART1->CR1 |= (USART_CR1_UE | USART_CR1_TE | USART_CR1_RE);
-
     /* enable rx interrupt */
     request_irq(USART2_IRQn, stm32p103_uart2_isr);
     NVIC_EnableIRQ(USART2_IRQn);
-    // FIXME:
-    // UART1->IM = 1 << LM3S_UARTIM_RXIM_Pos;
 
     return 0;
 }

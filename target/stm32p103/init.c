@@ -44,14 +44,9 @@ __weak void __platform_halt(void)
 
 void __printk_init(void)
 {
-    // UART0->CTL |= 1;         /* UART enabled */
-    // UART0->LCRH |= (3 << 5); /* 8 bits word length, no parity */
-
     __uart_enable();
 
     NVIC_SetPriority(USART2_IRQn, 0xE);
-
-    // USART2->CR1 |= (USART_CR1_UE | USART_CR1_TE | USART_CR1_RE);
 }
 
 void __printk_putchar(char c)
