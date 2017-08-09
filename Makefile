@@ -39,7 +39,7 @@ OBJS := $(sort $(OBJS))
 
 .PHONY: all check clean distclean
 
-all: $(CMSIS)/$(TARGET) $(NAME).lds $(NAME).hex $(NAME).bin
+all: $(CMSIS)/$(TARGET) $(NAME).lds $(NAME).bin
 
 prebuild: $(CMSIS)/$(TARGET)
 
@@ -85,10 +85,6 @@ fs/version.o: fs/version
         --redefine-sym _binary_$(subst /,_,$<)_size=_version_len	\
 	$< $@
 
-%.hex: %.elf
-	$(VECHO) "  OBJCOPY\t$@\n"
-	$(Q)$(OBJCOPY) -O ihex $< $@
-
 %.bin: %.elf
 	$(VECHO) "  OBJCOPY\t$@\n"
 	$(Q)$(OBJCOPY) -Obinary $< $@
@@ -100,8 +96,7 @@ clean:
 	find . -name "*.o" -type f -delete
 	find $(CMSIS) -name "*.o" -type f -delete
 	rm -f $(NAME).map $(NAME).lds
-	rm -f $(NAME).elf $(NAME).hex
-	rm -f $(NAME).bin
+	rm -f $(NAME).elf $(NAME).bin
 
 distclean: clean
 	rm -f kernel/syscall.c include/kernel/syscalls.h fs/version
