@@ -8,7 +8,7 @@ TARGET ?= stm32f429
 CMSIS = ../cmsis
 
 # The platform Makefile contains hw details and flags
-include target/$(TARGET)/build.mk
+include target/$(TARGET)/Makefile
 
 # arch-specific
 SSRC += arch/v7m-head.S arch/v7m-entry.S arch/v7m-svcall.S
@@ -107,5 +107,5 @@ distclean: clean
 	rm -f kernel/syscall.c include/kernel/syscalls.h fs/version
 	rm -rf $(CMSIS)
 
-# platform Makefile.rules contains flashing and running rules
-include target/$(TARGET)/Makefile.rules
+# platform build contains flashing and running rules
+include target/$(TARGET)/build.mk

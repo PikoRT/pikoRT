@@ -1,33 +1,42 @@
-CPU	= cortex-m3
-ARCH	= armv7-m
+ifeq ($(shell lsb_release -c -s),trusty)
+  REDIRECT_SERIAL = -serial stdio
+endif
 
-ROMSZ	= 128k
-RAMSZ	= 64k
+$(CMSIS)/$(TARGET): $(CMSIS)/arm $(CMSIS)/TARGET_STM $(CMSIS)/util
 
-CFLAGS	+=	-Itarget/stm32p103 \
-			-I$(CMSIS)/util \
-			-I$(CMSIS)/arm \
-			-I$(CMSIS)/arm/TARGET_CORTEX_M \
-			-I$(CMSIS)/arm/TARGET_CORTEX_M/TOOLCHAIN_GCC \
-			-I$(CMSIS)/TARGET_STM \
-			-I$(CMSIS)/TARGET_STM//TARGET_STM32F1 \
-			-I$(CMSIS)/TARGET_STM//TARGET_STM32F1/device \
-			-I$(CMSIS)/TARGET_STM//TARGET_STM32F1/TARGET_NUCLEO_F103RB \
-			-I$(CMSIS)/TARGET_STM//TARGET_STM32F1/TARGET_NUCLEO_F103RB/device \
-			-I$(CMSIS)/TARGET_STM//TARGET_STM32F1/TARGET_NUCLEO_F103RB/TARGET_DISCO_F429ZI \
+$(CMSIS)/arm:
+	svn export --force https://github.com/ARMmbed/mbed-os/trunk/cmsis/ $(CMSIS)/arm
 
-CSRC	+=				\
-	target/stm32p103/halt.c		\
-	target/stm32p103/init.c
+$(CMSIS)/TARGET_STM:
+	svn export --force https://github.com/ARMmbed/mbed-os/trunk/targets/TARGET_STM/ $(CMSIS)/TARGET_STM
 
-# CMSIS files
-## STM HAL
-CSRC	+= $(wildcard ../cmsis/TARGET_STM/TARGET_STM32F1/device/*.c)
-## SystemInit()
-CSRC	+= ../cmsis/TARGET_STM/TARGET_STM32F1/TARGET_NUCLEO_F103RB/device/system_clock.c
+$(CMSIS)/util:
+	mkdir -p $(CMSIS)/util
+# Reference: https://stackoverflow.com/questions/1125476/retrieve-a-single-file-from-a-repository
+#            https://stackoverflow.com/questions/1078524/how-to-specify-the-location-with-wget
+	wget https://raw.github.com/ARMmbed/mbed-os/master/platform/mbed_preprocessor.h -P $(CMSIS)/util
+	wget https://raw.github.com/ARMmbed/mbed-os/master/platform/mbed_assert.h -P $(CMSIS)/util
 
-# Timer driver files
-CSRC	+= drivers/timer/systick.c
 
-# Serial driver files
-CSRC	+= drivers/serial/stm32p103.c
+run: $(NAME).bin
+	$(Q)qemu-system-arm		\
+		-semihosting		\
+		$(REDIRECT_SERIAL)	\
+		-nographic			\
+		-cpu cortex-m3		\
+		-machine stm32-p103	\
+		-kernel $<
+
+dbg: $(NAME).bin
+	$(Q)qemu-system-arm		\
+		-semihosting		\
+		$(REDIRECT_SERIAL)	\
+		-nographic			\
+		-cpu cortex-m3		\
+		-machine stm32-p103	\
+		-kernel $<			\
+		-S -s
+
+gdb: $(NAME).elf
+	$(Q)arm-none-eabi-gdb   \
+		$< -ex "target remote :1234"

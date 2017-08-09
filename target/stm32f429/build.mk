@@ -1,33 +1,45 @@
-CPU	= cortex-m4
-ARCH	= armv7-m
+ifeq ($(shell lsb_release -c -s),trusty)
+  REDIRECT_SERIAL = -serial stdio
+endif
 
-ROMSZ	= 2048k
-RAMSZ	= 192k
+$(CMSIS)/$(TARGET): $(CMSIS)/arm $(CMSIS)/TARGET_STM $(CMSIS)/util
 
-CFLAGS	+=	-Itarget/stm32f429 \
-			-I$(CMSIS)/util \
-			-I$(CMSIS)/arm \
-			-I$(CMSIS)/arm/TARGET_CORTEX_M \
-			-I$(CMSIS)/arm/TARGET_CORTEX_M/TOOLCHAIN_GCC \
-			-I$(CMSIS)/TARGET_STM \
-			-I$(CMSIS)/TARGET_STM//TARGET_STM32F4 \
-			-I$(CMSIS)/TARGET_STM//TARGET_STM32F4/device \
-			-I$(CMSIS)/TARGET_STM//TARGET_STM32F4/TARGET_STM32F429xI \
-			-I$(CMSIS)/TARGET_STM//TARGET_STM32F4/TARGET_STM32F429xI/device \
-			-I$(CMSIS)/TARGET_STM//TARGET_STM32F4/TARGET_STM32F429xI/TARGET_DISCO_F429ZI \
+$(CMSIS)/arm:
+	svn export --force https://github.com/ARMmbed/mbed-os/trunk/cmsis/ $(CMSIS)/arm
 
-CSRC	+=				\
-	target/stm32f429/halt.c		\
-	target/stm32f429/init.c
+$(CMSIS)/TARGET_STM:
+	svn export --force https://github.com/ARMmbed/mbed-os/trunk/targets/TARGET_STM/ $(CMSIS)/TARGET_STM
 
-# CMSIS files
-## STM HAL
-CSRC	+= $(wildcard ../cmsis/TARGET_STM/TARGET_STM32F4/device/*.c)
-## SystemInit()
-CSRC	+= ../cmsis/TARGET_STM/TARGET_STM32F4/TARGET_STM32F429xI/TARGET_DISCO_F429ZI/system_clock.c
+$(CMSIS)/util:
+	mkdir -p $(CMSIS)/util
+	wget https://raw.github.com/ARMmbed/mbed-os/master/platform/mbed_preprocessor.h -P $(CMSIS)/util
+	wget https://raw.github.com/ARMmbed/mbed-os/master/platform/mbed_assert.h -P $(CMSIS)/util
 
-# Timer driver files
-CSRC	+= drivers/timer/systick.c
+run: $(NAME).bin
+	$(Q)qemu-system-arm		\
+		-semihosting		\
+		$(REDIRECT_SERIAL)	\
+		-nographic			\
+		-cpu cortex-m3		\
+		-machine stm32-p103	\
+		-kernel $<
 
-# Serial driver files
-CSRC	+= drivers/serial/stm32f429.c
+st-flash: $(NAME).bin
+	st-flash --reset write \
+		$(NAME).bin 0x08000000
+
+dbg: $(NAME).bin
+	openocd -f board/stm32f429discovery.cfg
+
+gdb: $(NAME).elf
+	$(Q)/usr/bin/arm-none-eabi-gdb \
+		$< -ex "target remote :3333"\
+		-ex "monitor reset halt" \
+
+wakeup:
+	openocd -f interface/stlink-v2.cfg	\
+		-f target/stm32f4x_stlink.cfg	\
+		-c "init"		\
+		-c "reset init"	\
+		-c "reset run"	\
+		-c "shutdown"
