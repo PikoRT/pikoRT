@@ -1,5 +1,5 @@
-include Makefile.opt
-include Makefile.inc
+include mk/opt.mk
+include mk/flags.mk
 
 NAME = piko
 
@@ -8,16 +8,7 @@ TARGET ?= stm32f429
 CMSIS = ../cmsis
 
 # The platform Makefile contains hw details and flags
-include target/$(TARGET)/Makefile
-
-# warning: return type of 'main' is not 'int' [-Wmain]
-CFLAGS += -Iinclude -Iinclude/libc -I. -I$(CMSIS)/arm -I$(CMSIS)/$(TARGET) -I$(CMSIS)/$(TARGET)/hal \
-	-Iinclude/kernel -D_POSIX_THREADS=1 -D_POSIX_TIMERS=1 -D_POSIX_REALTIME_SIGNALS=1 \
-	-Wno-main -DCONFIG_KERNEL_STACK_CHECKING -fdiagnostics-color \
-	-ffunction-sections -fdata-sections -Os -ggdb
-
-LDFLAGS += -nostartfiles -specs=nano.specs \
-	-Wl,-Map=$(NAME).map -Wl,-Tpiko.lds -Wl,--gc-sections
+include target/$(TARGET)/build.mk
 
 # arch-specific
 SSRC += arch/v7m-head.S arch/v7m-entry.S arch/v7m-svcall.S
