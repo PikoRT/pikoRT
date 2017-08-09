@@ -1,5 +1,5 @@
 ifeq ($(shell lsb_release -c -s),trusty)
-  REDIRECT_SERIAL = -serial stdio
+    REDIRECT_SERIAL = -serial stdio
 endif
 
 $(CMSIS)/$(TARGET): $(CMSIS)/arm $(CMSIS)/TARGET_STM $(CMSIS)/util
@@ -19,24 +19,24 @@ $(CMSIS)/util:
 
 
 run: $(NAME).bin
-	$(Q)qemu-system-arm		\
-		-semihosting		\
-		$(REDIRECT_SERIAL)	\
-		-nographic			\
-		-cpu cortex-m3		\
-		-machine stm32-p103	\
-		-kernel $<
+	$(Q)qemu-system-arm \
+	    -semihosting \
+	    $(REDIRECT_SERIAL) \
+	    -nographic \
+	    -cpu cortex-m3 \
+	    -machine stm32-p103	\
+	    -kernel $<
 
 dbg: $(NAME).bin
-	$(Q)qemu-system-arm		\
-		-semihosting		\
-		$(REDIRECT_SERIAL)	\
-		-nographic			\
-		-cpu cortex-m3		\
-		-machine stm32-p103	\
-		-kernel $<			\
-		-S -s
+	$(Q)qemu-system-arm \
+	    -semihosting \
+	    $(REDIRECT_SERIAL) \
+	    -nographic \
+	    -cpu cortex-m3 \
+	    -machine stm32-p103 \
+	    -kernel $< \
+	    -S -s
 
 gdb: $(NAME).elf
-	$(Q)arm-none-eabi-gdb   \
-		$< -ex "target remote :1234"
+	$(Q)arm-none-eabi-gdb \
+	    $< -ex "target remote :1234"

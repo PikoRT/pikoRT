@@ -1,4 +1,4 @@
-include mk/opt.mk
+include mk/rules.mk
 include mk/flags.mk
 
 NAME = piko
@@ -20,19 +20,20 @@ LIBPIKO_SSRC = $(wildcard libc/*.S) $(wildcard libc/piko/*.S)
 SSRC += $(LIBPIKO_SSRC)
 
 CSRC += kernel/syscall.c
-CSRC += $(wildcard kernel/*.c)		\
-	$(wildcard kernel/fs/*.c)	\
-	$(wildcard kernel/mm/*.c)	\
-	$(wildcard kernel/sched/*.c)	\
-	$(wildcard fs/*.c)		\
-	$(wildcard drivers/char/*.c)	\
-	$(wildcard drivers/mtd/*.c)	\
-	$(wildcard drivers/timer/timercore.c) \
-	$(wildcard drivers/serial/serial*.c) \
-	$(wildcard user/*.c)		\
-	libc/piko/stubs.c		\
-	libc/piko/mman.c		\
-	$(LIBPIKO_CSRC)			\
+CSRC += \
+    $(wildcard kernel/*.c) \
+    $(wildcard kernel/fs/*.c) \
+    $(wildcard kernel/mm/*.c) \
+    $(wildcard kernel/sched/*.c) \
+    $(wildcard fs/*.c) \
+    $(wildcard drivers/char/*.c) \
+    $(wildcard drivers/mtd/*.c) \
+    $(wildcard drivers/timer/timercore.c) \
+    $(wildcard drivers/serial/serial*.c) \
+    $(wildcard user/*.c) \
+    libc/piko/stubs.c \
+    libc/piko/mman.c \
+    $(LIBPIKO_CSRC)
 
 OBJS += $(SSRC:.S=.o) $(CSRC:.c=.o)
 OBJS := $(sort $(OBJS))

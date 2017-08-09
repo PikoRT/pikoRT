@@ -1,8 +1,8 @@
 # Control the build verbosity
 ifeq ("$(VERBOSE)","1")
-  Q :=
-  VECHO = @true
+    Q :=
+    VECHO = @true
 else
-  Q := @
-  VECHO = @printf
+    Q := @
+    VECHO = @printf
 endif

@@ -1,10 +1,11 @@
-CPU	= cortex-m3
-ARCH	= armv7-m
+CPU = cortex-m3
+ARCH = armv7-m
 
-ROMSZ	= 128k
-RAMSZ	= 64k
+ROMSZ = 128k
+RAMSZ = 64k
 
-CFLAGS	+=	-Itarget/stm32p103 \
+CFLAGS += \
+    -Itarget/stm32p103 \
 			-I$(CMSIS)/util \
 			-I$(CMSIS)/arm \
 			-I$(CMSIS)/arm/TARGET_CORTEX_M \
@@ -21,7 +22,7 @@ CSRC	+=				\
 	target/stm32p103/init.c
 
 # CMSIS files
-## STM HAL
+## STM32 HAL
 CSRC	+= $(wildcard ../cmsis/TARGET_STM/TARGET_STM32F1/device/*.c)
 ## SystemInit()
 CSRC	+= ../cmsis/TARGET_STM/TARGET_STM32F1/TARGET_NUCLEO_F103RB/device/system_clock.c
