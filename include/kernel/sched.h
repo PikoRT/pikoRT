@@ -10,7 +10,7 @@ struct thread_info;
 #define PRI_MIN 31
 
 #define SCHED_CLASS_RR 0
-#define SCHED_CLASS_O1 1
+#define SCHED_CLASS_BITMAP 1
 
 #define SCHED_OPT_NONE 0
 #define SCHED_OPT_RESTORE_ONLY 1

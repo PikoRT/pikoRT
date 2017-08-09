@@ -2,7 +2,7 @@
 #include <kernel/thread.h>
 
 extern const struct sched sched_rr;
-extern const struct sched sched_o1;
+extern const struct sched sched_bitmap;
 
 static const struct sched *sched;
 
@@ -12,8 +12,8 @@ int sched_select(int sched_type)
 		case SCHED_CLASS_RR:
 			sched = &sched_rr;
 			break;
-		case SCHED_CLASS_O1:
-			sched = &sched_o1;
+		case SCHED_CLASS_BITMAP:
+			sched = &sched_bitmap;
 			break;
 		default:
 			return -1;

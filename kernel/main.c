@@ -132,7 +132,7 @@ struct thread_info *start_kernel(void)
 	kmem_cache_init();
 
 	/* select a scheduling policy */
-	sched_select(SCHED_CLASS_O1);
+	sched_select(SCHED_CLASS_BITMAP);
 
 	/* idle_thread is not added to the runqueue */
 	task_init(&idle_task);

@@ -23,6 +23,7 @@ CSRC += kernel/syscall.c
 CSRC += $(wildcard kernel/*.c)		\
 	$(wildcard kernel/fs/*.c)	\
 	$(wildcard kernel/mm/*.c)	\
+	$(wildcard kernel/sched/*.c)	\
 	$(wildcard drivers/char/*.c)	\
 	$(wildcard drivers/mtd/*.c)	\
 	$(wildcard drivers/timer/timercore.c) \
