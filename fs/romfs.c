@@ -9,7 +9,7 @@
 #include <piko/arpa/inet.h> /* words are big endian in romfs */
 
 #include <kernel/fs.h>
-#include <kernel/fs/romfs.h>
+#include <fs/romfs.h>
 #include <kernel/kernel.h>
 
 #include <drivers/mtd/mtd.h>

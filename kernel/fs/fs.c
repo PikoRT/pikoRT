@@ -7,7 +7,7 @@
 #include <kernel/bitops.h>
 #include <kernel/errno-base.h>
 #include <kernel/fs.h>
-#include <kernel/fs/romfs.h>
+#include <fs/romfs.h>
 #include <kernel/task.h>
 
 struct file *fd_to_file(int fd)

@@ -24,6 +24,7 @@ CSRC += $(wildcard kernel/*.c)		\
 	$(wildcard kernel/fs/*.c)	\
 	$(wildcard kernel/mm/*.c)	\
 	$(wildcard kernel/sched/*.c)	\
+	$(wildcard fs/*.c)		\
 	$(wildcard drivers/char/*.c)	\
 	$(wildcard drivers/mtd/*.c)	\
 	$(wildcard drivers/timer/timercore.c) \
@@ -42,7 +43,7 @@ all: $(CMSIS)/$(TARGET) $(NAME).lds $(NAME).hex $(NAME).bin
 
 prebuild: $(CMSIS)/$(TARGET)
 
-$(NAME).elf: $(OBJS) kernel/fs/version.o
+$(NAME).elf: $(OBJS) fs/version.o
 	$(VECHO) "  LD\t\t$@\n"
 	$(Q)$(CC) $(LDFLAGS) -o $@ $^
 
@@ -70,13 +71,13 @@ include/kernel/syscalls.h:
 	$(VECHO) "  GEN\t\t$@\n"
 	$(Q)python scripts/gen-syscalls.py --header > $@
 
-kernel/fs/version:
+fs/version:
 	$(VECHO) "  GEN\t\t$@\n"
 	$(Q)python3 scripts/gen-proc-version.py --cc-version    \
 	--user $(shell whoami) --host $(shell hostname)		\
 	-a $(ARCH) -c $(CPU) -n 'Piko' > $@
 
-kernel/fs/version.o: kernel/fs/version
+fs/version.o: fs/version
 	$(VECHO) "  OBJCOPY\t$@\n"
 	$(Q)$(OBJCOPY) -I binary -O elf32-littlearm -B arm		\
 	--rename-section .data=.rodata					\
@@ -103,7 +104,7 @@ clean:
 	rm -f $(NAME).bin
 
 distclean: clean
-	rm -f kernel/syscall.c include/kernel/syscalls.h kernel/fs/version
+	rm -f kernel/syscall.c include/kernel/syscalls.h fs/version
 	rm -rf $(CMSIS)
 
 # platform Makefile.rules contains flashing and running rules
