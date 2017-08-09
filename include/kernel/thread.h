@@ -13,84 +13,84 @@
 
 /* machine-specific thread info on ARM */
 struct mthread_info {
-	u32 mi_msp;  /* +0 */
-	u32 mi_psp;  /* +4 */
-	u32 mi_priv; /* +8 */
+    u32 mi_msp;  /* +0 */
+    u32 mi_psp;  /* +4 */
+    u32 mi_priv; /* +8 */
 } __attribute__((packed));
 
 
 struct task_info;
 
 struct thread_info {
-	/* machine-specific thread info */
-	struct mthread_info ti_mach;
+    /* machine-specific thread info */
+    struct mthread_info ti_mach;
 
-	/* thread description data */
-	int ti_priority;
-	int ti_id;
-	int ti_state;
-	size_t ti_stacksize; /* user thread stacksize */
-	struct task_info *ti_task;
+    /* thread description data */
+    int ti_priority;
+    int ti_id;
+    int ti_state;
+    size_t ti_stacksize; /* user thread stacksize */
+    struct task_info *ti_task;
 
-	struct list_head ti_list; /* global list of threads */
-	struct list_head ti_q; /* shared by sched runq, mutex waitq, thread joinq */
+    struct list_head ti_list; /* global list of threads */
+    struct list_head ti_q; /* shared by sched runq, mutex waitq, thread joinq */
 
-	/* http://www.domaigne.com/blog/computing/joinable-and-detached-threads/ */
-	void *ti_retval;
-	int ti_detached;
-	int ti_joinable;
-	struct thread_info *ti_joining;
+    /* http://www.domaigne.com/blog/computing/joinable-and-detached-threads/ */
+    void *ti_retval;
+    int ti_detached;
+    int ti_joinable;
+    struct thread_info *ti_joining;
 
-	/* Pointer to mutually exclusive data: the mutex the thread is blocking
-	 * on, the exit value when thread is not yet joined, etc. */
-	void *ti_private;
+    /* Pointer to mutually exclusive data: the mutex the thread is blocking
+     * on, the exit value when thread is not yet joined, etc. */
+    void *ti_private;
 
-	/* /\* local-storage *\/ */
-	/* struct list_head *ti_lsq; // local-storage queue */
+/* /\* local-storage *\/ */
+/* struct list_head *ti_lsq; // local-storage queue */
 
 #ifdef CONFIG_KERNEL_STACK_CHECKING
-	u32 ti_canary[2];
+    u32 ti_canary[2];
 #endif
 
-	char ti_storage[0];
+    char ti_storage[0];
 };
 
 enum thread_privilege { THREAD_PRIV_SUPERVISOR = 0, THREAD_PRIV_USER = 1 };
 
 enum thread_state {
-	/* Thread structure allocated but not enqueued in the system scheduler. */
-	THREAD_STATE_NEW,
+    /* Thread structure allocated but not enqueued in the system scheduler. */
+    THREAD_STATE_NEW,
 
-	/**
+    /**
      * Ready to run in the system scheduler.
      *
      * XXX: why we need two ready states?
      *
      *  Ans: One is ready for execution in active queue,
-     *          the other one is the state for out of 
-     *          timeslice. In order to achieve O(1), we 
+     *          the other one is the state for out of
+     *          timeslice. In order to achieve O(1), we
      *          adopt specified function to determine
      *          which one is actived or expired.
      *
-     * XXX: we impl map from `actived` and `expired` to 
+     * XXX: we impl map from `actived` and `expired` to
      *          `ready1` and `ready2`
      */
-	THREAD_STATE_READY1,    //THREAD_STATE_ACTIVED
-    THREAD_STATE_READY2,    //THREAD_STATE_EXPIRED
+    THREAD_STATE_READY1,  // THREAD_STATE_ACTIVED
+    THREAD_STATE_READY2,  // THREAD_STATE_EXPIRED
 
-	/* Running by the system scheduler. */
-	THREAD_STATE_RUNNING,
+    /* Running by the system scheduler. */
+    THREAD_STATE_RUNNING,
 
-	/* The thread has normally exited or has called Pthread_exit to exit. Its
-	 * resources have not been freed and will be freed if it is detached or
-	 * joined.    */
-	THREAD_STATE_TERMINATED,
+    /* The thread has normally exited or has called Pthread_exit to exit. Its
+     * resources have not been freed and will be freed if it is detached or
+     * joined.    */
+    THREAD_STATE_TERMINATED,
 
-	/* Waiting for a mutex or resource. */
-	THREAD_STATE_BLOCKED
+    /* Waiting for a mutex or resource. */
+    THREAD_STATE_BLOCKED
 };
-#define THREAD_STATE_ACTIVED    THREAD_SCHED_STATE[ACTIVED]
-#define THREAD_STATE_EXPIRED    THREAD_SCHED_STATE[EXPIRED]
+#define THREAD_STATE_ACTIVED THREAD_SCHED_STATE[ACTIVED]
+#define THREAD_STATE_EXPIRED THREAD_SCHED_STATE[EXPIRED]
 
 enum {
     ACTIVED,
@@ -99,13 +99,12 @@ enum {
 };
 
 static int THREAD_SCHED_STATE[NR_THREAD_SCHED_STATE] = {
-        [ACTIVED] = THREAD_STATE_READY1,
-        [EXPIRED] = THREAD_STATE_READY2,
+        [ACTIVED] = THREAD_STATE_READY1, [EXPIRED] = THREAD_STATE_READY2,
 };
 
-static inline void swap_sched_state_map(void) {
-    SWAP(THREAD_SCHED_STATE[ACTIVED],
-            THREAD_SCHED_STATE[EXPIRED]);
+static inline void swap_sched_state_map(void)
+{
+    SWAP(THREAD_SCHED_STATE[ACTIVED], THREAD_SCHED_STATE[EXPIRED]);
 }
 
 /*
@@ -130,15 +129,15 @@ static inline void swap_sched_state_map(void) {
  */
 
 struct kernel_context_regs {
-	u32 r4_r12[9]; /* r4 to r12, zero-filled */
-	u32 lr;        /* initially loaded with EXC_RETURN value */
+    u32 r4_r12[9]; /* r4 to r12, zero-filled */
+    u32 lr;        /* initially loaded with EXC_RETURN value */
 };
 
 struct thread_context_regs {
-	u32 r0_r3__r12[5]; /* r0 to r3, r12; args or zero-filled */
-	u32 lr;            /* initially loaded with pthread_exit() */
-	u32 ret_addr;      /* thread entry-point function */
-	u32 xpsr;          /* forced to Thumb_Mode */
+    u32 r0_r3__r12[5]; /* r0 to r3, r12; args or zero-filled */
+    u32 lr;            /* initially loaded with pthread_exit() */
+    u32 ret_addr;      /* thread entry-point function */
+    u32 xpsr;          /* forced to Thumb_Mode */
 };
 
 /* forward declarations */
@@ -160,15 +159,15 @@ int thread_detach(pthread_t thread);
 
 static inline struct thread_info *current_thread_info(void)
 {
-	struct thread_info *this;
+    struct thread_info *this;
 
-	__asm__ __volatile__(
-	    "mov %0, sp \n\t"
-	    "bfc %0, #0, %1"
-	    : "=r"(this)
-	    : "M"(INTR_STACK_ORDER));
+    __asm__ __volatile__(
+        "mov %0, sp \n\t"
+        "bfc %0, #0, %1"
+        : "=r"(this)
+        : "M"(INTR_STACK_ORDER));
 
-	return this;
+    return this;
 }
 
 #define CURRENT_THREAD_INFO(var) \

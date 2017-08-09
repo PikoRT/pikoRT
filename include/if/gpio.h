@@ -15,22 +15,22 @@ int __gpio_direction_output(unsigned offset, int value);
 
 static inline void gpio_set(unsigned int offset, int value)
 {
-	__gpio_set(offset, value);
+    __gpio_set(offset, value);
 }
 
 static inline int gpio_get(unsigned int offset)
 {
-	return __gpio_get(offset);
+    return __gpio_get(offset);
 }
 
 static inline int gpio_direction_input(unsigned int offset)
 {
-	return __gpio_direction_input(offset);
+    return __gpio_direction_input(offset);
 }
 
 static inline int gpio_direction_output(unsigned int offset, int value)
 {
-	return __gpio_direction_output(offset, value);
+    return __gpio_direction_output(offset, value);
 }
 
 #endif /* !IF_GPIO_H */

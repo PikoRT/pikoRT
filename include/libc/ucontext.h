@@ -7,18 +7,18 @@
 
 /* machine context on ARM */
 typedef struct mcontext {
-	u32 sp;  // FIXME: reuse uc_stack.ss_sp
-	u32 lr;
-	u32 gprs[13]; /* r0-r12 */
-	u32 pc;
+    u32 sp;  // FIXME: reuse uc_stack.ss_sp
+    u32 lr;
+    u32 gprs[13]; /* r0-r12 */
+    u32 pc;
 } __attribute__((packed)) mcontext_t;
 
 typedef struct ucontext {
-	struct ucontext *uc_link;
-	/* sigset_t uc_sigmask; */
-	stack_t uc_stack;
-	mcontext_t uc_mcontext;
-	/* ... */
+    struct ucontext *uc_link;
+    /* sigset_t uc_sigmask; */
+    stack_t uc_stack;
+    mcontext_t uc_mcontext;
+    /* ... */
 } ucontext_t;
 
 /* forward declarations */

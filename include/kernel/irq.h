@@ -10,10 +10,10 @@ enum {
 
 /* irq data state(for per-chip) */
 enum {
-    IRQD_IRQ_DISABLED   = 1,
-    IRQD_INACTIVATED    = 1 << 2,
-    IRQD_ACTIVATED      = 1 << 3,
-    IRQD_PENDING        = 1 << 4,
+    IRQD_IRQ_DISABLED = 1,
+    IRQD_INACTIVATED = 1 << 2,
+    IRQD_ACTIVATED = 1 << 3,
+    IRQD_PENDING = 1 << 4,
 };
 
 /**
@@ -38,9 +38,9 @@ struct irqaction;
  * @irq_state:	per irq state information
  */
 struct irq_desc {
-    struct irq_data     irq_data;
-    struct irqaction    *action;
-    unsigned int 	    status;
+    struct irq_data irq_data;
+    struct irqaction *action;
+    unsigned int status;
 };
 
 typedef void (*irq_handler_t)(void);
@@ -50,8 +50,8 @@ typedef void (*irq_handler_t)(void);
  * @irq:	interrupt number
  */
 struct irqaction {
-	irq_handler_t		handler;
-	unsigned int		irq;
+    irq_handler_t handler;
+    unsigned int irq;
 };
 
 int request_irq(unsigned int irq, irq_handler_t hdlr);

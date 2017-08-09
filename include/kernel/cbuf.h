@@ -4,10 +4,10 @@
 #include <sys/types.h>
 
 struct cbuf_info {
-	size_t len;
-	int pos_begin;
-	int pos_end;
-	void *buf;
+    size_t len;
+    int pos_begin;
+    int pos_end;
+    void *buf;
 };
 
 void cbuf_init(struct cbuf_info *cbuf, void *buf, size_t len);

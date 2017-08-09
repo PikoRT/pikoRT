@@ -8,25 +8,25 @@ extern int _lseek(int fd, off_t offset, int whence);
 
 int open(const char *pathname, int flag)
 {
-	return _open(pathname, flag);
+    return _open(pathname, flag);
 }
 
 int close(int fd)
 {
-	return _close(fd);
+    return _close(fd);
 }
 
 int read(int fd, void *buf, size_t count)
 {
-	return _read(fd, buf, count);
+    return _read(fd, buf, count);
 }
 
 int write(int fd, void *buf, size_t count)
 {
-	return _write(fd, buf, count);
+    return _write(fd, buf, count);
 }
 
 int lseek(int fd, off_t offset, int whence)
 {
-	return _lseek(fd, offset, whence);
+    return _lseek(fd, offset, whence);
 }

@@ -12,9 +12,9 @@
 #define SIGMAX 31
 
 struct signal_info {
-	int signo;
-	struct list_head list;
-	struct sigaction act_storage;
+    int signo;
+    struct list_head list;
+    struct sigaction act_storage;
 };
 
 void do_sigevent(const struct sigevent *sigevent, struct thread_info *thread);

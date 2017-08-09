@@ -3,7 +3,7 @@
 
 static int reboot(__unused int argc, __unused char *argv[])
 {
-	//printk("Requesting system reboot\n");
+    // printk("Requesting system reboot\n");
     NVIC_SystemReset();
 
     return -1;

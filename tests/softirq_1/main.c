@@ -23,8 +23,7 @@ int main()
         TEST_EXIT(1);
     }
 
-    if (tasklet_schedule(tsk) == -1)
-    {
+    if (tasklet_schedule(tsk) == -1) {
         printk("failed: can't rasie softirq task.\n");
         TEST_EXIT(1);
     }

@@ -20,56 +20,56 @@ extern unsigned int msleep(unsigned int msec);
 
 void *consumer(void *notused)
 {
-	(void) notused;
+    (void) notused;
 
-	printk("In consumer thread...\n");
-	while (1) {
-		count++;
-		pthread_mutex_lock(&mutex);
-		while (!data_ready) {
-			pthread_cond_wait(&condvar, &mutex);
-		}
-		// process data
-		printk("consumer:  got data from producer\n");
-		data_ready = 0;
-		pthread_cond_signal(&condvar);
-		pthread_mutex_unlock(&mutex);
-	}
+    printk("In consumer thread...\n");
+    while (1) {
+        count++;
+        pthread_mutex_lock(&mutex);
+        while (!data_ready) {
+            pthread_cond_wait(&condvar, &mutex);
+        }
+        // process data
+        printk("consumer:  got data from producer\n");
+        data_ready = 0;
+        pthread_cond_signal(&condvar);
+        pthread_mutex_unlock(&mutex);
+    }
 }
 
 void *producer(void *notused)
 {
-	(void) notused;
+    (void) notused;
 
-	printk("In producer thread...\n");
-	while (1) {
-		// get data from hardware
-		// we'll simulate this with a sleep (1)
-		msleep(180);
-		printk("producer:  got data from h/w\n");
-		pthread_mutex_lock(&mutex);
-		while (data_ready) {
-			pthread_cond_wait(&condvar, &mutex);
-		}
-		data_ready = 1;
-		pthread_cond_signal(&condvar);
-		pthread_mutex_unlock(&mutex);
-	}
+    printk("In producer thread...\n");
+    while (1) {
+        // get data from hardware
+        // we'll simulate this with a sleep (1)
+        msleep(180);
+        printk("producer:  got data from h/w\n");
+        pthread_mutex_lock(&mutex);
+        while (data_ready) {
+            pthread_cond_wait(&condvar, &mutex);
+        }
+        data_ready = 1;
+        pthread_cond_signal(&condvar);
+        pthread_mutex_unlock(&mutex);
+    }
 }
 
 int main(void)
 {
-	printk("Starting consumer/producer example...\n");
+    printk("Starting consumer/producer example...\n");
 
-	pthread_cond_init(&condvar, NULL);
+    pthread_cond_init(&condvar, NULL);
 
-	// create the producer and consumer threads
-	pthread_create(NULL, NULL, producer, NULL);
-	pthread_create(NULL, NULL, consumer, NULL);
+    // create the producer and consumer threads
+    pthread_create(NULL, NULL, producer, NULL);
+    pthread_create(NULL, NULL, consumer, NULL);
 
-	while (count < 5)
-		pthread_yield();
-	printk("Bye-bye!\n");
+    while (count < 5)
+        pthread_yield();
+    printk("Bye-bye!\n");
 
-	TEST_EXIT(0);
+    TEST_EXIT(0);
 }

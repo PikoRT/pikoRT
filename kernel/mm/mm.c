@@ -14,19 +14,19 @@
 
 static void *map_anon(void *addr, size_t length, __unused int prot, int flags)
 {
-	int order;
+    int order;
 
-	order = size_to_page_order(length);
-	addr = alloc_pages(order);
-	if (!addr) {
-		printk("mmap: ENOMEM\n");
-		errno = ENOMEM;
-		return MAP_FAILED;
-	}
-	if (!M_ISUNINIT(flags))
-		memset(addr, 0, length);
+    order = size_to_page_order(length);
+    addr = alloc_pages(order);
+    if (!addr) {
+        printk("mmap: ENOMEM\n");
+        errno = ENOMEM;
+        return MAP_FAILED;
+    }
+    if (!M_ISUNINIT(flags))
+        memset(addr, 0, length);
 
-	return addr;
+    return addr;
 }
 
 static void *map_file(__unused size_t length,
@@ -35,28 +35,28 @@ static void *map_file(__unused size_t length,
                       int fd,
                       off_t offset)
 {
-	void *addr;
-	struct file *file;
+    void *addr;
+    struct file *file;
 
-	file = fd_to_file(fd);
-	if (!file) {
-		printk("mmap: BADF\n");
-		errno = EBADF;
-		return MAP_FAILED;
-	}
-	if (!S_ISREG(file->f_dentry->d_inode->i_mode)) {
-		printk("mmap: ACCESS\n");
-		errno = EACCES;
-		return MAP_FAILED;
-	}
-	if (vfs_mmap(file, offset, &addr)) {
-		printk("mmap: failed in romfs_map\n");
-		for (;;)
-			;
-		return MAP_FAILED;
-	}
+    file = fd_to_file(fd);
+    if (!file) {
+        printk("mmap: BADF\n");
+        errno = EBADF;
+        return MAP_FAILED;
+    }
+    if (!S_ISREG(file->f_dentry->d_inode->i_mode)) {
+        printk("mmap: ACCESS\n");
+        errno = EACCES;
+        return MAP_FAILED;
+    }
+    if (vfs_mmap(file, offset, &addr)) {
+        printk("mmap: failed in romfs_map\n");
+        for (;;)
+            ;
+        return MAP_FAILED;
+    }
 
-	return addr;
+    return addr;
 }
 
 void *sys_mmap(void *addr,
@@ -66,26 +66,26 @@ void *sys_mmap(void *addr,
                int fd,
                off_t offset)
 {
-	if (!length) {
-		errno = EINVAL;
-		printk("mmap: length is 0\n");
-		return MAP_FAILED;
-	}
-	if (prot & PROT_NONE) {
-		errno = EACCES;
-		printk("mmap: PROT_NONE\n");
-		return MAP_FAILED;
-	}
-	if (M_ISANON(flags))
-		addr = map_anon(addr, length, prot, flags);
-	else
-		addr = map_file(length, prot, flags, fd, offset);
+    if (!length) {
+        errno = EINVAL;
+        printk("mmap: length is 0\n");
+        return MAP_FAILED;
+    }
+    if (prot & PROT_NONE) {
+        errno = EACCES;
+        printk("mmap: PROT_NONE\n");
+        return MAP_FAILED;
+    }
+    if (M_ISANON(flags))
+        addr = map_anon(addr, length, prot, flags);
+    else
+        addr = map_file(length, prot, flags, fd, offset);
 
-	return addr;
+    return addr;
 }
 
 int sys_munmap(__unused void *addr, __unused size_t length)
 {
-	/* Closing the file descriptor does not unmap the region. */
-	return 0;
+    /* Closing the file descriptor does not unmap the region. */
+    return 0;
 }

@@ -18,83 +18,83 @@ unsigned int msleep(unsigned int msecs);
 
 int checkResults(const char *s, int rc)
 {
-	if (rc) {
-		printk("error: %s\n", s);
-		TEST_EXIT(1);
-	}
+    if (rc) {
+        printk("error: %s\n", s);
+        TEST_EXIT(1);
+    }
 
-	return 0;
+    return 0;
 }
 
 void *threadfunc(void *parm)
 {
-	int rc;
-	(void) parm;
+    int rc;
+    (void) parm;
 
-	while (1) {
-		/* Usually worker threads will loop on these operations */
-		rc = pthread_mutex_lock(&mutex);
-		checkResults("pthread_mutex_lock()\n", rc);
+    while (1) {
+        /* Usually worker threads will loop on these operations */
+        rc = pthread_mutex_lock(&mutex);
+        checkResults("pthread_mutex_lock()\n", rc);
 
-		while (!workToDo) {
-			printk("Thread blocked\n");
-			rc = pthread_cond_wait(&cond, &mutex);
-			checkResults("pthread_cond_wait()\n", rc);
-		}
-		printk("Thread awake, finish work!\n");
+        while (!workToDo) {
+            printk("Thread blocked\n");
+            rc = pthread_cond_wait(&cond, &mutex);
+            checkResults("pthread_cond_wait()\n", rc);
+        }
+        printk("Thread awake, finish work!\n");
 
-		/* Under protection of the lock, complete or remove the work     */
-		/* from whatever worker queue we have. Here it is simply a flag  */
-		workToDo = 0;
+        /* Under protection of the lock, complete or remove the work     */
+        /* from whatever worker queue we have. Here it is simply a flag  */
+        workToDo = 0;
 
-		rc = pthread_mutex_unlock(&mutex);
-		checkResults("pthread_mutex_lock()\n", rc);
-	}
-	return NULL;
+        rc = pthread_mutex_unlock(&mutex);
+        checkResults("pthread_mutex_lock()\n", rc);
+    }
+    return NULL;
 }
 
 int main()
 {
-	int rc = 0;
-	int i;
-	pthread_t threadid[NTHREADS];
+    int rc = 0;
+    int i;
+    pthread_t threadid[NTHREADS];
 
-	pthread_cond_init(&cond, NULL);
-	pthread_mutex_init(&mutex, NULL);
+    pthread_cond_init(&cond, NULL);
+    pthread_mutex_init(&mutex, NULL);
 
-	printk("Enter Testcase - %s\n", "IBM pthread_cond_*()");
+    printk("Enter Testcase - %s\n", "IBM pthread_cond_*()");
 
-	printk("Create %d threads\n", NTHREADS);
-	for (i = 0; i < NTHREADS; ++i) {
-		rc = pthread_create(&threadid[i], NULL, threadfunc, NULL);
-		checkResults("pthread_create()\n", rc);
-	}
+    printk("Create %d threads\n", NTHREADS);
+    for (i = 0; i < NTHREADS; ++i) {
+        rc = pthread_create(&threadid[i], NULL, threadfunc, NULL);
+        checkResults("pthread_create()\n", rc);
+    }
 
-	msleep(40); /* Sleep is not a very robust way to serialize threads   */
+    msleep(40); /* Sleep is not a very robust way to serialize threads   */
 
-	for (i = 0; i < 5; ++i) {
-		printk("Wake up a worker, work to do...\n");
+    for (i = 0; i < 5; ++i) {
+        printk("Wake up a worker, work to do...\n");
 
-		rc = pthread_mutex_lock(&mutex);
-		checkResults("pthread_mutex_lock()\n", rc);
+        rc = pthread_mutex_lock(&mutex);
+        checkResults("pthread_mutex_lock()\n", rc);
 
-		/* In the real world, all the threads might be busy, and        */
-		/* we would add work to a queue instead of simply using a flag  */
-		/* In that case the boolean predicate might be some boolean     */
-		/* statement like: if (the-queue-contains-work)                 */
-		if (workToDo) {
-			printk("Work already present, likely threads are busy\n");
-		}
-		workToDo = 1;
-		rc = pthread_cond_signal(&cond);
-		checkResults("pthread_cond_broadcast()\n", rc);
+        /* In the real world, all the threads might be busy, and        */
+        /* we would add work to a queue instead of simply using a flag  */
+        /* In that case the boolean predicate might be some boolean     */
+        /* statement like: if (the-queue-contains-work)                 */
+        if (workToDo) {
+            printk("Work already present, likely threads are busy\n");
+        }
+        workToDo = 1;
+        rc = pthread_cond_signal(&cond);
+        checkResults("pthread_cond_broadcast()\n", rc);
 
-		rc = pthread_mutex_unlock(&mutex);
-		checkResults("pthread_mutex_unlock()\n", rc);
-		msleep(40); /* Sleep is not a very robust way to serialize threads */
-	}
+        rc = pthread_mutex_unlock(&mutex);
+        checkResults("pthread_mutex_unlock()\n", rc);
+        msleep(40); /* Sleep is not a very robust way to serialize threads */
+    }
 
-	printk("Main completed\n");
-	TEST_EXIT(0);
-	return 0;
+    printk("Main completed\n");
+    TEST_EXIT(0);
+    return 0;
 }

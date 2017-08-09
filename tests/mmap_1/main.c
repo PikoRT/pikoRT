@@ -8,11 +8,11 @@
 
 int main()
 {
-	void *p;
+    void *p;
 
-	p = mmap(0, 256, 0, MAP_ANONYMOUS, 0, 0);
-	if (p == MAP_FAILED)
-		TEST_EXIT(1);
+    p = mmap(0, 256, 0, MAP_ANONYMOUS, 0, 0);
+    if (p == MAP_FAILED)
+        TEST_EXIT(1);
 
-	TEST_EXIT(0);
+    TEST_EXIT(0);
 }

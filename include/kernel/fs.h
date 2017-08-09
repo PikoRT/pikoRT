@@ -21,8 +21,8 @@ struct dentry;
 struct inode;  // FIXME: delete me from here, using s_root dentry
 
 struct super_block {
-	void *s_private;        // for dev, pointing to MTD
-	struct inode *s_iroot;  // FIXME: just use s_root and dentry
+    void *s_private;        // for dev, pointing to MTD
+    struct inode *s_iroot;  // FIXME: just use s_root and dentry
 };
 
 /*
@@ -33,24 +33,24 @@ struct inode_operations;
 struct file_operations;
 
 struct inode {
-	struct list_head i_list; /* list of inodes */
-	umode_t i_mode;          /* access permissions */
-	// kernel_ino_t
-	unsigned long i_ino;                 /* inode number */
-	atomic_t i_count;                    /* reference counter */
-	off_t i_size;                        /* file size in bytes */
-	const struct inode_operations *i_op; /* inode ops table */
-	const struct file_operations *i_fop; /* default inode ops */
-	struct super_block *i_sb;            /* associated superblock */
-	void *i_private;
-	char i_data[0];
+    struct list_head i_list; /* list of inodes */
+    umode_t i_mode;          /* access permissions */
+    // kernel_ino_t
+    unsigned long i_ino;                 /* inode number */
+    atomic_t i_count;                    /* reference counter */
+    off_t i_size;                        /* file size in bytes */
+    const struct inode_operations *i_op; /* inode ops table */
+    const struct file_operations *i_fop; /* default inode ops */
+    struct super_block *i_sb;            /* associated superblock */
+    void *i_private;
+    char i_data[0];
 };
 
 struct inode_operations {
-	struct dentry *(*lookup)(struct inode *inode, struct dentry *dentry);
-	int (*link)(struct dentry *old_dentry,
-	            struct inode *dir,
-	            struct dentry *dentry);
+    struct dentry *(*lookup)(struct inode *inode, struct dentry *dentry);
+    int (*link)(struct dentry *old_dentry,
+                struct inode *dir,
+                struct dentry *dentry);
 };
 
 /*
@@ -58,26 +58,26 @@ struct inode_operations {
  */
 
 struct file {
-	struct dentry *f_dentry;            /* associated dentry object */
-	const struct file_operations *f_op; /* file operations table */
-	off_t f_pos;                        /* file offset (file pointer) */
-	void *f_private;
+    struct dentry *f_dentry;            /* associated dentry object */
+    const struct file_operations *f_op; /* file operations table */
+    off_t f_pos;                        /* file offset (file pointer) */
+    void *f_private;
 };
 
 struct dir_context;
 
 struct file_operations {
-	off_t (*lseek)(struct file *file, off_t offset, int origin);
-	ssize_t (*read)(struct file *file, char *buf, size_t count, off_t offset);
-	ssize_t (*write)(struct file *file,
-	                 const char *buf,
-	                 size_t count,
-	                 off_t *offset);
-	int (*iterate)(struct file *file, struct dir_context *ctx);
-	int (*mmap)(struct file *file,
-	            off_t offset,
-	            void **addr); /* struct vm_area_struct *area */
-	int (*open)(struct inode *inode, struct file *file);
+    off_t (*lseek)(struct file *file, off_t offset, int origin);
+    ssize_t (*read)(struct file *file, char *buf, size_t count, off_t offset);
+    ssize_t (*write)(struct file *file,
+                     const char *buf,
+                     size_t count,
+                     off_t *offset);
+    int (*iterate)(struct file *file, struct dir_context *ctx);
+    int (*mmap)(struct file *file,
+                off_t offset,
+                void **addr); /* struct vm_area_struct *area */
+    int (*open)(struct inode *inode, struct file *file);
 };
 
 /*
@@ -85,19 +85,19 @@ struct file_operations {
 */
 
 struct dentry {
-	_Atomic int d_count;                  /* usage count */
-	struct inode *d_inode;                /* associated inode */
-	const struct dentry_operations *d_op; /* dentry operations table */
-	struct dentry *d_parent;              /* dentry object of parent */
-	char d_name[NAME_MAX];                /* short name */
+    _Atomic int d_count;                  /* usage count */
+    struct inode *d_inode;                /* associated inode */
+    const struct dentry_operations *d_op; /* dentry operations table */
+    struct dentry *d_parent;              /* dentry object of parent */
+    char d_name[NAME_MAX];                /* short name */
 
-	// struct list_head d_child;       /* child of parent list */
-	// struct list_head d_subdirs;     /* our children */
+    // struct list_head d_child;       /* child of parent list */
+    // struct list_head d_subdirs;     /* our children */
 };
 
 struct dentry_operations {
-	int (*delete)(struct dentry *dentry);
-	void (*release)(struct dentry *dentry);
+    int (*delete)(struct dentry *dentry);
+    void (*release)(struct dentry *dentry);
 };
 
 /* readdir */
@@ -110,21 +110,21 @@ typedef int (*filldir_t)(struct dir_context *,
                          unsigned int);
 
 struct dir_context {
-	const filldir_t actor;
-	off_t pos;  // XXX: unused because piko_dirent has no offset field
+    const filldir_t actor;
+    off_t pos;  // XXX: unused because piko_dirent has no offset field
 };
 
 struct piko_dirent;
 
 struct readdir_callback {
-	struct dir_context ctx;
-	struct piko_dirent *dirent;
-	int result;
+    struct dir_context ctx;
+    struct piko_dirent *dirent;
+    int result;
 };
 
 struct piko_dirent {
-	ino_t d_ino;           /* inode number */
-	char d_name[NAME_MAX]; /* filename */
+    ino_t d_ino;           /* inode number */
+    char d_name[NAME_MAX]; /* filename */
 };
 
 static inline int dir_emit(struct dir_context *ctx,
@@ -133,18 +133,18 @@ static inline int dir_emit(struct dir_context *ctx,
                            unsigned int ino,
                            unsigned int type)
 {
-	return ctx->actor(ctx, name, namelen, ctx->pos, ino, type);
+    return ctx->actor(ctx, name, namelen, ctx->pos, ino, type);
 }
 
 static inline int dir_emit_dot(struct file *file, struct dir_context *ctx)
 {
-	return ctx->actor(ctx, ".", 1, ctx->pos, file->f_dentry->d_inode->i_ino, 0);
+    return ctx->actor(ctx, ".", 1, ctx->pos, file->f_dentry->d_inode->i_ino, 0);
 }
 
 static inline int dir_emit_dotdot(struct file *file, struct dir_context *ctx)
 {
-	return ctx->actor(ctx, "..", 2, ctx->pos,
-	                  file->f_dentry->d_parent->d_inode->i_ino, 0);
+    return ctx->actor(ctx, "..", 2, ctx->pos,
+                      file->f_dentry->d_parent->d_inode->i_ino, 0);
 }
 
 /* forward declarations */

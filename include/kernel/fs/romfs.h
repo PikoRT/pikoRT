@@ -17,18 +17,18 @@
 #define ROMFS_FILETYPE_FIFO 7
 
 struct romfs_superblock {
-	__u8 magic_number[8];
-	__u32 full_size;
-	__u32 checksum;
-	char volume_name[0];
+    __u8 magic_number[8];
+    __u32 full_size;
+    __u32 checksum;
+    char volume_name[0];
 };
 
 struct romfs_inode {
-	__u32 next_filehdr;
-	__u32 spec_info;
-	__u32 size;
-	__u32 checksum;
-	char file_name[0];
+    __u32 next_filehdr;
+    __u32 spec_info;
+    __u32 size;
+    __u32 checksum;
+    char file_name[0];
 };
 
 #define ROMFS_SUPER_BLOCK(sb)                    \

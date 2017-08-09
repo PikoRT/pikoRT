@@ -24,12 +24,13 @@
         (type *) ((char *) __mptr - offsetof(type, member));    \
     })
 
-#define SWAP(x, y)              \
-    {                           \
-        __typeof__(x) tmp = x;  \
-        x = y;                  \
-        y = tmp;                \
-    } while (0)
+#define SWAP(x, y)             \
+    {                          \
+        __typeof__(x) tmp = x; \
+        x = y;                 \
+        y = tmp;               \
+    }                          \
+    while (0)
 
 int printk(const char *fmt, ...);
 

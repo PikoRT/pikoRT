@@ -15,19 +15,19 @@ typedef char s8;
 typedef unsigned int size_t;
 
 struct list_head {
-	struct list_head *next, *prev;
+    struct list_head *next, *prev;
 };
 
 struct hlist_head {
-	struct hlist_node *first;
+    struct hlist_node *first;
 };
 
 struct hlist_node {
-	struct hlist_node *next, **pprev;
+    struct hlist_node *next, **pprev;
 };
 
 typedef struct {
-	volatile s32 val;
+    volatile s32 val;
 } atomic_t;
 
 #endif /* !LINUX_TYPES_H */

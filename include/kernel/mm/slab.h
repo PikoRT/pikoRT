@@ -17,24 +17,24 @@
  */
 
 struct kmem_cache {
-	struct list_head slabs_free;
-	struct list_head slabs_partial;
-	struct list_head slabs_full;
-	struct list_head list;  /* linked list of caches */
-	unsigned short objsize; /* size of one object within a slab */
-	unsigned short objnum;  /* number of objects per slab */
-	int opts;
-	int alloc_succeed;
-	int alloc_fail;
-	char name[CACHE_NAMELEN];
+    struct list_head slabs_free;
+    struct list_head slabs_partial;
+    struct list_head slabs_full;
+    struct list_head list;  /* linked list of caches */
+    unsigned short objsize; /* size of one object within a slab */
+    unsigned short objnum;  /* number of objects per slab */
+    int opts;
+    int alloc_succeed;
+    int alloc_fail;
+    char name[CACHE_NAMELEN];
 };
 
 struct slab {
-	unsigned long free_bitmap[1];
-	int free_objects;      /* number of free objects in that slab */
-	struct list_head list; /* pointer to prev/next slabs for that cache */
-	char data[0];
-	/* struct kmem_cache *backlink; // backlink to the cache structure */
+    unsigned long free_bitmap[1];
+    int free_objects;      /* number of free objects in that slab */
+    struct list_head list; /* pointer to prev/next slabs for that cache */
+    char data[0];
+    /* struct kmem_cache *backlink; // backlink to the cache structure */
 };
 
 #define KMEM_CACHE(objtype, name) \

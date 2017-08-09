@@ -18,43 +18,43 @@
 
 int _isatty(__unused int file)
 {
-	HANGS_ON();
+    HANGS_ON();
 
-	return 1;
+    return 1;
 }
 
 int _fstat()
 {
-	HANGS_ON();
+    HANGS_ON();
 
-	return -1;
+    return -1;
 }
 
 void *_sbrk(__unused int incr)
 {
-	HANGS_ON();
+    HANGS_ON();
 
-	return NULL;
+    return NULL;
 }
 
 void _exit(__unused int status)
 {
-	HANGS_ON();
+    HANGS_ON();
 }
 
 clock_t _times()
 {
-	HANGS_ON();
+    HANGS_ON();
 
-	return -1;
+    return -1;
 }
 
 void _fini(void)
 {
-	HANGS_ON();
+    HANGS_ON();
 }
 
 int _getpid(void)
 {
-	return do_syscall0(SYS_GETPID);
+    return do_syscall0(SYS_GETPID);
 }

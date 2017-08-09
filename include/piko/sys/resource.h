@@ -8,8 +8,8 @@
 typedef unsigned int rlim_t;
 
 struct rlimit {
-	rlim_t rlim_cur; /* Soft limit */
-	rlim_t rlim_max; /* Hard limit (ceiling for rlim_cur) */
+    rlim_t rlim_cur; /* Soft limit */
+    rlim_t rlim_max; /* Hard limit (ceiling for rlim_cur) */
 };
 
 #define RLIMIT_STACK 0

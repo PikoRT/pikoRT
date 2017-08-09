@@ -8,8 +8,8 @@
 typedef void DIR;
 
 struct dirent {
-	ino_t d_ino;           /* inode number */
-	char d_name[NAME_MAX]; /* filename */
+    ino_t d_ino;           /* inode number */
+    char d_name[NAME_MAX]; /* filename */
 };
 
 DIR *opendir(const char *dirname);

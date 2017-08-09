@@ -3,7 +3,7 @@
 
 int main()
 {
-	printk("system tick per seconds: %d\n", sysconf(_SC_CLK_TCK));
+    printk("system tick per seconds: %d\n", sysconf(_SC_CLK_TCK));
 
-	TEST_EXIT(0);
+    TEST_EXIT(0);
 }

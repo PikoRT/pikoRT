@@ -4,7 +4,7 @@
 typedef _Atomic int atomic_s32;
 
 typedef struct {
-	atomic_s32 val;
+    atomic_s32 val;
 } kernel_mutex_t;
 
 int sys_pthread_mutex_lock(kernel_mutex_t *mutex);

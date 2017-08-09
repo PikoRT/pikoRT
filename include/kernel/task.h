@@ -11,12 +11,12 @@
 #define PID_MAX 32768
 
 struct task_info {
-	pid_t pid;
-	unsigned long filemap;
-	struct file filetable[FILE_MAX];
-	struct list_head list;
-	struct list_head thread_head;
-	struct list_head signal_head; /* list of installed handlers */
+    pid_t pid;
+    unsigned long filemap;
+    struct file filetable[FILE_MAX];
+    struct list_head list;
+    struct list_head thread_head;
+    struct list_head signal_head; /* list of installed handlers */
 };
 
 struct task_info *task_init(struct task_info *task);

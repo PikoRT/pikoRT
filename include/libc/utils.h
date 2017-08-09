@@ -5,8 +5,8 @@
 
 static inline void infinite_loop(void)
 {
-	for (;;)
-		;
+    for (;;)
+        ;
 }
 
 void strpad(char *buf, char pad_val, int count);

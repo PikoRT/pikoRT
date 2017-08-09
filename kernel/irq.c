@@ -7,13 +7,11 @@
 
 irq_handler_t irq_handler[IRQ_MAX];
 
-static struct irq_desc irq_desc[NR_IRQS] = {
-    [0 ... NR_IRQS-1] = {
-        .irq_data   = {.state = 0x0},
-        .action     = NULL,
-        .status     = 0x0,
-    }
-};
+static struct irq_desc irq_desc[NR_IRQS] = {[0 ... NR_IRQS - 1] = {
+                                                .irq_data = {.state = 0x0},
+                                                .action = NULL,
+                                                .status = 0x0,
+                                            }};
 
 static struct irq_desc *irq_to_desc(unsigned int irq)
 {
@@ -33,22 +31,21 @@ int request_irq(unsigned int irq, irq_handler_t hdlr)
     if (desc && (desc->status & IRQ_NOREQUEST)) {
         action = (struct irqaction *) malloc(sizeof(struct irqaction));
         if (!action) {
-            //WARN_ON(!action, "malloc failed\n");
+            // WARN_ON(!action, "malloc failed\n");
             goto fail;
         }
-    
+
         action->irq = irq;
         action->handler = hdlr;
-    
+
         /* install to irq_desc */
         desc->action = action;
-    
+
         irq_handler[irq] = hdlr;
-    
+
         return 0;
-    }
-    else
-fail:
+    } else
+    fail:
         return -1;
 }
 
@@ -64,8 +61,7 @@ int free_irq(unsigned int irq)
         irq_handler[irq] = NULL;
 
         return 0;
-    } 
-    else
+    } else
         return -1;
 }
 
@@ -77,6 +73,6 @@ void early_irq_init(void)
 
 void init_IRQ(void)
 {
-     for (int irq = 0; irq < NR_IRQS; irq++)
+    for (int irq = 0; irq < NR_IRQS; irq++)
         irq_desc[irq].status = IRQ_NOREQUEST;
 }

@@ -10,20 +10,20 @@
 
 int main()
 {
-	int fd;
+    int fd;
 
-	for (int i = 0; i < 10000; i++) {
-		/* printk("% 3d/9999\n", i); */
-		fd = open("/dev/random", 0);
-		if (fd < 0) {
-			printk("error: failed to open /dev/random\n");
-			TEST_EXIT(1);
-		}
-		if (close(fd)) {
-			printk("error: failed to close /dev/random\n");
-			TEST_EXIT(1);
-		}
-	}
+    for (int i = 0; i < 10000; i++) {
+        /* printk("% 3d/9999\n", i); */
+        fd = open("/dev/random", 0);
+        if (fd < 0) {
+            printk("error: failed to open /dev/random\n");
+            TEST_EXIT(1);
+        }
+        if (close(fd)) {
+            printk("error: failed to close /dev/random\n");
+            TEST_EXIT(1);
+        }
+    }
 
-	TEST_EXIT(0);
+    TEST_EXIT(0);
 }

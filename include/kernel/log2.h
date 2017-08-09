@@ -82,13 +82,13 @@
 
 static inline unsigned long __ilog2(unsigned long x)
 {
-	return flsl(x) - 1;
+    return flsl(x) - 1;
 }
 
 static inline __attribute__((noreturn)) unsigned long __ilog2_NaN(void)
 {
-	for (;;)
-		;
+    for (;;)
+        ;
 }
 
 #endif /* !KERNEL_LOG2_H */

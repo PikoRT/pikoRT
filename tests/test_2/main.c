@@ -4,5 +4,5 @@
 
 int main()
 {
-	TEST_EXIT(1);
+    TEST_EXIT(1);
 }

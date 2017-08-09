@@ -13,7 +13,7 @@ static int retval;
 /* not thread-safe, not reentrant */
 static void co_vsnprintf(const char *format, va_list ap)
 {
-	retval = vsnprintf(vsnprintf_buf, VSNPRINTF_BUF_SIZE, format, ap);
+    retval = vsnprintf(vsnprintf_buf, VSNPRINTF_BUF_SIZE, format, ap);
 }
 
 void __printk_putchar(char c);
@@ -22,19 +22,19 @@ void __printk_putchar(char c);
 
 int printk(const char *format, ...)
 {
-	/*FIXME: should be interruptable*/
-	__disable_irq();
-	va_list ap;
+    /*FIXME: should be interruptable*/
+    __disable_irq();
+    va_list ap;
 
-	va_start(ap, format);
-	vsnprintf_context.uc_stack.ss_sp = &ctx_stack[128];
-	makecontext(&vsnprintf_context, co_vsnprintf, 2, format, ap);
-	swapcontext(&printk_context, &vsnprintf_context);
-	for (char *c = vsnprintf_buf; *c != '\0'; c++)
-		__printk_putchar(*c);
-	va_end(ap);
+    va_start(ap, format);
+    vsnprintf_context.uc_stack.ss_sp = &ctx_stack[128];
+    makecontext(&vsnprintf_context, co_vsnprintf, 2, format, ap);
+    swapcontext(&printk_context, &vsnprintf_context);
+    for (char *c = vsnprintf_buf; *c != '\0'; c++)
+        __printk_putchar(*c);
+    va_end(ap);
 
-	/*FIXME: should be interruptable*/
-	__enable_irq();
-	return retval;
+    /*FIXME: should be interruptable*/
+    __enable_irq();
+    return retval;
 }

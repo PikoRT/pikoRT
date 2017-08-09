@@ -9,13 +9,13 @@
 
 int main(void *arg)
 {
-	(void) arg;
+    (void) arg;
 
-	sigaction(SIGUSR1, NULL, NULL); /* shall return -EINVAL */
-	int retval = raise(0);
-	printk("Got return value %d (negative)\n", -retval);
-	if (retval != -EINVAL)
-		TEST_EXIT(1);
+    sigaction(SIGUSR1, NULL, NULL); /* shall return -EINVAL */
+    int retval = raise(0);
+    printk("Got return value %d (negative)\n", -retval);
+    if (retval != -EINVAL)
+        TEST_EXIT(1);
 
-	TEST_EXIT(0);
+    TEST_EXIT(0);
 }
