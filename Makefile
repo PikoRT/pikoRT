@@ -51,19 +51,19 @@ all: $(CMSIS)/$(TARGET) $(NAME).lds $(NAME).hex $(NAME).bin
 prebuild: $(CMSIS)/$(TARGET)
 
 $(NAME).elf: $(OBJS) kernel/fs/version.o
-	$(VECHO) "LD\t$@"
+	$(VECHO) "  LD\t\t$@\n"
 	$(Q)$(CC) $(LDFLAGS) -o $@ $^
 
 %.o: %.c
-	$(VECHO) "CC\t$@"
+	$(VECHO) "  CC\t\t$@\n"
 	$(Q)$(CC) -o $@ $(CFLAGS) -c -W -Wall -std=c11 -D__KERNEL__ $<
 
 %.o: %.S
-	$(VECHO) "AS\t$@"
+	$(VECHO) "  AS\t\t$@\n"
 	$(Q)$(CC) -o $@ $(CFLAGS) -c $<
 
 %.lds: %.lds.S
-	$(VECHO) "HOSTCC\t$@"
+	$(VECHO) "  HOSTCC\t$@\n"
 	$(Q)$(HOSTCC) -E -P -Iinclude -DROMSZ=$(ROMSZ) -DRAMSZ=$(RAMSZ) -o $@ $<
 
 include/cmsis/arm/core_cm4.h:
@@ -71,21 +71,21 @@ include/cmsis/arm/core_cm4.h:
 	git submodule update
 
 kernel/syscall.c: include/kernel/syscalls.h
-	$(VECHO) "GEN\t$@"
+	$(VECHO) "  GEN\t\t$@\n"
 	$(Q)python scripts/gen-syscalls.py --source > $@
 
 include/kernel/syscalls.h:
-	$(VECHO) "GEN\t$@"
+	$(VECHO) "  GEN\t\t$@\n"
 	$(Q)python scripts/gen-syscalls.py --header > $@
 
 kernel/fs/version:
-	$(VECHO) "GEN\t$@"
+	$(VECHO) "  GEN\t\t$@\n"
 	$(Q)python3 scripts/gen-proc-version.py --cc-version    \
 	--user $(shell whoami) --host $(shell hostname)		\
 	-a $(ARCH) -c $(CPU) -n 'Piko' > $@
 
 kernel/fs/version.o: kernel/fs/version
-	$(VECHO) "OBJCOPY\t$@"
+	$(VECHO) "  OBJCOPY\t$@\n"
 	$(Q)$(OBJCOPY) -I binary -O elf32-littlearm -B arm		\
 	--rename-section .data=.rodata					\
         --redefine-sym _binary_$(subst /,_,$<)_start=_version_ptr	\
@@ -93,11 +93,11 @@ kernel/fs/version.o: kernel/fs/version
 	$< $@
 
 %.hex: %.elf
-	$(VECHO) "OBJCOPY\t$@"
+	$(VECHO) "  OBJCOPY\t$@\n"
 	$(Q)$(OBJCOPY) -O ihex $< $@
 
 %.bin: %.elf
-	$(VECHO) "OBJCOPY\t$@"
+	$(VECHO) "  OBJCOPY\t$@\n"
 	$(Q)$(OBJCOPY) -Obinary $< $@
 
 check:

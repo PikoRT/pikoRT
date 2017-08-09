@@ -4,5 +4,5 @@ ifeq ("$(VERBOSE)","1")
   VECHO = @true
 else
   Q := @
-  VECHO = @echo
+  VECHO = @printf
 endif
