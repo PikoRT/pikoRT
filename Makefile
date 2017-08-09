@@ -106,8 +106,5 @@ distclean: clean
 	rm -f kernel/syscall.c include/kernel/syscalls.h kernel/fs/version
 	rm -rf $(CMSIS)
 
-astyle:
-	astyle --style=linux --indent=tab --indent-switches --suffix=none --recursive *.c *.h
-
 # platform Makefile.rules contains flashing and running rules
 include target/$(TARGET)/Makefile.rules
