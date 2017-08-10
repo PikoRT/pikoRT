@@ -20,6 +20,7 @@ SECTIONS
         PROVIDE(__text_start__ = .);
         *(.text*)
         PROVIDE(__text_end__ = .);
+        . = ALIGN(8);
         PROVIDE(__shell_cmd_start__ = .);
         KEEP(*(.shell_cmd*))
         PROVIDE(__shell_cmd_end__ = .);
