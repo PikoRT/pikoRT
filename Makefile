@@ -35,20 +35,15 @@ CSRC += \
 OBJS += $(SSRC:.S=.o) $(CSRC:.c=.o)
 OBJS := $(sort $(OBJS))
 
-# generic build rules
-include mk/flags.mk
-include mk/rules.mk
-
 .PHONY: all check clean distclean
 
 all: $(CMSIS)/$(TARGET) $(NAME).lds $(NAME).bin
 
-prebuild: $(CMSIS)/$(TARGET)
+# generic build rules
+include mk/flags.mk
+include mk/rules.mk
 
-# FIXME: keep single CMSIS copy
-include/cmsis/arm/core_cm4.h:
-	git submodule init
-	git submodule update
+prebuild: $(CMSIS)/$(TARGET)
 
 check:
 	python3 tests/runner.py
