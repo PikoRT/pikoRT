@@ -6,13 +6,17 @@ OBJCOPY = $(CROSS_COMPILE)objcopy
 GDB = $(CROSS_COMPILE)gdb
 HOSTCC  = gcc
 
+# FIXME: configurable via menuconfig or command line
+CFLAGS_OPT = -Os # -flto
+
 CFLAGS += \
     -Iinclude -Iinclude/libc -I. \
     -I$(CMSIS)/arm -I$(CMSIS)/$(TARGET) -I$(CMSIS)/$(TARGET)/hal \
     -Iinclude/kernel \
     -D_POSIX_THREADS=1 -D_POSIX_TIMERS=1 -D_POSIX_REALTIME_SIGNALS=1 \
     -Wno-main -fdiagnostics-color \
-    -ffunction-sections -fdata-sections -Os -ggdb
+    -ffunction-sections -fdata-sections -ggdb \
+    $(CFLAGS_OPT)
 
 # FIXME: make Piko-specific build options configurable
 CFLAGS += \
