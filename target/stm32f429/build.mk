@@ -32,7 +32,7 @@ dbg: $(NAME).bin
 	openocd -f board/stm32f429discovery.cfg
 
 gdb: $(NAME).elf
-	$(Q)/usr/bin/arm-none-eabi-gdb \
+	$(Q)$(GDB) -q \
 	    $< -ex "target remote :3333" \
 	    -ex "monitor reset halt"
 

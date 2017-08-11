@@ -28,7 +28,7 @@ run: $(NAME).bin
 	    -kernel $<
 
 dbg: $(NAME).bin
-	$(Q)qemu-system-arm \
+	$(Q)$(GDB) -q \
 	    -semihosting \
 	    $(REDIRECT_SERIAL) \
 	    -nographic \
@@ -38,5 +38,5 @@ dbg: $(NAME).bin
 	    -S -s
 
 gdb: $(NAME).elf
-	$(Q)arm-none-eabi-gdb \
+	$(Q)$(GDB) -q \
 	    $< -ex "target remote :1234"
