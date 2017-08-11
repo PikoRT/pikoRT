@@ -35,8 +35,6 @@ struct timer_info {
     struct list_head list;
     const struct timer_operations *tops;
 
-    // XXX: what goes in there?
-    // struct device *dev;
     void *dev;
 };
 
