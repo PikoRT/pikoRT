@@ -43,16 +43,13 @@ void __printk_init(void)
     /* Enable USART2 clock */
     __HAL_RCC_USART2_CLK_ENABLE();
 
-    /* GPIO init */
-    GPIO_InitTypeDef GPIO_InitStruct;
-
-    /* Configure peripheral GPIO*/
-
-    /* UART TX/RX GPIO pin configuration  */
-    GPIO_InitStruct.Pin = GPIO_PIN_2;
-    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-    GPIO_InitStruct.Pull = GPIO_PULLUP;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+    /* GPIO initialized with UART Tx/Rx configuration */
+    GPIO_InitTypeDef GPIO_InitStruct = {
+        .Pin = GPIO_PIN_2,
+        .Mode = GPIO_MODE_AF_PP,
+        .Pull = GPIO_PULLUP,
+        .Speed = GPIO_SPEED_FREQ_HIGH,
+    };
 
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
@@ -61,29 +58,28 @@ void __printk_init(void)
 
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-
-
     /* USART init */
-    UART_HandleTypeDef UartHandle;
 
-    /* Configure the UART peripheral */
-
-    /* Put the USART peripheral in the Asynchronous mode (UART Mode) */
+    /* Set the USART peripheral in the Asynchronous mode (UART Mode) */
     /* UART2 configured as follow:
         - Word Length = 8 Bits
         - Stop Bit = One Stop bit
         - Parity = None
         - BaudRate = 9600 baud
         - Hardware flow control disabled (RTS and CTS signals) */
-    UartHandle.Instance = USART2;
-
-    UartHandle.Init.BaudRate = 115200;
-    UartHandle.Init.WordLength = UART_WORDLENGTH_8B;
-    UartHandle.Init.StopBits = UART_STOPBITS_1;
-    UartHandle.Init.Parity = UART_PARITY_NONE;
-    UartHandle.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-    UartHandle.Init.Mode = UART_MODE_TX_RX | UART_IT_RXNE;
-    UartHandle.Init.OverSampling = UART_OVERSAMPLING_16;
+    UART_HandleTypeDef UartHandle = {
+        .Instance = USART2,
+        .Init =
+            {
+                .BaudRate = 115200,
+                .WordLength = UART_WORDLENGTH_8B,
+                .StopBits = UART_STOPBITS_1,
+                .Parity = UART_PARITY_NONE,
+                .HwFlowCtl = UART_HWCONTROL_NONE,
+                .Mode = UART_MODE_TX_RX | UART_IT_RXNE,
+                .OverSampling = UART_OVERSAMPLING_16,
+            },
+    };
 
     HAL_UART_Init(&UartHandle);
 
