@@ -26,20 +26,18 @@ __weak void __platform_halt(void)
 
 void __printk_init(void)
 {
-    /*##-1- Enable peripherals and GPIO Clocks
-     * #################################*/
+    /* Enable peripherals and GPIO Clocks */
+
     /* Enable GPIO TX/RX clock */
     __HAL_RCC_GPIOA_CLK_ENABLE();
     /* Enable USART1 clock */
     __HAL_RCC_USART1_CLK_ENABLE();
 
-    /**
-     * GPIO init
-     */
+    /* GPIO init */
     GPIO_InitTypeDef GPIO_InitStruct;
 
-    /*##-2- Configure peripheral GPIO
-     * ##########################################*/
+    /* Configure peripheral GPIO*/
+
     /* UART TX/RX GPIO pin configuration  */
     GPIO_InitStruct.Pin = GPIO_PIN_9 | GPIO_PIN_10;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
@@ -49,18 +47,11 @@ void __printk_init(void)
 
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-    /*##-3- Configure the NVIC for UART
-     * ########################################*/
-    /* NVIC for USART1 */
-    // HAL_NVIC_SetPriority(USARTx_IRQn, 0, 1
-
-    /**
-     * USART init
-     */
+    /* USART init */
     UART_HandleTypeDef UartHandle;
 
-    /*##-1- Configure the UART peripheral
-     * ######################################*/
+    /* Configure the UART peripheral */
+
     /* Put the USART peripheral in the Asynchronous mode (UART Mode) */
     /* UART1 configured as follow:
         - Word Length = 8 Bits
