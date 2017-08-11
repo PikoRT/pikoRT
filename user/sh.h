@@ -17,9 +17,9 @@ struct shell_cmd {
     int (*func)(int argc, char *argv[]);
 };
 
-#define HOOK_BUILTIN_CMD(_name, _func)                                  \
-    static struct shell_cmd shell_##_name                               \
-        __attribute__((section(".shell_cmd"), aligned(sizeof(long)),    \
+#define HOOK_BUILTIN_CMD(_name, _func)                               \
+    static struct shell_cmd shell_##_name                            \
+        __attribute__((section(".shell_cmd"), aligned(sizeof(long)), \
                        used)) = {.name = #_name, .func = _func}
 
 #endif /* !USER_SH_H */

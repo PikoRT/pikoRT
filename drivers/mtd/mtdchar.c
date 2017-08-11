@@ -4,14 +4,17 @@
 
 /* romfs depends on mtdchar */
 
-int mtdchar_open(struct inode *inode, struct file *file)
+static int mtdchar_open(struct inode *inode, struct file *file)
 {
     file->f_private = inode->i_private;
 
     return 0;
 }
 
-ssize_t mtdchar_read(struct file *file, char *buf, size_t count, off_t offset)
+static ssize_t mtdchar_read(struct file *file,
+                            char *buf,
+                            size_t count,
+                            off_t offset)
 {
     size_t retlen;
     struct mtd_info *mtd = file->f_private;
@@ -22,10 +25,10 @@ ssize_t mtdchar_read(struct file *file, char *buf, size_t count, off_t offset)
     return retlen;
 }
 
-ssize_t mtdchar_write(struct file *file,
-                      const char *buf,
-                      size_t count,
-                      off_t *offset)
+static ssize_t mtdchar_write(struct file *file,
+                             const char *buf,
+                             size_t count,
+                             off_t *offset)
 {
     size_t retlen;
     struct mtd_info *mtd = file->f_private;

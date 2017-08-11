@@ -3,51 +3,51 @@
 #include <kernel/fs.h>
 #include <kernel/kernel.h>
 
-int mem_open(__unused struct inode *inode, __unused struct file *file)
+static int mem_open(__unused struct inode *inode, __unused struct file *file)
 {
     return 0;
 }
 
-ssize_t write_mem(__unused struct file *file,
-                  const char *buf,
-                  size_t count,
-                  off_t *offset)
+static ssize_t write_mem(__unused struct file *file,
+                         const char *buf,
+                         size_t count,
+                         off_t *offset)
 {
     memcpy((void *) offset, buf, count);
 
     return count;
 }
 
-ssize_t read_mem(__unused struct file *file,
-                 char *buf,
-                 size_t count,
-                 off_t offset)
+static ssize_t read_mem(__unused struct file *file,
+                        char *buf,
+                        size_t count,
+                        off_t offset)
 {
     memcpy(buf, (void *) offset, count);
 
     return count;
 }
 
-ssize_t write_null(__unused struct file *file,
-                   __unused const char *buf,
-                   size_t count,
-                   __unused off_t *offset)
+static ssize_t write_null(__unused struct file *file,
+                          __unused const char *buf,
+                          size_t count,
+                          __unused off_t *offset)
 {
     return count;
 }
 
-ssize_t read_null(__unused struct file *file,
-                  __unused char *buf,
-                  __unused size_t count,
-                  __unused off_t offset)
+static ssize_t read_null(__unused struct file *file,
+                         __unused char *buf,
+                         __unused size_t count,
+                         __unused off_t offset)
 {
     return 0;
 }
 
-ssize_t read_zero(__unused struct file *file,
-                  char *buf,
-                  size_t count,
-                  __unused off_t offset)
+static ssize_t read_zero(__unused struct file *file,
+                         char *buf,
+                         size_t count,
+                         __unused off_t offset)
 {
     memset(buf, 0, count);
 

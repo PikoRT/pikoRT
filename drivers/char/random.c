@@ -10,14 +10,18 @@ typedef unsigned long long u64;
 /* xorshift1024* generator, http://vigna.di.unimi.it/ftp/papers/xorshift.pdf */
 static u64 next(void)
 {
-    static int p;
+    // clang-format off
     static u64 s[16] = {
         0x84242f96eca9c41dull, 0xa3c65b8776f96855ull, 0x5b34a39f070b5837ull,
         0x4489affce4f31a1eull, 0x2ffeeb0a48316f40ull, 0xdc2d9891fe68c022ull,
         0x3659132bb12fea70ull, 0xaac17d8efa43cab8ull, 0xc4cb815590989b13ull,
         0x5ee975283d71c93bull, 0x691548c86c1bd540ull, 0x7910c41d10a1e6a5ull,
         0x0b5fc64563b3e2a8ull, 0x047f7684e9fc949dull, 0xb99181f2d8f685caull,
-        0x284600e3f30e38c3ull};
+        0x284600e3f30e38c3ull
+    };
+    // clang-format on
+
+    static int p;
     const u64 s0 = s[p];
     u64 s1 = s[p = (p + 1) & 15];
 
@@ -27,15 +31,15 @@ static u64 next(void)
     return s[p] * UINT64_C(1181783497276652981);
 }
 
-int open_random(__unused struct inode *inode, __unused struct file *file)
+static int open_random(__unused struct inode *inode, __unused struct file *file)
 {
     return 0;
 }
 
-ssize_t read_random(__unused struct file *file,
-                    char *buf,
-                    size_t count,
-                    __unused off_t offset)
+static ssize_t read_random(__unused struct file *file,
+                           char *buf,
+                           size_t count,
+                           __unused off_t offset)
 {
     static u64 m;
     static int remaining_bytes = 0;

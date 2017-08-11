@@ -4,13 +4,13 @@
 #include <kernel/serial.h>
 #include <kernel/thread.h>
 
-void serialchar_callback(struct serial_info *serial)
+static void serialchar_callback(struct serial_info *serial)
 {
     sched_enqueue(serial->owner);
     sched_elect(0);
 }
 
-int serialchar_open(struct inode *inode, struct file *file)
+static int serialchar_open(struct inode *inode, struct file *file)
 {
     file->f_private = inode->i_private;
     struct serial_info *serial = file->f_private;
@@ -21,10 +21,10 @@ int serialchar_open(struct inode *inode, struct file *file)
     return 0;
 }
 
-ssize_t serialchar_read(struct file *file,
-                        char *buf,
-                        size_t count,
-                        __unused off_t offset)
+static ssize_t serialchar_read(struct file *file,
+                               char *buf,
+                               size_t count,
+                               __unused off_t offset)
 {
     size_t retlen;
     struct serial_info *serial = file->f_private;
@@ -42,10 +42,10 @@ ssize_t serialchar_read(struct file *file,
     return retlen;
 }
 
-ssize_t serialchar_write(struct file *file,
-                         const char *buf,
-                         size_t count,
-                         __unused off_t *offset)
+static ssize_t serialchar_write(struct file *file,
+                                const char *buf,
+                                size_t count,
+                                __unused off_t *offset)
 {
     size_t retlen;
     struct serial_info *serial = file->f_private;

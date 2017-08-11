@@ -26,7 +26,7 @@ static unsigned long clocktime_in_msec;
 
 static LIST_HEAD(systick_timers);
 
-int systick_timer_alloc(struct timer_info *timer)
+static int systick_timer_alloc(struct timer_info *timer)
 {
     struct systick_timer *systick_timer;
 
@@ -41,7 +41,8 @@ int systick_timer_alloc(struct timer_info *timer)
     return 0;
 }
 
-int systick_timer_set(struct timer_info *timer, const struct timespec *value)
+static int systick_timer_set(struct timer_info *timer,
+                             const struct timespec *value)
 {
     struct systick_timer *systick_timer = (struct systick_timer *) timer->dev;
 
@@ -57,7 +58,8 @@ int systick_timer_set(struct timer_info *timer, const struct timespec *value)
     return 0;
 }
 
-int systick_timer_get(struct timer_info *timer, struct itimerspec *curr_value)
+static int systick_timer_get(struct timer_info *timer,
+                             struct itimerspec *curr_value)
 {
     struct systick_timer *systick_timer = (struct systick_timer *) timer->dev;
     unsigned long msecs = clocktime_in_msec - systick_timer->start_clocktime;
@@ -68,7 +70,7 @@ int systick_timer_get(struct timer_info *timer, struct itimerspec *curr_value)
     return 0;
 }
 
-int systick_timer_free(struct timer_info *timer)
+static int systick_timer_free(struct timer_info *timer)
 {
     free(timer->dev);
 

@@ -31,9 +31,9 @@ static int stm32f4_putc(struct serial_info *serial, char c)
 }
 
 static int stm32f4_puts(struct serial_info *serial,
-                   size_t len,
-                   size_t *retlen,
-                   const char *buf)
+                        size_t len,
+                        size_t *retlen,
+                        const char *buf)
 {
     *retlen = len;
     for (int i = 0; len > 0; len--, i++)
