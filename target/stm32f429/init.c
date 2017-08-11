@@ -15,7 +15,7 @@ __weak void __platform_init(void)
     config_timer_operations(&systick_tops);
 
     /* create /dev/ttyS0, serial interface for QEMU UART0 */
-    stm32f429_init();
+    stm32f4_init();
 }
 
 __weak void __platform_halt(void)

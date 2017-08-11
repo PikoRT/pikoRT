@@ -33,7 +33,7 @@ __weak void __platform_init(void)
     SysTick_Config(CPU_FREQ_IN_HZ / SYSTICK_FREQ_IN_HZ);
 
     /* create /dev/ttyS0, serial interface for QEMU UART0 */
-    stm32p103_init();
+    stm32f1_init();
 }
 
 __weak void __platform_halt(void)
