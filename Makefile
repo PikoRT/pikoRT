@@ -53,7 +53,9 @@ check:
 
 clean:
 	find . -name "*.o" -type f -delete
+ifneq "$(wildcard $(CMSIS) )" ""
 	find $(CMSIS) -name "*.o" -type f -delete
+endif
 	rm -f $(NAME).map $(NAME).lds
 	rm -f $(NAME).elf $(NAME).bin
 
