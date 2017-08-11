@@ -17,14 +17,6 @@ extern void stm32f1_init(void);
 void rcc_clock_init(void);
 void __uart_enable(void);
 
-/**
- * FIXME: There are some unexpected bug for qemu with STM32CubeMX
- */
-__weak void SystemInit(void)
-{
-    rcc_clock_init();
-}
-
 __weak void __platform_init(void)
 {
     config_timer_operations(&systick_tops);
@@ -44,7 +36,56 @@ __weak void __platform_halt(void)
 
 void __printk_init(void)
 {
-    __uart_enable();
+    /* Enable peripherals and GPIO Clocks */
+
+    /* Enable GPIO TX/RX clock */
+    __HAL_RCC_GPIOA_CLK_ENABLE();
+    /* Enable USART2 clock */
+    __HAL_RCC_USART2_CLK_ENABLE();
+
+    /* GPIO init */
+    GPIO_InitTypeDef GPIO_InitStruct;
+
+    /* Configure peripheral GPIO*/
+
+    /* UART TX/RX GPIO pin configuration  */
+    GPIO_InitStruct.Pin = GPIO_PIN_2;
+    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+    GPIO_InitStruct.Pull = GPIO_PULLUP;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+
+    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+    GPIO_InitStruct.Pin = GPIO_PIN_3;
+    GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+
+    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+
+
+    /* USART init */
+    UART_HandleTypeDef UartHandle;
+
+    /* Configure the UART peripheral */
+
+    /* Put the USART peripheral in the Asynchronous mode (UART Mode) */
+    /* UART2 configured as follow:
+        - Word Length = 8 Bits
+        - Stop Bit = One Stop bit
+        - Parity = None
+        - BaudRate = 9600 baud
+        - Hardware flow control disabled (RTS and CTS signals) */
+    UartHandle.Instance = USART2;
+
+    UartHandle.Init.BaudRate = 115200;
+    UartHandle.Init.WordLength = UART_WORDLENGTH_8B;
+    UartHandle.Init.StopBits = UART_STOPBITS_1;
+    UartHandle.Init.Parity = UART_PARITY_NONE;
+    UartHandle.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+    UartHandle.Init.Mode = UART_MODE_TX_RX | UART_IT_RXNE;
+    UartHandle.Init.OverSampling = UART_OVERSAMPLING_16;
+
+    HAL_UART_Init(&UartHandle);
 
     NVIC_SetPriority(USART2_IRQn, 0xE);
 }
@@ -57,92 +98,4 @@ void __printk_putchar(char c)
     while (!(USART2->SR & USART_SR_TXE))
         ;
     USART2->DR = (0xff) & c;
-}
-
-void rcc_clock_init(void)
-{
-    /* Reset the RCC clock configuration to the default reset state(for debug
-     * purpose) */
-    /* Set HSION bit */
-    RCC->CR |= (uint32_t) 0x00000001;
-
-    /* Reset SW, HPRE, PPRE1, PPRE2, ADCPRE and MCO bits */
-    RCC->CFGR &= (uint32_t) 0xF8FF0000;
-
-    /* Reset HSEON, CSSON and PLLON bits */
-    RCC->CR &= (uint32_t) 0xFEF6FFFF;
-
-    /* Reset HSEBYP bit */
-    RCC->CR &= (uint32_t) 0xFFFBFFFF;
-
-    /* Reset PLLSRC, PLLXTPRE, PLLMUL and USBPRE/OTGFSPRE bits */
-    RCC->CFGR &= (uint32_t) 0xFF80FFFF;
-
-    /* Disable all interrupts and clear pending bits  */
-    RCC->CIR = 0x009F0000;
-
-    /* Configure the System clock frequency, HCLK, PCLK2 and PCLK1 prescalers */
-    /* Configure the Flash Latency cycles and enable prefetch buffer */
-    volatile uint32_t StartUpCounter = 0, HSEStatus = 0;
-
-    /* SYSCLK, HCLK, PCLK2 and PCLK1 configuration ---------------------------*/
-    /* Enable HSE */
-    RCC->CR |= ((uint32_t) RCC_CR_HSEON);
-
-    /* Wait till HSE is ready and if Time out is reached exit */
-    do {
-        HSEStatus = RCC->CR & RCC_CR_HSERDY;
-        StartUpCounter++;
-    } while ((HSEStatus == 0) && (StartUpCounter != HSE_STARTUP_TIMEOUT));
-
-    if ((RCC->CR & RCC_CR_HSERDY) != 0)
-        HSEStatus = (uint32_t) 0x01;
-    else
-        HSEStatus = (uint32_t) 0x00;
-
-    if (HSEStatus == (uint32_t) 0x01) {
-        /* Enable Prefetch Buffer */
-        FLASH->ACR |= FLASH_ACR_PRFTBE;
-
-        /* Flash 0 wait state */
-        FLASH->ACR &= (uint32_t)((uint32_t) ~FLASH_ACR_LATENCY);
-
-        FLASH->ACR |= (uint32_t) FLASH_ACR_LATENCY_0;
-
-        /* HCLK = SYSCLK */
-        RCC->CFGR |= (uint32_t) RCC_CFGR_HPRE_DIV1;
-
-        /* PCLK2 = HCLK */
-        RCC->CFGR |= (uint32_t) RCC_CFGR_PPRE2_DIV1;
-
-        /* PCLK1 = HCLK */
-        RCC->CFGR |= (uint32_t) RCC_CFGR_PPRE1_DIV1;
-
-        /* Select HSE as system clock source */
-        RCC->CFGR &= (uint32_t)((uint32_t) ~(RCC_CFGR_SW));
-        RCC->CFGR |= (uint32_t) RCC_CFGR_SW_HSE;
-
-        /* Wait till HSE is used as system clock source */
-        while ((RCC->CFGR & (uint32_t) RCC_CFGR_SWS) != (uint32_t) 0x04)
-            ;
-    } else {
-        /* If HSE fails to start-up, the application will have wrong clock
-        configuration. User can add here some code to deal with this error */
-    }
-}
-
-void __uart_enable(void)
-{
-    (RCC->APB2ENR) |= (uint32_t)(0x00000001 | 0x00000004);
-    (RCC->APB1ENR) |= (uint32_t)(0x00020000);
-
-    (GPIOA->CRL) = 0x00004B00;
-    (GPIOA->CRH) = 0x44444444;
-    (GPIOA->ODR) = 0x00000000;
-    (GPIOA->BSRR) = 0x00000000;
-    (GPIOA->BRR) = 0x00000000;
-
-    USART2->CR1 = 0x0000000C;
-    USART2->CR1 |= 0x2000;
-    USART2->CR1 |= 0x0020;
 }
