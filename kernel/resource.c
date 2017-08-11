@@ -1,7 +1,8 @@
 #include <piko/sys/resource.h>
 
+// clang-format off
 static struct rlimit rlimits[] = {
-    {.rlim_cur = 1024, .rlim_max = 1024} /* RLIMIT_STACK */
+    { .rlim_cur = 1024, .rlim_max = 1024 } /* RLIMIT_STACK */
 };
 
 int sys_getrlimit(int resource, struct rlimit *rlim)

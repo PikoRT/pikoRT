@@ -7,18 +7,21 @@
 
 irq_handler_t irq_handler[IRQ_MAX];
 
-static struct irq_desc irq_desc[NR_IRQS] = {[0 ... NR_IRQS - 1] = {
-                                                .irq_data = {.state = 0x0},
-                                                .action = NULL,
-                                                .status = 0x0,
-                                            }};
+// clang-format off
+static struct irq_desc irq_desc[NR_IRQS] = {
+    [0 ... NR_IRQS - 1] = {
+        .irq_data = {.state = 0x0},
+        .action = NULL,
+	.status = 0x0,
+	}
+};
+// clang-format on
 
 static struct irq_desc *irq_to_desc(unsigned int irq)
 {
     if (irq < NR_IRQS)
         return irq_desc + irq;
-    else
-        return NULL;
+    return NULL;
 }
 
 int request_irq(unsigned int irq, irq_handler_t hdlr)
@@ -61,8 +64,9 @@ int free_irq(unsigned int irq)
         irq_handler[irq] = NULL;
 
         return 0;
-    } else
-        return -1;
+    }
+
+    return -1;
 }
 
 void early_irq_init(void)

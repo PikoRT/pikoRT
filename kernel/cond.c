@@ -42,6 +42,7 @@ int sys_pthread_cond_signal(pthread_cond_t *cond)
     other = find_other_thread(cond);
     if (!other)
         return 0;
+
     list_del(&other->ti_q);
     sched_enqueue(other);
     CURRENT_THREAD_INFO(curr_thread);
