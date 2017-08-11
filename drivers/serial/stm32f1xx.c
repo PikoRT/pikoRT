@@ -11,7 +11,7 @@
 static struct cbuf_info cbuf;
 static char buf[16];
 
-int stm32f1_getc(struct serial_info *serial, char *c)
+static int stm32f1_getc(struct serial_info *serial, char *c)
 {
     serial->rx_count--;
     cbuf_getc(&cbuf, c);
@@ -19,7 +19,7 @@ int stm32f1_getc(struct serial_info *serial, char *c)
     return 0;
 }
 
-int stm32f1_putc(struct serial_info *serial, char c)
+static int stm32f1_putc(struct serial_info *serial, char c)
 {
     USART_TypeDef *uart = serial->priv;
 
@@ -30,7 +30,7 @@ int stm32f1_putc(struct serial_info *serial, char c)
     return 0;
 }
 
-int stm32f1_puts(struct serial_info *serial,
+static int stm32f1_puts(struct serial_info *serial,
                    size_t len,
                    size_t *retlen,
                    const char *buf)
@@ -42,7 +42,7 @@ int stm32f1_puts(struct serial_info *serial,
     return 0;
 }
 
-struct serial_info stm32f1_uart2 = {
+static struct serial_info stm32f1_uart2 = {
     .serial_getc = stm32f1_getc,
     .serial_putc = stm32f1_putc,
     .serial_puts = stm32f1_puts,
