@@ -10,3 +10,7 @@
 fs/version
 include/kernel/syscalls.h
 kernel/syscall.c
+
+# QEMU generated
+DAC_OUT_PUT1.txt
+DAC_OUT_PUT2.txt
