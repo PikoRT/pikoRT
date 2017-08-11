@@ -1,5 +1,5 @@
-#ifndef _SYSTEM_SH_H
-#define _SYSTEM_SH_H
+#ifndef USER_SH_H
+#define USER_SH_H
 
 #define ARG_COUNT_MAX 8
 #define BUF_LINE_LEN 128
@@ -22,4 +22,4 @@ struct shell_cmd {
         __attribute__((section(".shell_cmd"), aligned(sizeof(long)),    \
                        used)) = {.name = #_name, .func = _func}
 
-#endif /* !_SYSTEM_SH_H */
+#endif /* !USER_SH_H */
