@@ -2,7 +2,7 @@ NAME = piko
 
 # select QEMU when the target is unspecified
 TARGET ?= stm32f429
-CMSIS = ../cmsis
+CMSIS = external/cmsis
 
 # The platform Makefile contains hw details and flags
 include target/$(TARGET)/Makefile
@@ -44,6 +44,9 @@ include mk/flags.mk
 include mk/rules.mk
 
 prebuild: $(CMSIS)/$(TARGET)
+
+$(CMSIS):
+	mkdir -p $@
 
 check:
 	python3 tests/runner.py

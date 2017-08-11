@@ -1,3 +1,6 @@
+# external source
+external/
+
 *~
 *.o
 *.elf

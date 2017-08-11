@@ -23,9 +23,9 @@ CSRC += \
 
 # CMSIS files
 ## STM32 HAL
-CSRC += $(wildcard ../cmsis/TARGET_STM/TARGET_STM32F4/device/*.c)
+CSRC += $(wildcard $(CMSIS)/TARGET_STM/TARGET_STM32F4/device/*.c)
 ## SystemInit()
-CSRC += ../cmsis/TARGET_STM/TARGET_STM32F4/TARGET_STM32F429xI/TARGET_DISCO_F429ZI/system_clock.c
+CSRC += $(CMSIS)/TARGET_STM/TARGET_STM32F4/TARGET_STM32F429xI/TARGET_DISCO_F429ZI/system_clock.c
 
 # Timer driver files
 CSRC += drivers/timer/systick.c
