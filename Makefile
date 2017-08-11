@@ -42,11 +42,9 @@ all: $(CMSIS)/$(TARGET) $(NAME).lds $(NAME).bin
 # generic build rules
 include mk/flags.mk
 include mk/rules.mk
+include mk/cmsis.mk
 
 prebuild: $(CMSIS)/$(TARGET)
-
-$(CMSIS):
-	mkdir -p $@
 
 check:
 	python3 tests/runner.py
