@@ -5,9 +5,9 @@
 
 struct thread_info;
 
-/* 0 <= PRI_MAX <= PRI_MIN */
-#define PRI_MAX 0
-#define PRI_MIN 31
+/* 0 <= PRIO_MAX <= PRIO_MIN */
+#define PRIO_MAX 0
+#define PRIO_MIN 31
 
 #define SCHED_CLASS_RR 0
 #define SCHED_CLASS_BITMAP 1

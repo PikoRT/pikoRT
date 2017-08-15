@@ -151,7 +151,7 @@ int init_softirq(void)
         printk("[!] Could not create softirqd thread.\n");
         return -1;
     }
-    thread_set_priority(thread_softirqd, PRI_MAX);
+    thread_set_priority(thread_softirqd, PRIO_MAX);
 
     /* initialize softirq entries */
     init_softirq_entry();

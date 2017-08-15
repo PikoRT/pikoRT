@@ -88,7 +88,7 @@ struct thread_info *thread_create(void *(*start_routine)(void *),
     thread->ti_joinable = false;
     thread->ti_joining = NULL;
     thread->ti_detached = false;
-    thread->ti_priority = PRI_MIN;
+    thread->ti_priority = PRIO_MIN;
     thread->ti_state = THREAD_STATE_NEW;
 #ifdef CONFIG_KERNEL_STACK_CHECKING
     thread->ti_canary[0] = THREAD_CANARY0;
