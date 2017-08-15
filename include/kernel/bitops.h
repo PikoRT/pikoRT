@@ -1,6 +1,11 @@
 #ifndef KERNEL_BITOPS_H
 #define KERNEL_BITOPS_H
 
+#include <sys/param.h>
+
+#include <kernel/bitops.h>
+#include <kernel/kernel.h>
+
 #define BITS_PER_CHAR 8
 #define BITS_PER_LONG (BITS_PER_CHAR * sizeof(long))
 
@@ -35,8 +40,26 @@ static inline unsigned long bitmap_get_bit(unsigned long *map,
     return (map[bit / BITS_PER_LONG] >> (bit % BITS_PER_LONG)) & 1;
 }
 
-unsigned long find_first_bit(const unsigned long *addr, unsigned long size);
-unsigned long find_first_zero_bit(const unsigned long *addr,
-                                  unsigned long size);
+static inline unsigned long find_first_bit(const unsigned long *addr,
+                                           unsigned long size)
+{
+    for (unsigned long i = 0; i * BITS_PER_LONG < size; i++) {
+        if (addr[i])
+            return MIN(i * BITS_PER_LONG + __builtin_ffsl(addr[i]) - 1, size);
+    }
+
+    return size;
+}
+
+static inline unsigned long find_first_zero_bit(const unsigned long *addr,
+                                                unsigned long size)
+{
+    for (unsigned long i = 0; i * BITS_PER_LONG < size; i++) {
+        if (addr[i] != ~0ul)
+            return MIN(i * BITS_PER_LONG + __builtin_ffsl(~addr[i]) - 1, size);
+    }
+
+    return size;
+}
 
 #endif /* !KERNEL_BITOPS_H */
