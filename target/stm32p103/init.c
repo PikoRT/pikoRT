@@ -12,7 +12,7 @@ void config_timer_operations(struct timer_operations *tops);
 
 extern struct timer_operations systick_tops;
 
-void stm32p103_init(void);
+extern void stm32f1_init(void);
 
 void rcc_clock_init(void);
 void __uart_enable(void);

@@ -8,7 +8,7 @@ void config_timer_operations(struct timer_operations *tops);
 
 extern struct timer_operations systick_tops;
 
-void stm32f429_init(void);
+extern void stm32f4_init(void);
 
 __weak void __platform_init(void)
 {
