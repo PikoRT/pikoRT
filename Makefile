@@ -1,7 +1,7 @@
 NAME = piko
 
 # select QEMU when the target is unspecified
-TARGET ?= stm32f429
+TARGET ?= stm32p103
 CMSIS = external/cmsis
 
 # The platform Makefile contains hw details and flags
@@ -32,6 +32,9 @@ CSRC += \
     libc/piko/mman.c \
     $(LIBPIKO_CSRC)
 
+# micropython
+include user/mpy/build.mk
+
 OBJS += $(SSRC:.S=.o) $(CSRC:.c=.o)
 OBJS := $(sort $(OBJS))
 
@@ -57,6 +60,9 @@ clean:
 ifneq "$(wildcard $(CMSIS) )" ""
 	find $(CMSIS) -name "*.o" -type f -delete
 endif
+	rm -rf user/mpy/build
+	rm -rf user/mpy/*.o.d
+	rm -f user/mpy/py/*.o
 	rm -f $(NAME).map $(NAME).lds
 	rm -f $(NAME).elf $(NAME).bin
 
