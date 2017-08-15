@@ -12,7 +12,7 @@ run: $(NAME).bin
 	    -kernel $<
 
 dbg: $(NAME).bin
-	$(Q)$(GDB) -q \
+	$(Q)qemu-system-arm \
 	    -semihosting \
 	    $(REDIRECT_SERIAL) \
 	    -nographic \
