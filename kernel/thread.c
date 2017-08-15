@@ -94,6 +94,7 @@ struct thread_info *thread_create(void *(*start_routine)(void *),
     thread->ti_canary[0] = THREAD_CANARY0;
     thread->ti_canary[1] = THREAD_CANARY1;
 #endif
+    INIT_LIST_HEAD(&thread->ti_q);
     list_add(&thread->ti_list, &task->thread_head);
 
     return thread;
