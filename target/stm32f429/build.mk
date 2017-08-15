@@ -1,15 +1,10 @@
-ifeq ($(shell lsb_release -c -s),trusty)
-  REDIRECT_SERIAL = -serial stdio
-endif
-
 run: $(NAME).bin
-	$(Q)qemu-system-arm \
-	    -semihosting \
-	    $(REDIRECT_SERIAL) \
-	    -nographic \
-	    -cpu cortex-m3 \
-	    -machine stm32-p103 \
-	    -kernel $<
+	openocd -f interface/stlink-v2.cfg \
+	    -f target/stm32f4x_stlink.cfg \
+	    -c "init" \
+	    -c "reset init" \
+	    -c "reset halt"
+	    -c "reset run"
 
 st-flash: $(NAME).bin
 	st-flash --reset write \
