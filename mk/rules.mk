@@ -13,7 +13,7 @@ $(NAME).elf: $(OBJS) fs/version.o
 
 %.o: %.c
 	$(VECHO) "  CC\t\t$@\n"
-	$(Q)$(CC) -o $@ $(CFLAGS) -c -W -Wall -std=c11 -D__KERNEL__ $<
+	$(Q)$(CC) -o $@ $(CFLAGS) -c -D__KERNEL__ -MMD -MF $@.d $<
 
 %.o: %.S
 	$(VECHO) "  AS\t\t$@\n"

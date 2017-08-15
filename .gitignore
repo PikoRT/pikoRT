@@ -3,6 +3,7 @@ external/
 
 *~
 *.o
+*.o.d
 *.elf
 *.map
 *.lds

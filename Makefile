@@ -35,6 +35,8 @@ CSRC += \
 OBJS += $(SSRC:.S=.o) $(CSRC:.c=.o)
 OBJS := $(sort $(OBJS))
 
+deps := $(OBJS:%.o=.%.o.d)
+
 .PHONY: all check clean distclean
 
 all: $(CMSIS)/$(TARGET) $(NAME).lds $(NAME).bin
@@ -51,6 +53,7 @@ check:
 
 clean:
 	find . -name "*.o" -type f -delete
+	rm -f $(deps)
 ifneq "$(wildcard $(CMSIS) )" ""
 	find $(CMSIS) -name "*.o" -type f -delete
 endif
@@ -63,3 +66,5 @@ distclean: clean
 
 # platform build contains flashing and running rules
 include target/$(TARGET)/build.mk
+
+-include $(deps)

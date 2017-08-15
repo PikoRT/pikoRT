@@ -10,6 +10,8 @@ HOSTCC  = gcc
 CFLAGS_OPT = -Os # -flto
 
 CFLAGS += \
+    -std=c99 \
+    -W -Wall \
     -Iinclude -Iinclude/libc -I. \
     -I$(CMSIS)/arm -I$(CMSIS)/$(TARGET) -I$(CMSIS)/$(TARGET)/hal \
     -Iinclude/kernel \
