@@ -17,7 +17,7 @@ const char *const softirq_to_name[NR_SOFTIRQS] = {"PRIO_TASKLET"};
 
 static struct softirq_action softirq_vec[NR_SOFTIRQS];
 
-/* Priority-base tasklet */
+/* Priority-based tasklet */
 static struct bitmap_struct prio_tasklet;
 
 /* softirq_daemon */
@@ -41,7 +41,7 @@ int raise_softirq(unsigned int nr)
     if (nr >= NR_SOFTIRQS)
         return -1;
 
-    // XXX: we omit do_softirq routine, so does PREEMPT_RT
+    /* XXX: we ignore do_softirq routine as Linux PREEMPT_RT */
     if (!softirq_run) {
         sched_enqueue(thread_softirqd);
         softirq_run = 1;
@@ -131,7 +131,7 @@ static void *softirqd(__unused void *arg)
     printk("[!] softirqd thread should not return.\n");
 
     softirq_run = 0;
-    return NULL;  // failed
+    return NULL;
 }
 
 int init_softirq(void)
