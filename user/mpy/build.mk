@@ -1,4 +1,4 @@
-TOP = user/mpy
+TOP = user/mpy/micropython
 PY_SRC ?= $(TOP)/py
 BUILD = $(TOP)/build
 PY_BUILD = $(BUILD)/py
@@ -9,7 +9,7 @@ HEADER_BUILD = $(BUILD)/genhdr
 # file containing qstr defs for the core Python bit
 PY_QSTR_DEFS = $(PY_SRC)/qstrdefs.h
 
-include $(TOP)/py.mk
+include $(TOP)/../py.mk
 
 # If qstr autogeneration is not disabled we specify the output header
 # for all collected qstrings.
@@ -24,17 +24,18 @@ PYTHON = python3
 
 CFLAGS += \
 	-Iuser/mpy \
-	-Iuser/mpy/build \
+	-I$(TOP) \
+	-I$(BUILD) \
 
 CSRC += \
-	$(wildcard user/mpy/py/*.c) \
+	$(wildcard $(PY_SRC)/*.c) \
 	user/mpy/mphalport.c \
 	user/mpy/_frozen_mpy.c \
-	user/mpy/lib/utils/pyexec.c \
-	user/mpy/lib/mp-readline/readline.c \
-	user/mpy/extmod/moductypes.o \
-	user/mpy/extmod/modujson.o \
-	user/mpy/extmod/modure.o \
+	$(TOP)/lib/utils/pyexec.c \
+	$(TOP)/lib/mp-readline/readline.c \
+	$(TOP)/extmod/moductypes.o \
+	$(TOP)/extmod/modujson.o \
+	$(TOP)/extmod/modure.o \
 	# user/mpy/extmod/moduzlib.o \
 	# user/mpy/extmod/moduheapq.o \
 	# user/mpy/extmod/modutimeq.o \
