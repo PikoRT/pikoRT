@@ -60,9 +60,9 @@ clean:
 ifneq "$(wildcard $(CMSIS) )" ""
 	find $(CMSIS) -name "*.o" -type f -delete
 endif
-	rm -rf user/mpy/build
-	rm -rf user/mpy/*.o.d
-	rm -f user/mpy/py/*.o
+	rm -rf user/mpy/micropython/build
+	rm -rf user/mpy/micropython/*.o.d
+	rm -f user/mpy/micropython/py/*.o
 	rm -f $(NAME).map $(NAME).lds
 	rm -f $(NAME).elf $(NAME).bin
 
