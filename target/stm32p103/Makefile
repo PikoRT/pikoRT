@@ -22,7 +22,12 @@ CSRC += \
 
 # CMSIS files
 ## STM32 HAL
-CSRC += $(wildcard $(CMSIS)/TARGET_STM/TARGET_STM32F1/device/*.c)
+CSRC += $(CMSIS)/TARGET_STM/TARGET_STM32F1/device/system_stm32f1xx.c
+CSRC += $(CMSIS)/TARGET_STM/TARGET_STM32F1/device/stm32f1xx_hal_rcc.c
+CSRC += $(CMSIS)/TARGET_STM/TARGET_STM32F1/device/stm32f1xx_hal_rcc_ex.c
+CSRC += $(CMSIS)/TARGET_STM/TARGET_STM32F1/device/stm32f1xx_hal_gpio.c
+CSRC += $(CMSIS)/TARGET_STM/TARGET_STM32F1/device/stm32f1xx_hal_uart.c
+
 ## SystemInit()
 CSRC += $(CMSIS)/TARGET_STM/TARGET_STM32F1/TARGET_NUCLEO_F103RB/device/system_clock.c
 
