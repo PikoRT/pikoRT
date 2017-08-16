@@ -9,6 +9,8 @@ HEADER_BUILD = $(BUILD)/genhdr
 # file containing qstr defs for the core Python bit
 PY_QSTR_DEFS = $(PY_SRC)/qstrdefs.h
 
+$(USER): | $(HEADER_BUILD)/qstrdefs.generated.h $(HEADER_BUILD)/mpversion.h
+
 include $(TOP)/../py.mk
 
 # If qstr autogeneration is not disabled we specify the output header
@@ -33,38 +35,36 @@ CSRC += \
 	user/mpy/_frozen_mpy.c \
 	$(TOP)/lib/utils/pyexec.c \
 	$(TOP)/lib/mp-readline/readline.c \
-	$(TOP)/extmod/moductypes.o \
-	$(TOP)/extmod/modujson.o \
-	$(TOP)/extmod/modure.o \
-	# user/mpy/extmod/moduzlib.o \
-	# user/mpy/extmod/moduheapq.o \
-	# user/mpy/extmod/modutimeq.o \
-	# user/mpy/extmod/moduhashlib.o \
-	# user/mpy/extmod/modubinascii.o \
-	# user/mpy/extmod/virtpin.o \
-	# user/mpy/extmod/machine_mem.o \
-	# user/mpy/extmod/machine_pinbase.o \
-	# user/mpy/extmod/machine_signal.o \
-	# user/mpy/extmod/machine_pulse.o \
-	# user/mpy/extmod/machine_i2c.o \
-	# user/mpy/extmod/machine_spi.o \
-	# user/mpy/extmod/modussl_axtls.o \
-	# user/mpy/extmod/modussl_mbedtls.o \
-	# user/mpy/extmod/modurandom.o \
-	# user/mpy/extmod/moduselect.o \
-	# user/mpy/extmod/modwebsocket.o \
-	# user/mpy/extmod/modwebrepl.o \
-	# user/mpy/extmod/modframebuf.o \
-	# user/mpy/extmod/vfs.o \
-	# user/mpy/extmod/vfs_reader.o \
-	# user/mpy/extmod/vfs_fat.o \
-	# user/mpy/extmod/vfs_fat_diskio.o \
-	# user/mpy/extmod/vfs_fat_file.o \
-	# user/mpy/extmod/vfs_fat_misc.o \
-	# user/mpy/extmod/utime_mphal.o \
-	# user/mpy/extmod/uos_dupterm.o \
-	# user/mpy/lib/embed/abort_.o \
-
-CSRC := $(filter-out user/mpy/py/frozen_mpy.o, $(CSRC))
+	# $(TOP)/extmod/moductypes.o \
+	# $(TOP)/extmod/modujson.o \
+	# $(TOP)/extmod/modure.o \
+	# $(TOP)/extmod/moduzlib.o \
+	# $(TOP)/extmod/moduheapq.o \
+	# $(TOP)/extmod/modutimeq.o \
+	# $(TOP)/extmod/moduhashlib.o \
+	# $(TOP)/extmod/modubinascii.o \
+	# $(TOP)/extmod/virtpin.o \
+	# $(TOP)/extmod/machine_mem.o \
+	# $(TOP)/extmod/machine_pinbase.o \
+	# $(TOP)/extmod/machine_signal.o \
+	# $(TOP)/extmod/machine_pulse.o \
+	# $(TOP)/extmod/machine_i2c.o \
+	# $(TOP)/extmod/machine_spi.o \
+	# $(TOP)/extmod/modussl_axtls.o \
+	# $(TOP)/extmod/modussl_mbedtls.o \
+	# $(TOP)/extmod/modurandom.o \
+	# $(TOP)/extmod/moduselect.o \
+	# $(TOP)/extmod/modwebsocket.o \
+	# $(TOP)/extmod/modwebrepl.o \
+	# $(TOP)/extmod/modframebuf.o \
+	# $(TOP)/extmod/vfs.o \
+	# $(TOP)/extmod/vfs_reader.o \
+	# $(TOP)/extmod/vfs_fat.o \
+	# $(TOP)/extmod/vfs_fat_diskio.o \
+	# $(TOP)/extmod/vfs_fat_file.o \
+	# $(TOP)/extmod/vfs_fat_misc.o \
+	# $(TOP)/extmod/utime_mphal.o \
+	# $(TOP)/extmod/uos_dupterm.o \
+	# $(TOP)/lib/embed/abort_.o \
 
 include $(TOP)/py/mkrules.mk

@@ -261,7 +261,7 @@ endif
 SRC_QSTR_IGNORE = nlr% emitnx86% emitnx64% emitnthumb% emitnarm% emitnxtensa%
 SRC_QSTR = $(SRC_MOD) $(addprefix py/,$(filter-out $(SRC_QSTR_IGNORE),$(PY_O_BASENAME:.o=.c)) emitnative.c)
 
-$(HEADER_BUILD)/mpversion.h: | $(HEADER_BUILD)
+$(HEADER_BUILD)/mpversion.h: $(HEADER_BUILD)
 	$(Q)$(PYTHON) $(PY_SRC)/makeversionhdr.py $@
 
 # mpconfigport.mk is optional, but changes to it may drastically change
