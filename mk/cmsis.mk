@@ -1,13 +1,15 @@
+SVN_REV = 27441
+
 $(CMSIS):
 	@mkdir -p $@
 
 $(CMSIS)/$(TARGET): $(CMSIS)/arm $(CMSIS)/TARGET_STM $(CMSIS)/util
 
 $(CMSIS)/arm:
-	svn export --force https://github.com/ARMmbed/mbed-os/trunk/cmsis/ $(CMSIS)/arm
+	svn export -r$(SVN_REV) --force https://github.com/ARMmbed/mbed-os/trunk/cmsis/ $(CMSIS)/arm
 
 $(CMSIS)/TARGET_STM:
-	svn export --force https://github.com/ARMmbed/mbed-os/trunk/targets/TARGET_STM/ $(CMSIS)/TARGET_STM
+	svn export -r$(SVN_REV) --force https://github.com/ARMmbed/mbed-os/trunk/targets/TARGET_STM/ $(CMSIS)/TARGET_STM
 
 $(CMSIS)/util:
 	@mkdir -p $(CMSIS)/util
