@@ -1,3 +1,4 @@
 [submodule "user/mpy/micropython"]
 	path = user/mpy/micropython
 	url = git@github.com:micropython/micropython.git
+        ignore = untracked
