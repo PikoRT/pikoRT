@@ -30,8 +30,6 @@ static ssize_t serialchar_read(struct file *file,
     struct serial_info *serial = file->f_private;
 
     while (serial->rx_count < count) {
-        CURRENT_THREAD_INFO(cur_thread);
-        sched_dequeue(cur_thread);
         sched_elect(0);
     }
     if (count == 1)
