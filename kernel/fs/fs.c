@@ -104,16 +104,19 @@ int sys_open(const char *pathname, int flags)
 
     for (size_t i = 0; i < strlen(pathname);) {
         target = malloc(sizeof(struct dentry));
-        if (!target)
-            return -1;
+        if (!target) {
+            errno = ENOMEM;
+            return 0;
+        }
         target->d_count = 1;
         target->d_parent = parent;
         i += path_head(target->d_name, &pathname[i]);
 
         dentry = vfs_lookup(inode, target);
         if (!dentry) {
+            errno = ENOENT;
             release_dentries(target->d_parent);
-            return -1;
+            return 0;
         }
         inode = dentry->d_inode;
         parent = dentry;
@@ -122,10 +125,15 @@ int sys_open(const char *pathname, int flags)
     /* opendir() redirects to sys_open() */
     if ((flags & O_DIRECTORY) && !S_ISDIR(inode->i_mode)) {
         errno = ENOTDIR;
-        return -1;
+        return 0;
     }
 
     int fd = getfd();
+    if (fd < 0) {
+        errno = EBADF;
+        return 0;
+    }
+
     struct file *file = fd_to_file(fd);
     file->f_dentry = dentry;
     file->f_op = dentry->d_inode->i_fop;
