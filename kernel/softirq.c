@@ -67,7 +67,8 @@ struct tasklet_struct *tasklet_init(void(*func), void *data, unsigned long prio)
 
 int tasklet_schedule(struct tasklet_struct *task)
 {
-    if (!task || task->prio > PRIO_TASKLET_MINPRIO)
+    CURRENT_THREAD_INFO(cur);
+    if (!task || task->prio > PRIO_TASKLET_MINPRIO || cur != thread_softirqd)
         return -1;
 
     //	list_add_tail(&task->tsk_q, &prio_tasklet.runq[task->prio]);
