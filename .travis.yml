@@ -1,0 +1,27 @@
+sudo: required
+dist: trusty
+language: c
+compiler:
+  - arm-none-eabi-gcc
+
+before_install:
+  - sudo add-apt-repository -y ppa:team-gcc-arm-embedded/ppa
+  - sudo apt-get update -qq
+
+install:
+  - sudo apt install build-essential
+  - sudo apt-get install -y gcc-arm-embedded
+  # QEMU deps
+  - sudo apt install libxenstore3.0
+  - sudo apt install libxen-dev
+  - sudo apt install genromfs
+  - wget https://github.com/mlouielu/bin/raw/master/qemu-system-arm
+  - chmod 777 qemu-system-arm
+  - export PATH=$PATH:$PWD
+
+before_script:
+  - arm-none-eabi-gcc --version
+
+script:
+  - make TARGET=stm32p103
+  - make TARGET=stm32p103 check
