@@ -78,13 +78,14 @@ def print_header(testname, arch):
     print("arch        :  %s" % arch)
     print("time        :  %s\n" % strftime("%c"))
 
-def run_test(testname, verbose, platform):
+
+def run_single_test(testname, verbose, platform='stm32p103'):
     # platform = os.getenv('PLATFORM', 'qemu')
-    cmd = [ "make", "TEST=%s" % testname,
-            "--file", "tests/Makefile", "clean_test", "all", "run" ]
+    cmd = ["make", "TEST=%s" % testname, "TARGET=%s" % platform,
+           "--file", "tests/Makefile", "clean_test", "all", "run"]
     res = subprocess.run(cmd, universal_newlines=True, stdout=subprocess.PIPE,
                          stderr=subprocess.STDOUT)
-    if (verbose == True):
+    if verbose:
         print(' '.join(cmd))
         print(res.stdout)
     # Ubuntu Trusty run an old QEMU, semihosting does not return a code
@@ -93,31 +94,37 @@ def run_test(testname, verbose, platform):
         return 1
     return 0
 
-def main():
+
+def run_test(tests, verbose):
     print_qemu_version()
     print_gcc_version()
-    print('Staging %d tests: %s' % (len(testsuite_v7m), ', '.join(testsuite_v7m)))
+    print('Staging %s test' % tests)
+
     failed_count = 0
     results = dict()
     t0 = datetime.now()
-    for testcase in testsuite_v7m:
-        print_header(testcase, 'ARMv7M')
-        status = run_test(testcase, True, 'qemu')
+    for test in tests:
+        print_header(test, 'ARMv7M')
+        status = run_single_test(test, verbose)
         failed_count += status
-        if status:
-            results[testcase] = 'failed'
-        else:
-            results[testcase] = 'ok'
-    t =  datetime.now()
+        results[test] = 'failed' if status else 'ok'
 
+    t = datetime.now()
+
+    print("Test result:")
     for key in sorted(results.keys()):
         print("% 16s:  %s" % (key, results[key]))
 
     print("\nRan %d tests in %d.%ds" % (len(testsuite_v7m),
                                         (t - t0).seconds, (t - t0).microseconds / 1000))
 
-    if (failed_count):
+    if failed_count:
         exit(1)
+
+
+def main(verbose=True):
+    run_test(testsuite_v7m, verbose)
+
 
 if __name__ == "__main__":
     main()
