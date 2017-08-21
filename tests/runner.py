@@ -6,7 +6,15 @@ from time import strftime
 
 
 # FIXME: this can only detect one digit (e.g. not include fs_77)
-testsuite_v7m = list(map(lambda p: p.strip('/').split('/')[-1], glob.glob('tests/*_[0-9]')))
+def find_all_tests(exclude=[]):
+    tests = list(map(lambda p: p.strip('/').split('/')[-1], glob.glob('tests/*_[0-9]')))
+    for test in exclude:
+        if test in tests:
+            tests.remove(test)
+    return tests
+
+
+testsuite_v7m = find_all_tests(exclude=['test_2'])
 
 
 def print_qemu_version():
