@@ -1,64 +1,12 @@
+import glob
 import subprocess
 from datetime import datetime
 from re import search
 from time import strftime
 
 
-testsuite_v7m = [
-    "test_1",
-    "bitops_1",
-    "thread_1",
-    "thread_2",
-    "thread_3",
-    "thread_4",
-    "thread_5",
-    "thread_6",
-    "msleep_1",
-    "msleep_2",
-    "mm_1",
-    "mm_2",
-    "timer_1",
-    "timer_2",
-    "timer_3",
-    "timer_4",
-    "timer_5",
-    "mutex_1",
-    "mutex_2",
-    "mutex_3",
-    "mutex_4",
-    "mutex_5",
-    "syscall_1",
-    "raise_1",
-    "raise_2",
-    "raise_3",
-    "sysconf_1",
-    "itoa_1",
-    "sprintf_1",
-    "ucontext_1",
-    "malloc_1",
-    "cond_1",
-    "cond_2",
-    "cond_3",
-    "fs_1",
-    "fs_2",
-    "fs_3",
-    "fs_4",
-    "fs_5",
-    "fs_6",
-    "fs_7",
-    "mtdram_1",
-    "readdir_1",
-    "stat_1",
-    "getpid_1",
-    "slab_1",
-    "slab_2",
-    "mmap_1",
-    "mmap_2",
-    "page_3",
-    "softirq_1",
-    "softirq_2",
-    "softirq_3",
-]
+# FIXME: this can only detect one digit (e.g. not include fs_77)
+testsuite_v7m = list(map(lambda p: p.strip('/').split('/')[-1], glob.glob('tests/*_[0-9]')))
 
 
 def print_qemu_version():
