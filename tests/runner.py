@@ -1,8 +1,8 @@
-from time import strftime
 import subprocess
 from datetime import datetime
 from re import search
-import os
+from time import strftime
+
 
 testsuite_v7m = [
     "test_1",
@@ -60,17 +60,20 @@ testsuite_v7m = [
     "softirq_3",
 ]
 
+
 def print_qemu_version():
-    cmd = [ "qemu-system-arm", "--version" ]
+    cmd = ["qemu-system-arm", "--version"]
     res = subprocess.run(cmd, universal_newlines=True, stdout=subprocess.PIPE,
                          stderr=subprocess.STDOUT)
     print("QEMU version:\n" + res.stdout)
 
+
 def print_gcc_version():
-    cmd = [ "arm-none-eabi-gcc", "--version" ]
+    cmd = ["arm-none-eabi-gcc", "--version"]
     res = subprocess.run(cmd, universal_newlines=True, stdout=subprocess.PIPE,
                          stderr=subprocess.STDOUT)
     print("GCC version:\n" + res.stdout)
+
 
 def print_header(testname, arch):
     print("--------------------------------------------")
