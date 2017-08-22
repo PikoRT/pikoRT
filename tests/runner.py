@@ -1,76 +1,34 @@
-from time import strftime
+import glob
 import subprocess
 from datetime import datetime
 from re import search
-import os
+from time import strftime
 
-testsuite_v7m = [
-    "test_1",
-    "bitops_1",
-    "thread_1",
-    "thread_2",
-    "thread_3",
-    "thread_4",
-    "thread_5",
-    "thread_6",
-    "msleep_1",
-    "msleep_2",
-    "mm_1",
-    "mm_2",
-    "timer_1",
-    "timer_2",
-    "timer_3",
-    "timer_4",
-    "timer_5",
-    "mutex_1",
-    "mutex_2",
-    "mutex_3",
-    "mutex_4",
-    "mutex_5",
-    "syscall_1",
-    "raise_1",
-    "raise_2",
-    "raise_3",
-    "sysconf_1",
-    "itoa_1",
-    "sprintf_1",
-    "ucontext_1",
-    "malloc_1",
-    "cond_1",
-    "cond_2",
-    "cond_3",
-    "fs_1",
-    "fs_2",
-    "fs_3",
-    "fs_4",
-    "fs_5",
-    "fs_6",
-    "fs_7",
-    "mtdram_1",
-    "readdir_1",
-    "stat_1",
-    "getpid_1",
-    "slab_1",
-    "slab_2",
-    "mmap_1",
-    "mmap_2",
-    "page_3",
-    "softirq_1",
-    "softirq_2",
-    "softirq_3",
-]
+
+def find_all_tests(excludes=[]):
+    tests = list(map(lambda p: p.strip('/').split('/')[-1], glob.glob('tests/*_[0-9]*')))
+    for exclude in excludes:
+        if exclude in tests:
+            tests.remove(exclude)
+    return tests
+
+
+testsuite_v7m = find_all_tests(excludes=['test_2'])
+
 
 def print_qemu_version():
-    cmd = [ "qemu-system-arm", "--version" ]
+    cmd = ["qemu-system-arm", "--version"]
     res = subprocess.run(cmd, universal_newlines=True, stdout=subprocess.PIPE,
                          stderr=subprocess.STDOUT)
     print("QEMU version:\n" + res.stdout)
 
+
 def print_gcc_version():
-    cmd = [ "arm-none-eabi-gcc", "--version" ]
+    cmd = ["arm-none-eabi-gcc", "--version"]
     res = subprocess.run(cmd, universal_newlines=True, stdout=subprocess.PIPE,
                          stderr=subprocess.STDOUT)
     print("GCC version:\n" + res.stdout)
+
 
 def print_header(testname, arch):
     print("--------------------------------------------")
@@ -78,13 +36,14 @@ def print_header(testname, arch):
     print("arch        :  %s" % arch)
     print("time        :  %s\n" % strftime("%c"))
 
-def run_test(testname, verbose, platform):
+
+def run_single_test(testname, verbose, platform='stm32p103'):
     # platform = os.getenv('PLATFORM', 'qemu')
-    cmd = [ "make", "TEST=%s" % testname,
-            "--file", "tests/Makefile", "clean_test", "all", "run" ]
+    cmd = ["make", "TEST=%s" % testname, "TARGET=%s" % platform,
+           "--file", "tests/Makefile", "clean_test", "all", "run"]
     res = subprocess.run(cmd, universal_newlines=True, stdout=subprocess.PIPE,
                          stderr=subprocess.STDOUT)
-    if (verbose == True):
+    if verbose:
         print(' '.join(cmd))
         print(res.stdout)
     # Ubuntu Trusty run an old QEMU, semihosting does not return a code
@@ -93,31 +52,37 @@ def run_test(testname, verbose, platform):
         return 1
     return 0
 
-def main():
+
+def run_test(tests, verbose):
     print_qemu_version()
     print_gcc_version()
-    print('Staging %d tests: %s' % (len(testsuite_v7m), ', '.join(testsuite_v7m)))
+    print('Staging %s test' % tests)
+
     failed_count = 0
     results = dict()
     t0 = datetime.now()
-    for testcase in testsuite_v7m:
-        print_header(testcase, 'ARMv7M')
-        status = run_test(testcase, True, 'qemu')
+    for test in tests:
+        print_header(test, 'ARMv7M')
+        status = run_single_test(test, verbose)
         failed_count += status
-        if status:
-            results[testcase] = 'failed'
-        else:
-            results[testcase] = 'ok'
-    t =  datetime.now()
+        results[test] = 'failed' if status else 'ok'
 
+    t = datetime.now()
+
+    print("Test result:")
     for key in sorted(results.keys()):
         print("% 16s:  %s" % (key, results[key]))
 
     print("\nRan %d tests in %d.%ds" % (len(testsuite_v7m),
                                         (t - t0).seconds, (t - t0).microseconds / 1000))
 
-    if (failed_count):
+    if failed_count:
         exit(1)
+
+
+def main(verbose=True):
+    run_test(testsuite_v7m, verbose)
+
 
 if __name__ == "__main__":
     main()

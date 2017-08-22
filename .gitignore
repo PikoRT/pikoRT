@@ -18,3 +18,8 @@ kernel/syscall.c
 # QEMU generated
 DAC_OUT_PUT1.txt
 DAC_OUT_PUT2.txt
+
+# Python
+__pycache__
+*.pyc
+
