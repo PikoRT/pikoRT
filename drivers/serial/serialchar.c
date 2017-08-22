@@ -7,7 +7,6 @@
 static void serialchar_callback(struct serial_info *serial)
 {
     sched_enqueue(serial->owner);
-    sched_elect(0);
 }
 
 static int serialchar_open(struct inode *inode, struct file *file)
