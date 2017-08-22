@@ -41,10 +41,10 @@ static void exec_command(char *buf, int fd)
     char *argv[ARG_COUNT_MAX];
     struct shell_cmd *cmd;
 
+    argc = parse_command_line(buf, argv);
     for (cmd = (struct shell_cmd *) &__shell_cmd_start__;
          (unsigned long) cmd < (unsigned long) &__shell_cmd_end__; cmd++)
-        if (!strncmp(cmd->name, buf, strlen(cmd->name))) {
-            argc = parse_command_line(buf, argv);
+        if (!strcmp(cmd->name, argv[0])) {
             cmd->func(argc, argv);
             return;
         }
