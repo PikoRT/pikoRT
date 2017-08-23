@@ -23,3 +23,6 @@ DAC_OUT_PUT2.txt
 __pycache__
 *.pyc
 
+# Sphinx
+_build
+
