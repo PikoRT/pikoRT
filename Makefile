@@ -60,6 +60,10 @@ ifneq "$(wildcard $(CMSIS) )" ""
 endif
 	rm -f $(NAME).map $(NAME).lds
 	rm -f $(NAME).elf $(NAME).bin
+# Remove GEN files
+	rm -f include/kernel/syscalls.h
+	rm -f kernel/syscall.c
+	rm -f fs/version
 
 distclean: clean
 	rm -f kernel/syscall.c include/kernel/syscalls.h fs/version
