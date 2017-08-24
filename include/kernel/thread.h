@@ -35,6 +35,8 @@ struct thread_info {
     struct list_head ti_list; /* global list of threads */
     struct list_head ti_q; /* shared by sched runq, mutex waitq, thread joinq */
 
+    int ti_queued; /* in runqueue */
+
     /* http://www.domaigne.com/blog/computing/joinable-and-detached-threads/ */
     void *ti_retval;
     int ti_detached;
