@@ -1,7 +1,7 @@
 NAME = piko
 
 # select QEMU when the target is unspecified
-TARGET ?= stm32f429
+TARGET ?= stm32p103
 CMSIS = external/cmsis
 
 # The platform Makefile contains hw details and flags
@@ -32,19 +32,26 @@ CSRC += \
     libc/piko/mman.c \
     $(LIBPIKO_CSRC)
 
+.PHONY: all check clean distclean
+
+all: $(CMSIS)/$(TARGET) $(USER)
+	$(MAKE) $(NAME).lds
+	$(MAKE) $(NAME).bin
+
+# micropython
+include user/mpy/build.mk
+
 OBJS += $(SSRC:.S=.o) $(CSRC:.c=.o)
 OBJS := $(sort $(OBJS))
 
 deps := $(OBJS:%.o=.%.o.d)
 
-.PHONY: all check clean distclean
-
-all: $(CMSIS)/$(TARGET) $(NAME).lds $(NAME).bin
 
 # generic build rules
 include mk/flags.mk
 include mk/rules.mk
 include mk/cmsis.mk
+
 
 prebuild: $(CMSIS)/$(TARGET)
 
@@ -58,6 +65,9 @@ clean:
 ifneq "$(wildcard $(CMSIS) )" ""
 	find $(CMSIS) -name "*.o" -type f -delete
 endif
+	rm -rf user/mpy/micropython/build
+	rm -f user/mpy/micropython/*.o.d
+	rm -f user/mpy/micropython/py/*.o
 	rm -f $(NAME).map $(NAME).lds
 	rm -f $(NAME).elf $(NAME).bin
 # Remove GEN files
