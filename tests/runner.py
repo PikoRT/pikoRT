@@ -37,10 +37,10 @@ def print_header(testname, arch):
     print("time        :  %s\n" % strftime("%c"))
 
 
-def run_single_test(testname, verbose, platform='stm32p103'):
+def run_single_test(testname, verbose, platform='stm32p103', debug=False):
     # platform = os.getenv('PLATFORM', 'qemu')
     cmd = ["make", "TEST=%s" % testname, "PLAT=%s" % platform,
-           "--file", "tests/Makefile", "clean_test", "all", "run"]
+           "--file", "tests/Makefile", "clean_test", "all", "dbg" if debug else "run"]
     res = subprocess.run(cmd, universal_newlines=True, stdout=subprocess.PIPE,
                          stderr=subprocess.STDOUT)
     if verbose:
@@ -53,7 +53,7 @@ def run_single_test(testname, verbose, platform='stm32p103'):
     return 0
 
 
-def run_test(tests, verbose):
+def run_test(tests, verbose, debug=False):
     print_qemu_version()
     print_gcc_version()
     print('Staging %s test' % tests)
@@ -63,7 +63,7 @@ def run_test(tests, verbose):
     t0 = datetime.now()
     for test in tests:
         print_header(test, 'ARMv7M')
-        status = run_single_test(test, verbose)
+        status = run_single_test(test, verbose, debug=debug)
         failed_count += status
         results[test] = 'failed' if status else 'ok'
 
