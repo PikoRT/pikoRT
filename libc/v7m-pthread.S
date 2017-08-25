@@ -58,4 +58,4 @@ ENTRY(pthread_mutex_unlock)
 	movne	r1, #SYS_PTHREAD_MUTEX_UNLOCK
 	svcne	#1
 	bx	lr
-ENDPROC(pthread_mutex_lock)
+ENDPROC(pthread_mutex_unlock)
