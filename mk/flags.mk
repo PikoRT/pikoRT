@@ -25,6 +25,16 @@ CFLAGS += \
 CFLAGS += \
     -D CONFIG_KERNEL_STACK_CHECKING
 
+# Scheduler
+ifdef SCHED
+    CFLAGS += -D SCHED_CLASS=SCHED_CLASS_$(SCHED)
+RESCHED:
+	$(VECHO) "  RM\t\tkernel/main.o\n"
+	$(Q)$(RM) kernel/main.o
+
+FORCE: RESCHED
+endif
+
 LDFLAGS += \
     -nostartfiles -specs=nano.specs \
     -Wl,-Map=$(NAME).map -Wl,-Tpiko.lds -Wl,--gc-sections

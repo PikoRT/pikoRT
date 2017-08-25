@@ -39,7 +39,7 @@ deps := $(OBJS:%.o=.%.o.d)
 
 .PHONY: all check clean distclean
 
-all: $(CMSIS)/$(PLAT) $(NAME).lds $(NAME).bin
+all: FORCE $(CMSIS)/$(PLAT) $(NAME).lds $(NAME).bin
 
 # generic build rules
 include mk/flags.mk
@@ -73,3 +73,5 @@ distclean: clean
 include platform/$(PLAT)/build.mk
 
 -include $(deps)
+
+FORCE:

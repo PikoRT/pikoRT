@@ -45,6 +45,11 @@ void init_IRQ(void);
 struct task_info idle_task;
 struct task_info main_task;
 
+/* Select scheduler */
+#ifndef SCHED_CLASS
+#define SCHED_CLASS SCHED_CLASS_BITMAP
+#endif
+
 void print_version(void)
 {
     char buf[] = {0, 0};
@@ -131,7 +136,7 @@ struct thread_info *start_kernel(void)
     kmem_cache_init();
 
     /* select a scheduling policy */
-    sched_select(SCHED_CLASS_BITMAP);
+    sched_select(SCHED_CLASS);
 
     /* idle_thread is not added to the runqueue */
     task_init(&idle_task);
