@@ -17,6 +17,7 @@ int sys_pthread_mutex_lock(kernel_mutex_t *mutex)
     CURRENT_THREAD_INFO(curr_thread);
     curr_thread->ti_private = mutex;
     curr_thread->ti_state = THREAD_STATE_BLOCKED;
+    sched_dequeue(curr_thread);
     list_add_tail(&curr_thread->ti_q, &mutex_head);
     sched_elect(SCHED_OPT_NONE);
 
