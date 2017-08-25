@@ -7,8 +7,10 @@
 static LIST_HEAD(rr_runq);
 extern struct thread_info *thread_idle;
 
-int sched_rr_init(void)
+int sched_rr_init(struct thread_info *thread)
 {
+    if (thread)
+        sched_rr_enqueue(thread);
     return 0;
 }
 

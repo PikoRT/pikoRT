@@ -6,7 +6,7 @@ extern const struct sched sched_bitmap;
 
 static const struct sched *sched;
 
-int sched_select(int sched_type)
+int sched_select(int sched_type, struct thread_info *thread)
 {
     switch (sched_type) {
     case SCHED_CLASS_RR:
@@ -19,7 +19,7 @@ int sched_select(int sched_type)
         return -1;
     }
 
-    return sched->init();
+    return sched->init(thread);
 }
 
 int sched_enqueue(struct thread_info *thread)
