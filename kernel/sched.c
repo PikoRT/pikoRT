@@ -8,14 +8,18 @@ static const struct sched *sched;
 
 int sched_select(int sched_type, struct thread_info *thread)
 {
+    printk("Scheduler: ");
     switch (sched_type) {
     case SCHED_CLASS_RR:
+        printk("Round-Robin\n");
         sched = &sched_rr;
         break;
     case SCHED_CLASS_BITMAP:
+        printk("Bitmap\n");
         sched = &sched_bitmap;
         break;
     default:
+        printk("Unknown");
         return -1;
     }
 
