@@ -23,5 +23,5 @@ before_script:
   - arm-none-eabi-gcc --version
 
 script:
-  - make TARGET=stm32p103
-  - make TARGET=stm32p103 check
+  - make PLAT=stm32p103
+  - make PLAT=stm32p103 check
