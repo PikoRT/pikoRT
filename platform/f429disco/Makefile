@@ -5,7 +5,7 @@ ROMSZ = 2048k
 RAMSZ = 192k
 
 CFLAGS += \
-    -Itarget/stm32f429 \
+    -Iplatform/f429disco \
     -I$(CMSIS)/util \
     -I$(CMSIS)/arm \
     -I$(CMSIS)/arm/TARGET_CORTEX_M \
@@ -18,8 +18,8 @@ CFLAGS += \
     -I$(CMSIS)/TARGET_STM//TARGET_STM32F4/TARGET_STM32F429xI/TARGET_DISCO_F429ZI
 
 CSRC += \
-    target/stm32f429/halt.c \
-    target/stm32f429/init.c
+    platform/f429disco/halt.c \
+    platform/f429disco/init.c
 
 # CMSIS files
 ## STM32 HAL

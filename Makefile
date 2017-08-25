@@ -1,11 +1,11 @@
 NAME = piko
 
-# select QEMU when the target is unspecified
-TARGET ?= stm32f429
+# select QEMU when the platform is unspecified
+PLAT ?= f429disco
 CMSIS = external/cmsis
 
 # The platform Makefile contains hw details and flags
-include target/$(TARGET)/Makefile
+include platform/$(PLAT)/Makefile
 
 # arch-specific
 SSRC += arch/v7m-head.S arch/v7m-entry.S arch/v7m-svcall.S
@@ -39,14 +39,14 @@ deps := $(OBJS:%.o=.%.o.d)
 
 .PHONY: all check clean distclean
 
-all: $(CMSIS)/$(TARGET) $(NAME).lds $(NAME).bin
+all: $(CMSIS)/$(PLAT) $(NAME).lds $(NAME).bin
 
 # generic build rules
 include mk/flags.mk
 include mk/rules.mk
 include mk/cmsis.mk
 
-prebuild: $(CMSIS)/$(TARGET)
+prebuild: $(CMSIS)/$(PLAT)
 
 check:
 	python3 tests/runner.py
@@ -70,6 +70,6 @@ distclean: clean
 	rm -rf $(CMSIS)
 
 # platform build contains flashing and running rules
-include target/$(TARGET)/build.mk
+include platform/$(PLAT)/build.mk
 
 -include $(deps)

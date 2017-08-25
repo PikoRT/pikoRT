@@ -7,7 +7,7 @@ This is `Piko/RT`, a tiny Linux-like real-time operating system kernel, optimize
 
 ```
 # Run all test
-$ make TARGET=stm32p103 check
+$ make PLAT=stm32p103 check
 
 # Run all test with command line tools
 $ python -m tests

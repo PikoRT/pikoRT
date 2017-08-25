@@ -9,7 +9,7 @@ ARM_CMSIS_ASSETS := $(addprefix $(CMSIS)/util/, $(ARM_CMSIS_ASSETS))
 $(CMSIS):
 	@mkdir -p $@
 
-$(CMSIS)/$(TARGET): $(CMSIS)/arm $(CMSIS)/TARGET_STM $(ARM_CMSIS_ASSETS)
+$(CMSIS)/$(PLAT): $(CMSIS)/arm $(CMSIS)/TARGET_STM $(ARM_CMSIS_ASSETS)
 
 $(CMSIS)/arm:
 	svn export -r$(SVN_REV) --force https://github.com/ARMmbed/mbed-os/trunk/cmsis/ $(CMSIS)/arm

@@ -14,7 +14,7 @@ CFLAGS += \
     -std=c99 \
     -W -Wall \
     -Iinclude -Iinclude/libc -I. \
-    -I$(CMSIS)/arm -I$(CMSIS)/$(TARGET) -I$(CMSIS)/$(TARGET)/hal \
+    -I$(CMSIS)/arm -I$(CMSIS)/$(PLAT) -I$(CMSIS)/$(PLAT)/hal \
     -Iinclude/kernel \
     -D_POSIX_THREADS=1 -D_POSIX_TIMERS=1 -D_POSIX_REALTIME_SIGNALS=1 \
     -Wno-main -fdiagnostics-color \

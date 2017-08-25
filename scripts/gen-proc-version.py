@@ -31,9 +31,9 @@ parser.add_option(      "--cc-version", action="store_true", dest="cc_version")
 
 version = '.'.join(map(lambda x: str(x), [opts.major, opts.minor, opts.micro]))
 hostname = '@'.join([opts.user, opts.host])
-target = ', '.join(filter(lambda x: x is not None, [opts.arch, opts.cpu]))
+platform = ', '.join(filter(lambda x: x is not None, [opts.arch, opts.cpu]))
 
-print('{} version {} ({}) ({}) #{}'.format(opts.name, version, hostname, target,
+print('{} version {} ({}) ({}) #{}'.format(opts.name, version, hostname, platform,
                                            datetime.now().strftime("%c")))
 if (opts.cc_version):
     print(cc_version('arm-none-eabi-gcc'))

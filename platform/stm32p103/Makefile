@@ -5,7 +5,7 @@ ROMSZ = 128k
 RAMSZ = 64k
 
 CFLAGS += \
-    -Itarget/stm32p103 \
+    -Iplatform/stm32p103 \
     -I$(CMSIS)/util \
     -I$(CMSIS)/arm \
     -I$(CMSIS)/arm/TARGET_CORTEX_M \
@@ -17,8 +17,8 @@ CFLAGS += \
     -I$(CMSIS)/TARGET_STM//TARGET_STM32F1/TARGET_NUCLEO_F103RB/device
 
 CSRC += \
-    target/stm32p103/halt.c \
-    target/stm32p103/init.c
+    platform/stm32p103/halt.c \
+    platform/stm32p103/init.c
 
 # CMSIS files
 ## STM32 HAL

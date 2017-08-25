@@ -39,7 +39,7 @@ def print_header(testname, arch):
 
 def run_single_test(testname, verbose, platform='stm32p103'):
     # platform = os.getenv('PLATFORM', 'qemu')
-    cmd = ["make", "TEST=%s" % testname, "TARGET=%s" % platform,
+    cmd = ["make", "TEST=%s" % testname, "PLAT=%s" % platform,
            "--file", "tests/Makefile", "clean_test", "all", "run"]
     res = subprocess.run(cmd, universal_newlines=True, stdout=subprocess.PIPE,
                          stderr=subprocess.STDOUT)
