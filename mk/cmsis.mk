@@ -12,10 +12,10 @@ $(CMSIS):
 $(CMSIS)/$(PLAT): $(CMSIS)/arm $(CMSIS)/TARGET_STM $(ARM_CMSIS_ASSETS)
 
 $(CMSIS)/arm:
-	svn export -r$(SVN_REV) --force https://github.com/ARMmbed/mbed-os/trunk/cmsis/ $(CMSIS)/arm
+	svn export -r$(SVN_REV) -q --force https://github.com/ARMmbed/mbed-os/trunk/cmsis/ $(CMSIS)/arm
 
 $(CMSIS)/TARGET_STM:
-	svn export -r$(SVN_REV) --force https://github.com/ARMmbed/mbed-os/trunk/targets/TARGET_STM/ $(CMSIS)/TARGET_STM
+	svn export -r$(SVN_REV) -q --force https://github.com/ARMmbed/mbed-os/trunk/targets/TARGET_STM/ $(CMSIS)/TARGET_STM
 
 $(ARM_CMSIS_ASSETS):
 	$(VECHO) "  WGET\t\t$@\n"
