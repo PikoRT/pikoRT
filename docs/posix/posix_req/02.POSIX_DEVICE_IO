@@ -1,0 +1,7 @@
+clearerr(), close(), fclose(), fdopen(), feof(), ferror(),
+fflush (), fgetc(), fgets(), fileno(), fopen(), fprintf(),
+fputc(), fputs(), fread(), freopen(), fscanf(), fwrite(),
+getc(), getchar(), gets(), open(), perror(), printf(),
+putc(), putchar(), puts(), read(), scanf(), setbuf(),
+setvbuf(), stderr, stdin, stdout, ungetc(), vfprintf(),
+vfscanf(), vprintf(), vscanf(), write()

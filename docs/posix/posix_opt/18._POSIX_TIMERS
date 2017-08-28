@@ -1,0 +1,2 @@
+clock_getres(), clock_gettim e(), clock_settim e(), nanosleep(), tim er_create(),
+tim er_detele(), tim er_getoverrun(), tim er_gettim e(), tim er_settim e()

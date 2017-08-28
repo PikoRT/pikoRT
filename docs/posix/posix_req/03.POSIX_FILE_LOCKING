@@ -1,0 +1,3 @@
+flockfile(), ftrylockfile(), funlockfile(), getc_unlocked(),
+getchar_unlocked(), putc_unlocked(),
+putchar_unlocked()

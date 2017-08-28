@@ -1,0 +1,2 @@
+confstr(), environ, errno, getenv(), setenv(), sysconf(),
+uname(), unsetenv()
