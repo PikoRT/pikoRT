@@ -3,7 +3,7 @@
 Contribute to Piko/RT
 =====================
 
-We are welcome everyone to help to develop Piko/RT.
+We welcome everyone to help to develop Piko/RT.
 This will help you to find were to help, and how to submit a pull request
 to GitHub.
 
@@ -14,14 +14,14 @@ How to contribute
 There are a variety of ways to contribute to this project.
 Here are the list what you may help:
 
-* Writing documentation.
+* Write documentation.
 * Report issue when you occure.
 * Implement new feature.
 * Code review -- this is always helpful.
 * Make a bug fixed and send the patches.
 * Adding new test.
 * Integrate new feature -- benchmark, TCP stack, GNU utilt...etc.
-* Porting to new paltform.
+* Port to new paltform.
 
 
 Create your GitHub account
