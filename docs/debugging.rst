@@ -15,7 +15,8 @@ accessed and controllerd multiple terminals inside a signle terminal like this:
 How to use tmux, please reference these pages:
 
 * `tmux wiki <https://github.com/tmux/tmux/wiki>`_
-* `終端機必備的多工良伴：tmux <http://blog.chh.tw/posts/tmux-terminal-multiplexer>`_
+* `A tmux Crash Course <https://robots.thoughtbot.com/a-tmux-crash-course>`_
+* `A Quick and Easy Guide to tmux <http://www.hamvocke.com/blog/a-quick-and-easy-guide-to-tmux/>`_
 
 Using OpenOCD
 -------------
