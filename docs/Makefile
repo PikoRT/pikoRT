@@ -21,4 +21,4 @@ help:
 
 
 check:
-	python3 rstlint.py
+	python3 ../scripts/rstlint.py
