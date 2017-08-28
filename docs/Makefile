@@ -1,5 +1,4 @@
-# Minimal makefile for Sphinx documentation
-#
+# Piko/RT documentation
 
 # You can set these variables from the command line.
 SPHINXOPTS    =
