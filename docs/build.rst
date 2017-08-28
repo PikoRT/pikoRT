@@ -41,7 +41,7 @@ macOS::
 Build Piko/RT on Linux and macOS
 --------------------------------
 
-Default make will build for ``stm32f429``::
+Default make will build for ``f429disco``::
 
    $ make
 
