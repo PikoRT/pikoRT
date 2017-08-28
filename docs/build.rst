@@ -61,7 +61,7 @@ You can build with verbose output::
 Troubleshooting
 ---------------
 
-No troubleshooting now. If you concur problem when building Piko/RT, please
-help to fill the issue on `GitHub <https://github.com/piko-rt/pikoRT/issues>`_,
+If you concur problem when building Piko/RT, please help to fill the issue
+on `GitHub <https://github.com/piko-rt/pikoRT/issues>`_,
 and maybe help to improve the build process, or improve this troubleshooting
 part!
