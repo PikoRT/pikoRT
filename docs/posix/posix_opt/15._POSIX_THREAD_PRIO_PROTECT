@@ -1,0 +1,3 @@
+pthread_m utex_getprioceiling(), pthread_m utex_setprioceiling(),
+pthread_m utexattr_getprioceiling(), pthread_m utexattr_getprotocol(),
+pthread_m utexattr_setprioceiling(), pthread_m utexattr_setprotocol()

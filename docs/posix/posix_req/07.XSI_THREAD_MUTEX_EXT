@@ -1,0 +1,2 @@
+pthread_mutexattr_gettype(),
+pthread_mutexattr_settype()

@@ -1,0 +1,5 @@
+pthread_attr_getinheritsched(), pthread_attr_getschedpolicy(),
+pthread_attr_getscope(), pthread_attr_setinheritsched(),
+pthread_attr_setschedpolicy(), pthread_attr_setscope(),
+pthread_getschedparam (), pthread_setschedparam (), pthread_setschedprio(),
+sched_get_priority_m ax(), sched_get_priority_m in(), sched_rr_get_interval()

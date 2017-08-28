@@ -1,0 +1,4 @@
+pthread_attr_getguardsize(), pthread_attr_getstack(),
+pthread_attr_setguardsize(),
+pthread_attr_setstack(), pthread_getconcurrency(),
+pthread_setconcurrency()

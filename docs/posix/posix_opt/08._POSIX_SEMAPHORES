@@ -1,0 +1,3 @@
+sem _close(), sem _destroy(), sem _getvalue(), sem _init(), sem _open(), sem _post(),
+sem _trywait(), sem _wait(), sem _unlink (),
+sem _tim edwait()
