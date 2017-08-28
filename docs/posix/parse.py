@@ -19,6 +19,7 @@ def read_file(path):
 def build_cscope():
     CSCOPE_DB.write(subprocess.check_output("find %s -name '*.c'" % LIBC_PATH, shell=True))
     CSCOPE_DB.write(subprocess.check_output("find %s -name '*.h'" % LIBC_PATH, shell=True))
+    CSCOPE_DB.write(subprocess.check_output("find %s -name '*.S'" % LIBC_PATH, shell=True))
     CSCOPE_DB.flush()
     return CSCOPE_DB.name
 
@@ -32,7 +33,7 @@ def parse_path(s):
 
 
 def generate_table(name):
-    header = ['.. table:: %s' % os.path.basename(name), '   :widths: 45 10 20', '']
+    header = ['.. table:: %s' % os.path.basename(name), '   :widths: 45 10 35', '']
     longest_api_length = 10
 
     apis = read_file(name)
