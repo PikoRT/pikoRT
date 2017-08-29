@@ -152,3 +152,9 @@ texinfo_documents = [
      author, 'piko', 'One line description of project.',
      'Miscellaneous'),
 ]
+
+# -- Generate POSIX API list ----------------------------------------------
+
+import subprocess
+subprocess.check_output(['python3', 'posix/parse.py'])
+
