@@ -156,6 +156,5 @@ texinfo_documents = [
 # -- Generate POSIX API list ----------------------------------------------
 
 import subprocess
-subprocess.check_output(['apt-get', 'install', 'cscope'])
 subprocess.check_output(['python3', 'posix/parse.py'])
 
