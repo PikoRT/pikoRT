@@ -25,7 +25,7 @@ def build_cscope():
 
 
 def cscope_search(name):
-    return subprocess.check_output("./cscope -i %s -L1%s" % (CSCOPE_DB.name, name), shell=True)
+    return subprocess.check_output("cscope -i %s -L1%s" % (CSCOPE_DB.name, name), shell=True)
 
 
 def parse_path(s):
