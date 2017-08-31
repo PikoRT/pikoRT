@@ -49,14 +49,14 @@ def generate_table(name):
         s = cscope_search(api.strip('()')).decode('utf-8')
         result.append([api, s.startswith(LIBC_PATH), *parse_path(s)])
 
-    splitline = f'   {"":=>{longest_api_length}} ===== {"":=>30}'
+    splitline = '   {:=>{}} ===== {}'.format('', longest_api_length, '=' * 30)
     header.append(splitline)
-    header.append(f'   {"API Name":<{longest_api_length}} IMPL  Path')
+    header.append('   {:<{}} IMPL  Path'.format('API Name', longest_api_length))
     header.append(splitline)
 
     for i, r in enumerate(result):
-        result[i] = (f'   {r[0]:<{longest_api_length}} {"  O  " if r[1] else "  X  "} '
-                     f'{f"{r[2]}:{r[3]}" if r[1] else ""}')
+        result[i] = ('   {:<{}} {}'.format(r[0], longest_api_length, 'O' if r[1] else 'X') +
+                     '     {}'.format('{}:{}'.format(r[2], r[3]) if r[1] else ''))
     result.append(splitline)
     result = header + result
 
