@@ -24,6 +24,7 @@ struct sched {
     int (*elect)(int switch_type);
 };
 
+int sched_init();
 int sched_select(int sched_type);
 int sched_enqueue(struct thread_info *thread);
 int sched_dequeue(struct thread_info *thread);

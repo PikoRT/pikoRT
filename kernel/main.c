@@ -130,7 +130,9 @@ struct thread_info *start_kernel(void)
     show_page_bitmap();  // init_pages();
     kmem_cache_init();
 
-    /* select a scheduling policy */
+    /* initialize the scheduler internels */
+    sched_init();
+    /* select giving scheduling policy */
     sched_select(SCHED_CLASS_BITMAP);
 
     /* idle_thread is not added to the runqueue */

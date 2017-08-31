@@ -6,6 +6,16 @@ extern const struct sched sched_bitmap;
 
 static const struct sched *sched;
 
+int sched_init()
+{
+    int ret;
+
+    ret = sched_rr.init();
+    ret = sched_bitmap.init();
+
+    return ret;
+}
+
 int sched_select(int sched_type)
 {
     switch (sched_type) {
@@ -19,7 +29,7 @@ int sched_select(int sched_type)
         return -1;
     }
 
-    return sched->init();
+    return 0;
 }
 
 int sched_enqueue(struct thread_info *thread)
