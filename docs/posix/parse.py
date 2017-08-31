@@ -4,8 +4,10 @@
 import glob
 import os
 import tempfile
+import shutil
 import subprocess
 
+CSCOPE = shutil.which('cscope') if shutil.which('cscope') else './cscope'
 CSCOPE_DB = tempfile.NamedTemporaryFile()
 BACKTO = '../'
 LIBC_PATH = BACKTO + 'libc'
@@ -25,7 +27,7 @@ def build_cscope():
 
 
 def cscope_search(name):
-    return subprocess.check_output("./cscope -i %s -L1%s" % (CSCOPE_DB.name, name), shell=True)
+    return subprocess.check_output("%s -i %s -L1%s" % (CSCOPE, CSCOPE_DB.name, name), shell=True)
 
 
 def parse_path(s):
