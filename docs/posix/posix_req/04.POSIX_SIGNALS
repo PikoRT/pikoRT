@@ -1,0 +1,4 @@
+abort(), alarm(), kill(), pause(), raise(), sigaction(),
+sigaddset(), sigdelset(), sigemptyset(), sigfillset(),
+sigismember(), signal(), sigpending(), sigprocmask(),
+sigsuspend(), sigwait()
