@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-
+#
+# Copyright (C) 2009 Georg Brandl
+#
 # Check for stylistic and formal issues in .rst and .py
 # files included in the documentation.
 #
-# 01/2009, Georg Brandl
-
 # TODO: - wrong versions in versionadded/changed
 #       - wrong markup after versionchanged directive
 
