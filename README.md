@@ -15,3 +15,7 @@ $ python -m tests
 # Run partial test with command line tools
 $ python -m tests fs_1 cond_2
 ```
+
+## External Source
+
+* rstlint.py: Copyright (C) 2009 Georg Brandl
