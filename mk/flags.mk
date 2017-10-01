@@ -6,6 +6,8 @@ OBJCOPY = $(CROSS_COMPILE)objcopy
 GDB = $(CROSS_COMPILE)gdb
 HOSTCC  = gcc
 WGET = wget
+# FIXME: check version >= 3.5
+PYTHON = python3
 
 # FIXME: configurable via menuconfig or command line
 CFLAGS_OPT = -Os # -flto

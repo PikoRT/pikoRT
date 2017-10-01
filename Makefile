@@ -49,7 +49,7 @@ include mk/cmsis.mk
 prebuild: $(CMSIS)/$(PLAT)
 
 check:
-	python3 -m tests -p $(PLAT)
+	$(PYTHON) -m tests -p $(PLAT)
 
 clean:
 	find . -name "*.o" -type f -delete

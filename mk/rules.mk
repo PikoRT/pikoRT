@@ -25,11 +25,11 @@ $(NAME).elf: $(OBJS) fs/version.o
 
 kernel/syscall.c: include/kernel/syscalls.h
 	$(VECHO) "  GEN\t\t$@\n"
-	$(Q)python scripts/gen-syscalls.py --source > $@
+	$(Q)$(PYTHON) scripts/gen-syscalls.py --source > $@
 
 include/kernel/syscalls.h:
 	$(VECHO) "  GEN\t\t$@\n"
-	$(Q)python scripts/gen-syscalls.py --header > $@
+	$(Q)$(PYTHON) scripts/gen-syscalls.py --header > $@
 
 fs/version:
 	$(VECHO) "  GEN\t\t$@\n"
