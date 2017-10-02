@@ -36,6 +36,12 @@ struct serial_info {
     struct thread_info *owner;
 };
 
+/*
+ * Generic serial init func
+ *  XXX: should be implemented by specified platform
+ */
+int serial_init(void);
+
 /* XXX: All func below is callback function */
 int serial_getc(struct serial_info *serial, char *c);
 int serial_gets(struct serial_info *serial,

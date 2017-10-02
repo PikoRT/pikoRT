@@ -12,17 +12,12 @@ void config_timer_operations(struct timer_operations *tops);
 
 extern struct timer_operations systick_tops;
 
-extern void stm32f4_init(void);
-
 __weak void __platform_init(void)
 {
     config_timer_operations(&systick_tops);
 
     /* SysTick running at 1kHz */
     SysTick_Config(CPU_FREQ_IN_HZ / SYSTICK_FREQ_IN_HZ);
-
-    /* create /dev/ttyS0, serial interface for QEMU UART0 */
-    stm32f4_init();
 }
 
 __weak void __platform_halt(void)

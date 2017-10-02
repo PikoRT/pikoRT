@@ -67,7 +67,7 @@ static struct inode stm32f1_inode = {
     .i_private = &stm32f1_uart2,
 };
 
-int stm32f1_init(void)
+int serial_init(void)
 {
     struct dentry dentry = {.d_inode = &stm32f1_inode, .d_name = "ttyS0"};
 

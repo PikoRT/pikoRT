@@ -12,6 +12,7 @@
 #include <kernel/thread.h>
 #include <kernel/compiler.h>
 #include <kernel/softirq.h>
+#include <kernel/serial.h>
 
 #include "platform.h"
 
@@ -174,6 +175,9 @@ struct thread_info *start_kernel(void)
     __platform_init();
 
     init_softirq();
+
+    /* create /dev/ttyS0 */
+    serial_init();
 
     printk("Kernel bootstrap done.\n--\n");
 
