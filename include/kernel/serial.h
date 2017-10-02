@@ -36,6 +36,7 @@ struct serial_info {
     struct thread_info *owner;
 };
 
+/* XXX: All func below is callback function */
 int serial_getc(struct serial_info *serial, char *c);
 int serial_gets(struct serial_info *serial,
                 size_t len,
