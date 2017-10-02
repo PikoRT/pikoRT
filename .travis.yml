@@ -1,8 +1,9 @@
 sudo: required
 dist: trusty
-language: c
-compiler:
-  - arm-none-eabi-gcc
+language: python
+python:
+  - "3.5"
+  - "3.6"
 
 before_install:
   - sudo add-apt-repository -y ppa:team-gcc-arm-embedded/ppa
@@ -21,6 +22,7 @@ install:
 
 before_script:
   - arm-none-eabi-gcc --version
+  - python3 --version
 
 script:
   - make PLAT=stm32p103
