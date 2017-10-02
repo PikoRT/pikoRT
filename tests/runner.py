@@ -24,7 +24,7 @@ _FORMAT_TEST_RESULT = {
 
 
 def find_all_tests(excludes=[]):
-    tests = list(map(lambda p: p.strip('/').split('/')[-1], glob.glob('tests/*_[0-9]*')))
+    tests = list(map(lambda p: p.strip('/').split('/')[-1], sorted(glob.glob('tests/*_[0-9]*'))))
     for exclude in excludes:
         if exclude in tests:
             tests.remove(exclude)
