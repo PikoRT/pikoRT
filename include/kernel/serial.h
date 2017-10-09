@@ -36,10 +36,9 @@ struct serial_info {
     struct thread_info *owner;
 };
 
-/*
- * Generic serial init func
- *  XXX: should be implemented by specified platform
- */
+/* Generic usart/uart setup func */
+void usart_init(void);
+/* Generic serial init func */
 int serial_init(void);
 
 /* XXX: All func below is callback function */

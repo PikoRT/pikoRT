@@ -71,6 +71,8 @@ static struct inode stm32_inode = {
 
 static int stm32_serial_init(void)
 {
+    usart_init();
+
     struct dentry dentry = {.d_inode = &stm32_inode, .d_name = "ttyS0"};
 
     cbuf_init(&cbuf, buf, 16);
@@ -80,6 +82,7 @@ static int stm32_serial_init(void)
 
     /* enable rx interrupt */
     request_irq(USARTx_IRQn, stm32_uartx_isr);
+    NVIC_SetPriority(USARTx_IRQn, 0xE);
     NVIC_EnableIRQ(USARTx_IRQn);
 
     return 0;

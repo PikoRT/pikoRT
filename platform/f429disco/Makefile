@@ -19,7 +19,8 @@ CFLAGS += \
 
 CSRC += \
     platform/f429disco/halt.c \
-    platform/f429disco/init.c
+    platform/f429disco/init.c \
+    platform/f429disco/usart.c
 
 # CMSIS files
 ## STM32 HAL

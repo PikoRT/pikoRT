@@ -18,7 +18,8 @@ CFLAGS += \
 
 CSRC += \
     platform/stm32p103/halt.c \
-    platform/stm32p103/init.c
+    platform/stm32p103/init.c \
+    platform/stm32p103/usart.c
 
 # CMSIS files
 ## STM32 HAL
