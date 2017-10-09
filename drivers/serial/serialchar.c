@@ -15,7 +15,7 @@ static int serialchar_open(struct inode *inode, struct file *file)
     struct serial_info *serial = file->f_private;
     CURRENT_THREAD_INFO(cur_thread);
     serial->owner = cur_thread;
-    serial->callback = serialchar_callback;
+    serial->ops->callback = serialchar_callback;
 
     return 0;
 }

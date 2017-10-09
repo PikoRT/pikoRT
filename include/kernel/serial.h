@@ -7,12 +7,22 @@
 
 #include <sys/types.h>
 
+struct serial_ops;
 struct device;
 struct thread_info;
 
 struct serial_info {
+    void *priv;
     unsigned int rx_count;
 
+    struct serial_ops *ops;
+
+    // XXX: owner thread pointer could go to priv, and device pripheral
+    // base address should be linked to private data for the device
+    struct thread_info *owner;
+};
+
+struct serial_ops {
     int (*serial_init)(struct serial_info *serial);
 
     int (*serial_getc)(struct serial_info *serial, char *c);
@@ -28,13 +38,8 @@ struct serial_info {
 
     /* callback on device activity, set by ioctl() */
     void (*callback)(struct serial_info *self);
-
-    void *priv;
-
-    // XXX: owner thread pointer could go to priv, and device pripheral
-    // base address should be linked to private data for the device
-    struct thread_info *owner;
 };
+
 
 /* Generic usart/uart setup func */
 void usart_init(void);

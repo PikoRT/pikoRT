@@ -43,22 +43,24 @@ static int stm32_puts(struct serial_info *serial,
     return 0;
 }
 
-static struct serial_info stm32_uartx = {
+static struct serial_ops stm32_ops = {
     .serial_getc = stm32_getc,
     .serial_putc = stm32_putc,
     .serial_puts = stm32_puts,
-
-    .priv = USARTx,
 };
 
+struct serial_info stm32_info = {
+    .priv = USARTx,
+    .ops = &stm32_ops,
+};
 
 static void stm32_uartx_isr(void)
 {
     if (USARTx->SR & USART_SR_RXNE) {
         char c = (char) USARTx->DR;
         cbuf_putc(&cbuf, c);
-        stm32_uartx.rx_count++;
-        serial_activity_callback(&stm32_uartx);
+        stm32_info.rx_count++;
+        serial_activity_callback(&stm32_info);
     }
 }
 
@@ -66,7 +68,7 @@ extern const struct file_operations serialchar_fops;
 
 static struct inode stm32_inode = {
     .i_fop = &serialchar_fops,
-    .i_private = &stm32_uartx,
+    .i_private = &stm32_info,
 };
 
 static int stm32_serial_init(void)
