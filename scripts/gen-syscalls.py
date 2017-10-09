@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import string
-from optparse import OptionParser
+import argparse
 
 xs = [
     # <pthread.h>
@@ -47,12 +47,12 @@ xs = [
     'munmap',
 ]
 
-parser = OptionParser()
+parser = argparse.ArgumentParser()
 
-parser.add_option("--header", action="store_true", dest="header")
-parser.add_option("--source", action="store_true", dest="source")
+parser.add_argument("--header", action="store_true", dest="header")
+parser.add_argument("--source", action="store_true", dest="source")
 
-(opts, args) = parser.parse_args()
+args = parser.parse_args()
 
 import datetime
 print('// GENERATED. DO NOT EDIT FROM HERE!')
@@ -66,7 +66,7 @@ print('')
 #    name = 'sys_' + x[1]
 #    print('[{}] = {},'.format(name.upper(), name))
 
-if (opts.header):
+if (args.header):
     print('#ifndef KERNEL_SYSCALLS_H')
     print('#define KERNEL_SYSCALLS_H')
     for x in list(enumerate(xs)):
@@ -76,7 +76,7 @@ if (opts.header):
     print('#endif /* !KERNEL_SYSCALLS_H */')
 
 
-if (opts.source):
+if (args.source):
     print('#include <kernel/syscalls.h>')
     print('')
     for x in list(enumerate(xs)):
