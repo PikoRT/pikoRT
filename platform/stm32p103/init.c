@@ -1,5 +1,4 @@
 #include <kernel/compiler.h>
-#include <serial.h>
 
 #include "platform.h"
 
@@ -28,19 +27,4 @@ __weak void __platform_halt(void)
 {
     for (;;)
         ;
-}
-
-void __printk_init(void)
-{
-    usart_init();
-}
-
-void __printk_putchar(char c)
-{
-    if (c == '\n')
-        __printk_putchar('\r');
-
-    while (!(USART2->SR & USART_SR_TXE))
-        ;
-    USART2->DR = (0xff) & c;
 }

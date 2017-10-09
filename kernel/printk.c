@@ -16,9 +16,23 @@ static void co_vsnprintf(const char *format, va_list ap)
     retval = vsnprintf(vsnprintf_buf, VSNPRINTF_BUF_SIZE, format, ap);
 }
 
-void __printk_putchar(char c);
-
+#include <serial.h>
 #include "platform.h"
+
+void __printk_init(void)
+{
+    usart_init();
+}
+
+void __printk_putchar(char c)
+{
+    if (c == '\n')
+        __printk_putchar('\r');
+
+    while (!(USARTx->SR & USART_SR_TXE))
+        ;
+    USARTx->DR = (0xff) & c;
+}
 
 int printk(const char *format, ...)
 {
