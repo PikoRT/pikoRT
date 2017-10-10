@@ -1,7 +1,7 @@
 import subprocess
 import string
 from datetime import datetime
-from optparse import OptionParser
+import argparse
 
 def run_cmd(cmd):
     res = subprocess.run(cmd, universal_newlines=True,
@@ -15,25 +15,25 @@ def cc_version(cc):
     cmd = [ cc, '--version' ]
     return run_cmd(cmd).splitlines()[0]
 
-parser = OptionParser()
+parser = argparse.ArgumentParser()
 
-parser.add_option("-n", "--name", action="store", dest="name")
-parser.add_option("-a", "--arch", action="store", dest="arch")
-parser.add_option("-c", "--cpu", action="store", dest="cpu")
-parser.add_option("-u", "--user", action="store", dest="user", default="unknown")
-parser.add_option(      "--host", action="store", dest="host", default="unknown")
-parser.add_option(      "--major", action="store", dest="major", default=0)
-parser.add_option(      "--minor", action="store", dest="minor", default=0)
-parser.add_option(      "--micro", action="store", dest="micro", default=0)
-parser.add_option(      "--cc-version", action="store_true", dest="cc_version")
+parser.add_argument("-n", "--name", action="store", dest="name")
+parser.add_argument("-a", "--arch", action="store", dest="arch")
+parser.add_argument("-c", "--cpu", action="store", dest="cpu")
+parser.add_argument("-u", "--user", action="store", dest="user", default="unknown")
+parser.add_argument(      "--host", action="store", dest="host", default="unknown")
+parser.add_argument(      "--major", action="store", dest="major", default=0)
+parser.add_argument(      "--minor", action="store", dest="minor", default=0)
+parser.add_argument(      "--micro", action="store", dest="micro", default=0)
+parser.add_argument(      "--cc-version", action="store_true", dest="cc_version")
 
-(opts, args) = parser.parse_args()
+args = parser.parse_args()
 
-version = '.'.join(map(lambda x: str(x), [opts.major, opts.minor, opts.micro]))
-hostname = '@'.join([opts.user, opts.host])
-platform = ', '.join(filter(lambda x: x is not None, [opts.arch, opts.cpu]))
+version = '.'.join(map(lambda x: str(x), [args.major, args.minor, args.micro]))
+hostname = '@'.join([args.user, args.host])
+platform = ', '.join(filter(lambda x: x is not None, [args.arch, args.cpu]))
 
-print('{} version {} ({}) ({}) #{}'.format(opts.name, version, hostname, platform,
+print('{} version {} ({}) ({}) #{}'.format(args.name, version, hostname, platform,
                                            datetime.now().strftime("%c")))
-if (opts.cc_version):
+if (args.cc_version):
     print(cc_version('arm-none-eabi-gcc'))
