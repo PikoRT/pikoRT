@@ -18,7 +18,7 @@ static struct {
     .expire = &_expire,
 };
 
-static int sched_bitmap_init(void)
+static int sched_bitmap_init(__unused struct thread_info *thread)
 {
     INIT_BITMAP(sched_struct.active);
     INIT_BITMAP(sched_struct.expire);

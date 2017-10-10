@@ -18,13 +18,13 @@ struct thread_info;
 #define SCHED_OPT_TICK 3
 
 struct sched {
-    int (*init)(void);
+    int (*init)(struct thread_info *thread);
     int (*enqueue)(struct thread_info *thread);
     int (*dequeue)(struct thread_info *thread);
     int (*elect)(int switch_type);
 };
 
-int sched_select(int sched_type);
+int sched_select(int sched_type, struct thread_info *thread);
 int sched_enqueue(struct thread_info *thread);
 int sched_dequeue(struct thread_info *thread);
 int sched_elect(int flags);

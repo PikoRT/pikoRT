@@ -45,6 +45,11 @@ void init_IRQ(void);
 struct task_info idle_task;
 struct task_info main_task;
 
+/* Select scheduler */
+#ifndef SCHED_CLASS
+#define SCHED_CLASS SCHED_CLASS_BITMAP
+#endif
+
 void print_version(void)
 {
     char buf[] = {0, 0};
@@ -130,9 +135,6 @@ struct thread_info *start_kernel(void)
     show_page_bitmap();  // init_pages();
     kmem_cache_init();
 
-    /* select a scheduling policy */
-    sched_select(SCHED_CLASS_BITMAP);
-
     /* idle_thread is not added to the runqueue */
     task_init(&idle_task);
     thread_idle =
@@ -155,6 +157,9 @@ struct thread_info *start_kernel(void)
     }
     printk("Created main_thread at <%p> with priority=%d\n", thread_main,
            thread_main->ti_priority);
+
+    /* select a scheduling policy */
+    sched_select(SCHED_CLASS, thread_main);
 
     /* Reclaim the early-stack physical memory.  In the current context, no
      * page allocation after this point are allowed.    */

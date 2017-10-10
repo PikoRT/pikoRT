@@ -15,3 +15,17 @@ $ python -m tests
 # Run partial test with command line tools
 $ python -m tests fs_1 cond_2
 ```
+
+## Makefile
+
+You can switch scheduler by makefile flags:
+
+```
+# Using bitmap scheduler
+
+$ make SCHED=BITMAP
+
+# Using RR scheduler
+
+$ make SCHED=RR
+```

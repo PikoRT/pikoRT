@@ -26,6 +26,7 @@ int sys_pthread_cond_wait(pthread_cond_t *cond, kernel_mutex_t *mutex)
     CURRENT_THREAD_INFO(curr_thread);
     curr_thread->ti_private = cond;
     curr_thread->ti_state = THREAD_STATE_BLOCKED;
+    sched_dequeue(curr_thread);
     list_add_tail(&curr_thread->ti_q, &cond_head);
     sys_pthread_mutex_unlock(mutex);
 

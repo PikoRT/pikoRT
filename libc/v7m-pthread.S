@@ -22,10 +22,10 @@ ENTRY(pthread_mutex_lock)
 	bne	0b
 	dmb			@ ARMv7-M ARM, A3.4.6
 	movs	r0, #0		@ it also update EQ flag
-1:	itt ne
-	movne	r1, #SYS_PTHREAD_MUTEX_LOCK
-	svcne	#1
-	bx	lr
+1:	beq 2f
+	mov	r1, #SYS_PTHREAD_MUTEX_LOCK
+	svc	#1
+2:	bx	lr
 ENDPROC(pthread_mutex_lock)
 
 	@ int pthread_mutex_trylock(pthread_mutex_t *mutex)
@@ -38,9 +38,9 @@ ENTRY(pthread_mutex_trylock)
 	teq	r1, #0			@ 'strex' success?
     bne 1f
 	movs	r0, #0		@ it also update EQ flag
-1:  it ne
-    movne	r0, #-1
-	bx	lr
+1:  beq 2f
+    mov	r0, #-1
+2:	bx	lr
 ENDPROC(pthread_mutex_trylock)
 
 	@ int pthread_mutex_unlock(pthread_mutex_t *mutex)
@@ -54,8 +54,8 @@ ENTRY(pthread_mutex_unlock)
 	bne	0b
 	dmb			@ ARMv7-M ARM, A3.4.6
 	movs	r0, #0		@ it also update EQ flag
-1:	itt ne
-	movne	r1, #SYS_PTHREAD_MUTEX_UNLOCK
-	svcne	#1
-	bx	lr
-ENDPROC(pthread_mutex_unlock)
+1:  beq 2f
+	mov	r1, #SYS_PTHREAD_MUTEX_UNLOCK
+	svc	#1
+2:	bx	lr
+ENDPROC(pthread_mutex_lock)
