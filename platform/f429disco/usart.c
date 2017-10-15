@@ -28,6 +28,29 @@ struct usart_port_setup_info {
     void (*usart_clk_enable)(void);
 };
 
+static void usart_port_setup(struct usart_port_setup_info *info) {
+    /* Enable peripherals and GPIO Clocks */
+    /* Enable GPIO TX/RX clock */
+    info->gpio_tx_clk_enable();
+    info->gpio_rx_clk_enable();
+
+    /* Enable USART/UART clock */
+    info->usart_clk_enable();
+}
+
+static void usart_port_init(struct usart_port_setup_info *info) {
+    /* GPIO initialized with USART/UART Tx/Rx configuration */
+    info->gpio_init(info->gpio_tx, &info->gpio_tx_init_info);
+    info->gpio_init(info->gpio_rx, &info->gpio_rx_init_info);
+
+    /* USART/UART init */
+    /* Set the USART peripheral in the Asynchronous mode (UART Mode) */
+    if (info->uart_init)
+        info->uart_init(&info->uart_init_info);
+    else
+        info->usart_init(&info->usart_init_info);
+}
+
 void uart_init(void)
 {
     struct usart_port_setup_info infos[STM32_USART_MAX] = {
@@ -85,31 +108,19 @@ void uart_init(void)
         /* [7] UART8 */
     };
 
-    /* Avoid repeating UART initialization */
-    static int i = 0;
+    /* Specify initialize order */
+    int init_order[] = {0};
 
-    /* USART/UART port setup*/
-    for (struct usart_port_setup_info  *port_info = infos; i <  STM32_USART_MAX; port_info++, i++) {
-        /* skip disable devices */
-        if (!port_info->gpio_tx) continue;
-
-        /* Enable peripherals and GPIO Clocks */
-        /* Enable GPIO TX/RX clock */
-        port_info->gpio_tx_clk_enable();
-        port_info->gpio_rx_clk_enable();
-
-        /* Enable USART/UART clock */
-        port_info->usart_clk_enable();
-    
-        /* GPIO initialized with USART/UART Tx/Rx configuration */
-        port_info->gpio_init(port_info->gpio_tx, &port_info->gpio_tx_init_info);
-        port_info->gpio_init(port_info->gpio_rx, &port_info->gpio_rx_init_info);
-    
-        /* USART init */
-        /* Set the USART peripheral in the Asynchronous mode (UART Mode) */
-        if (port_info->usart_init)
-            port_info->usart_init(&port_info->usart_init_info);
-        else
-            port_info->uart_init(&port_info->uart_init_info);
+    /* USART/UART port setup */
+    for (size_t i = 0; i < ARRAY_SIZE(init_order); i++) {
+        int idx = init_order[i];
+        usart_port_setup(&infos[idx]);
     }
+
+    /* USART/UART port init */
+    for (size_t i = 0; i < ARRAY_SIZE(init_order); i++) {
+        int idx = init_order[i];
+        usart_port_init(&infos[idx]);
+    }
+
 }
