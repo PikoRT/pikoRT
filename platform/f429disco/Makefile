@@ -20,7 +20,7 @@ CFLAGS += \
 CSRC += \
     platform/f429disco/halt.c \
     platform/f429disco/init.c \
-    platform/f429disco/usart.c
+    platform/f429disco/uart.c
 
 # CMSIS files
 ## STM32 HAL
@@ -38,4 +38,4 @@ CSRC += drivers/timer/systick.c
 
 # Serial driver files
 CFLAGS += -Idrivers/serial
-CSRC += drivers/serial/stm32-usart.c
+CSRC += drivers/serial/stm32-uart.c

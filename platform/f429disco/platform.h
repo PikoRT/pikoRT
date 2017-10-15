@@ -6,9 +6,7 @@
 void __platform_init(void);
 void __platform_halt(void);
 
-/* Default USART for outputing
- *  Hard code in "driver/stm32-usart.c"
- */
+/* Default USART for output */
 #define USARTx          USART1
 #define USARTx_IRQn     USART1_IRQn
 
