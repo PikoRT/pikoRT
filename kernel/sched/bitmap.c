@@ -112,10 +112,13 @@ static int sched_bitmap_elect(int flags)
 }
 
 // clang-format off
-const struct sched sched_bitmap = {
+static struct sched sched_bitmap = {
+    .class_type = SCHED_CLASS_BITMAP,
     .init = sched_bitmap_init,
     .enqueue = sched_bitmap_enqueue,
     .dequeue = sched_bitmap_dequeue,
     .elect = sched_bitmap_elect,
 };
 // clang-format on
+
+HOOK_SCHED_CLASS(bitmap, &sched_bitmap)

@@ -87,10 +87,13 @@ int sched_rr_elect(int switch_type)
 }
 
 // clang-format off
-const struct sched sched_rr = {
+static struct sched sched_rr = {
+    .class_type = SCHED_CLASS_RR,
     .init = sched_rr_init,
     .enqueue = sched_rr_enqueue,
     .dequeue = sched_rr_dequeue,
     .elect = sched_rr_elect,
 };
 // clang-format on
+
+HOOK_SCHED_CLASS(RR, &sched_rr)

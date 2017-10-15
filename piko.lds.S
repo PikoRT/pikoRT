@@ -24,6 +24,9 @@ SECTIONS
         PROVIDE(__shell_cmd_start__ = .);
         KEEP(*(.shell_cmd*))
         PROVIDE(__shell_cmd_end__ = .);
+        PROVIDE(__sched_classes_start__ = .);
+        KEEP(*(.sched.class*))
+        PROVIDE(__sched_classes_end__ = .);
         PROVIDE(__rodata_start__ = .);
         *(.rodata*)
         PROVIDE(__rodata_end__ = .);
