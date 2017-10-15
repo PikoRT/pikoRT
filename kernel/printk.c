@@ -21,7 +21,7 @@ static void co_vsnprintf(const char *format, va_list ap)
 
 void __printk_init(void)
 {
-    usart_init();
+    uart_init();
 }
 
 void __printk_putchar(char c)

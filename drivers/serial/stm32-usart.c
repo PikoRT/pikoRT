@@ -73,7 +73,7 @@ static struct inode stm32_inode = {
 
 static int stm32_serial_init(void)
 {
-    usart_init();
+    uart_init();
 
     struct dentry dentry = {.d_inode = &stm32_inode, .d_name = "ttyS0"};
 

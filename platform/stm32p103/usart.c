@@ -28,7 +28,7 @@ struct usart_port_setup_info {
     void (*usart_clk_enable)(void);
 };
 
-void usart_init(void)
+void uart_init(void)
 {
     struct usart_port_setup_info infos[STM32_USART_MAX] = {
         /* [0] USART1 */

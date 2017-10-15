@@ -41,9 +41,9 @@ struct serial_ops {
 };
 
 
-/* Generic usart/uart setup func */
-void usart_init(void);
-/* Generic serial init func */
+/* Generic uart setup */
+void uart_init(void);
+/* Generic serial init */
 int serial_init(void);
 
 /* XXX: All func below is callback function */
