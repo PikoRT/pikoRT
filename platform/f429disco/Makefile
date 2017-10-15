@@ -37,4 +37,5 @@ CSRC += $(CMSIS)/TARGET_STM/TARGET_STM32F4/TARGET_STM32F429xI/TARGET_DISCO_F429Z
 CSRC += drivers/timer/systick.c
 
 # Serial driver files
+CFLAGS += -Idrivers/serial
 CSRC += drivers/serial/stm32-usart.c

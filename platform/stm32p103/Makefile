@@ -36,4 +36,5 @@ CSRC += $(CMSIS)/TARGET_STM/TARGET_STM32F1/TARGET_NUCLEO_F103RB/device/system_cl
 CSRC += drivers/timer/systick.c
 
 # Serial driver files
+CFLAGS += -Idrivers/serial
 CSRC += drivers/serial/stm32-usart.c

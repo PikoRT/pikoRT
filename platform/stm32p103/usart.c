@@ -3,58 +3,37 @@
 
 #include "platform.h"
 #include "kernel/kernel.h"
+#include "stm32-usart.h"
 
 #define STM32_USART_MAX 3
 
-struct usart_port_setup_info {
-    GPIO_TypeDef *gpio_tx;
-    GPIO_TypeDef *gpio_rx;
-
-    GPIO_InitTypeDef gpio_tx_init_info;
-    GPIO_InitTypeDef gpio_rx_init_info;
-
-    union {
-        USART_HandleTypeDef usart_init_info;
-        UART_HandleTypeDef  uart_init_info;
-    };
-
-    void (*gpio_init)(GPIO_TypeDef  *GPIOx, GPIO_InitTypeDef *GPIO_Init);
-
-    HAL_StatusTypeDef (*uart_init)(UART_HandleTypeDef *huart);
-    HAL_StatusTypeDef (*usart_init)(USART_HandleTypeDef *husart);
-
-    void (*gpio_tx_clk_enable)(void);
-    void (*gpio_rx_clk_enable)(void);
-    void (*usart_clk_enable)(void);
-};
-
-static void usart_port_setup(struct usart_port_setup_info *info) {
+static void usart_port_setup(struct stm32_usart_port *port) {
     /* Enable peripherals and GPIO Clocks */
     /* Enable GPIO TX/RX clock */
-    info->gpio_tx_clk_enable();
-    info->gpio_rx_clk_enable();
+    port->gpio_tx_clk_enable();
+    port->gpio_rx_clk_enable();
 
     /* Enable USART/UART clock */
-    info->usart_clk_enable();
+    port->usart_clk_enable();
 }
 
-static void usart_port_init(struct usart_port_setup_info *info) {
+static void usart_port_init(struct stm32_usart_port *port) {
     /* GPIO initialized with USART/UART Tx/Rx configuration */
-    info->gpio_init(info->gpio_tx, &info->gpio_tx_init_info);
-    info->gpio_init(info->gpio_rx, &info->gpio_rx_init_info);
+    port->gpio_init(port->gpio_tx, &port->gpio_tx_init_info);
+    port->gpio_init(port->gpio_rx, &port->gpio_rx_init_info);
 
     /* USART/UART init */
     /* Set the USART peripheral in the Asynchronous mode (UART Mode) */
-    if (info->uart_init)
-        info->uart_init(&info->uart_init_info);
+    if (port->uart_init)
+        port->uart_init(&port->uart_init_info);
     else
-        info->usart_init(&info->usart_init_info);
+        port->usart_init(&port->usart_init_info);
 }
 
 
 void uart_init(void)
 {
-    struct usart_port_setup_info infos[STM32_USART_MAX] = {
+    struct stm32_usart_port ports[STM32_USART_MAX] = {
         /* [0] USART1 */
         /* [1] USART2 */
         [1] = {
@@ -106,14 +85,10 @@ void uart_init(void)
     int init_order[] = {1};
 
     /* USART/UART port setup */
-    for (size_t i = 0; i < ARRAY_SIZE(init_order); i++) {
-        int idx = init_order[i];
-        usart_port_setup(&infos[idx]);
-    }
+    for (size_t i = 0; i < ARRAY_SIZE(init_order); i++)
+        usart_port_setup(&ports[init_order[i]]);
 
     /* USART/UART port init */
-    for (size_t i = 0; i < ARRAY_SIZE(init_order); i++) {
-        int idx = init_order[i];
-        usart_port_init(&infos[idx]);
-    }
+    for (size_t i = 0; i < ARRAY_SIZE(init_order); i++)
+        usart_port_init(&ports[init_order[i]]);
 }
