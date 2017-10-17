@@ -5,6 +5,7 @@
 #ifndef _KERNEL_SERIAL_H
 #define _KERNEL_SERIAL_H
 
+#include <stdio.h>
 #include <sys/types.h>
 
 struct serial_ops;
@@ -33,7 +34,6 @@ struct serial_ops {
     int (*serial_putc)(struct serial_info *serial, char c);
     int (*serial_puts)(struct serial_info *serial,
                        size_t len,
-                       size_t *retlen,
                        const char *buf);
 
     /* callback on device activity, set by ioctl() */
@@ -55,7 +55,6 @@ int serial_gets(struct serial_info *serial,
 int serial_putc(struct serial_info *serial, char c);
 int serial_puts(struct serial_info *serial,
                 size_t len,
-                size_t *retlen,
                 const char *buf);
 
 void serial_activity_callback(struct serial_info *serial);

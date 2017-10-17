@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <sys/types.h>
 
 #include <kernel/cbuf.h>
@@ -22,25 +23,29 @@ static int stm32_getc(struct serial_info *serial, char *c)
 
 static int stm32_putc(struct serial_info *serial, char c)
 {
+    if (!serial || c < 0)
+        return EOF;
+
     USART_TypeDef *uart = serial->priv;
 
     while (!(uart->SR & USART_SR_TXE))
         ;
     uart->DR = c;
 
-    return 0;
+    return c;
 }
 
 static int stm32_puts(struct serial_info *serial,
                       size_t len,
-                      size_t *retlen,
                       const char *buf)
 {
-    *retlen = len;
-    for (int i = 0; len > 0; len--, i++)
-        stm32_putc(serial, buf[i]);
+    int i = 0;
 
-    return 0;
+    for (i = 0; i < len; i++)
+        if (stm32_putc(serial, buf[i]) == EOF)
+            return EOF;
+
+    return i;
 }
 
 static struct serial_ops stm32_ops = {

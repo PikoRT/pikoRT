@@ -28,8 +28,7 @@ int serial_putc(struct serial_info *serial, char c)
 
 int serial_puts(struct serial_info *serial,
                 size_t len,
-                size_t *retlen,
                 const char *buf)
 {
-    return serial->ops->serial_puts(serial, len, retlen, buf);
+    return serial->ops->serial_puts(serial, len, buf);
 }

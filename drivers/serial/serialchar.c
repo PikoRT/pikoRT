@@ -46,15 +46,9 @@ static ssize_t serialchar_write(struct file *file,
                                 size_t count,
                                 __unused off_t *offset)
 {
-    size_t retlen;
     struct serial_info *serial = file->f_private;
 
-    if (count == 1)
-        return serial_putc(serial, *((char *) buf));
-    if (serial_puts(serial, count, &retlen, buf) < 0)
-        return -1;
-
-    return retlen;
+    return serial_puts(serial, count, buf);
 }
 
 const struct file_operations serialchar_fops = {
