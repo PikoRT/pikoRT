@@ -27,6 +27,9 @@ SECTIONS
         PROVIDE(__sched_classes_start__ = .);
         KEEP(*(.sched.class*))
         PROVIDE(__sched_classes_end__ = .);
+        PROVIDE(__serial_hook_start__ = .);
+        KEEP(*(.serial.hook*))
+        PROVIDE(__serial_hook_end__ = .);
         PROVIDE(__rodata_start__ = .);
         *(.rodata*)
         PROVIDE(__rodata_end__ = .);

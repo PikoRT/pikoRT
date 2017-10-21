@@ -18,7 +18,8 @@ CFLAGS += \
 
 CSRC += \
     platform/stm32p103/halt.c \
-    platform/stm32p103/init.c
+    platform/stm32p103/init.c \
+    platform/stm32p103/uart.c
 
 # CMSIS files
 ## STM32 HAL
@@ -35,4 +36,5 @@ CSRC += $(CMSIS)/TARGET_STM/TARGET_STM32F1/TARGET_NUCLEO_F103RB/device/system_cl
 CSRC += drivers/timer/systick.c
 
 # Serial driver files
-CSRC += drivers/serial/stm32f1xx.c
+CFLAGS += -Idrivers/serial
+CSRC += drivers/serial/stm32-uart.c
