@@ -2,6 +2,16 @@
 
 #include <kernel/serial.h>
 
+void serial_init(void)
+{
+    extern unsigned long __serial_hook_start__;
+    extern unsigned long __serial_hook_end__;
+
+    for (struct serial_hook *hook = (struct serial_hook *) &__serial_hook_start__;
+            hook < (struct serial_hook *) &__serial_hook_end__; hook++)
+        hook->init();
+}
+
 void serial_activity_callback(struct serial_info *serial)
 {
     if (serial->ops->callback)

@@ -95,7 +95,4 @@ static int stm32_serial_init(void)
     return 0;
 }
 
-int serial_init(void)
-{
-    return stm32_serial_init();
-}
+HOOK_SERIAL_INIT(UART, stm32_serial_init)

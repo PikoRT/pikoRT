@@ -41,10 +41,21 @@ struct serial_ops {
 };
 
 
+struct serial_hook {
+    char name[10];
+    int (*init)(void);
+};
+
+/* serial hooks */
+#define HOOK_SERIAL_INIT(dev, init_func)                                \
+    static struct serial_hook serial_##dev##_hook                              \
+        __attribute__((section(".serial.hook"), aligned(sizeof(long)),  \
+                        used)) = {#dev, init_func};
+
 /* Generic uart setup */
 void uart_init(void);
 /* Generic serial init */
-int serial_init(void);
+void serial_init(void);
 
 /* XXX: All func below is callback function */
 int serial_getc(struct serial_info *serial, char *c);
