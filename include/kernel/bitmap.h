@@ -83,7 +83,7 @@ static inline struct list_head *bitmap_dequeue(struct bitmap_struct *bm,
 static inline struct list_head *bitmap_dequeue_tail(struct bitmap_struct *bm,
                                                     unsigned long bit)
 {
-    struct list_head *last = bm->queue[bit].next;
+    struct list_head *last = bm->queue[bit].prev;
 
     bitmap_queue_del(last, bit, bm);
     return last;
