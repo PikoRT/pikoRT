@@ -1,4 +1,4 @@
-#ifndef _LINUX_BITMAP_aAA
+#ifndef _LINUX_BITMAP_H
 #define _LINUX_BITMAP_H
 
 #include "linux/list.h"
