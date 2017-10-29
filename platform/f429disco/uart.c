@@ -75,7 +75,7 @@ void uart_init(void)
         
             .gpio_tx_clk_enable = PLAT_EVAL(__HAL_RCC_GPIOA_CLK_ENABLE()),
             .gpio_rx_clk_enable = PLAT_EVAL(__HAL_RCC_GPIOA_CLK_ENABLE()),
-            .uart_clk_enable = PLAT_EVAL(__HAL_RCC_USART2_CLK_ENABLE()),
+            .uart_clk_enable = PLAT_EVAL(__HAL_RCC_USART1_CLK_ENABLE()),
        },
         /* [1] USART2 */
         /* [2] USART3 */
