@@ -16,7 +16,7 @@ install:
   - sudo apt install libxenstore3.0
   - sudo apt install libxen-dev
   - sudo apt install genromfs
-  - wget https://github.com/Piko-RT/tools/raw/master/bin/x86_64-linux/qemu-system-arm
+  - wget https://github.com/PikoRT/tools/raw/master/bin/x86_64-linux/qemu-system-arm
   - chmod 777 qemu-system-arm
   - export PATH=$PATH:$PWD
 
