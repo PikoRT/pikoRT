@@ -5,17 +5,21 @@ This is `Piko/RT`, a tiny Linux-like real-time operating system kernel, optimize
 
 ## Run test suite
 
-```
-# Run all test
+* Run all test
+```shell
 $ make PLAT=stm32p103 check
+```
 
-# Run all test with command line tools
+* Run all test with command line tools
+```shell
 $ python -m tests
+```
 
-# Run partial test with command line tools
+* Run specific test cases
+```shell
 $ python -m tests fs_1 cond_2
 ```
 
 ## External Source
 
-* rstlint.py: Copyright (C) 2009 Georg Brandl
+* `scripts/rstlint.py`: written by Georg Brandl
