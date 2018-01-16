@@ -7,7 +7,7 @@ import tempfile
 import shutil
 import subprocess
 
-CSCOPE = shutil.which('cscope') if shutil.which('cscope') else 'posix/cscope'
+CSCOPE = shutil.which('cscope') if shutil.which('cscope') else '/usr/bin/cscope'
 CSCOPE_DB = tempfile.NamedTemporaryFile()
 BACKTO = '../'
 LIBC_PATH = BACKTO + 'libc'
