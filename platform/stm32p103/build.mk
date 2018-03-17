@@ -3,7 +3,7 @@ ifeq ($(shell lsb_release -c -s),trusty)
 endif
 
 run: $(NAME).bin
-	$(Q)qemu-system-arm \
+	$(Q)$(QEMU_SYSTEM_ARM) \
 	    -semihosting \
 	    $(REDIRECT_SERIAL) \
 	    -nographic \
@@ -12,7 +12,7 @@ run: $(NAME).bin
 	    -kernel $<
 
 dbg: $(NAME).bin
-	$(Q)qemu-system-arm \
+	$(Q)$(QEMU_SYSTEM_ARM) \
 	    -semihosting \
 	    $(REDIRECT_SERIAL) \
 	    -nographic \

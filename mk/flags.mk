@@ -1,4 +1,4 @@
-CROSS_COMPILE = arm-none-eabi-
+CROSS_COMPILE ?= arm-none-eabi-
 CC = $(CROSS_COMPILE)gcc
 AS = $(CROSS_COMPILE)as
 AR = $(CROSS_COMPILE)ar
@@ -8,6 +8,7 @@ HOSTCC  = gcc
 WGET = wget
 # FIXME: check version >= 3.5
 PYTHON = python3
+QEMU_SYSTEM_ARM ?= qemu-system-arm
 
 # FIXME: configurable via menuconfig or command line
 CFLAGS_OPT = -Os # -flto
