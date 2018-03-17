@@ -1,3 +1,8 @@
+import sys
+if sys.version_info < (3, 5):
+    print ("Only support python version >= 3.5")
+    exit(1)
+
 import argparse
 import tests.runner as runner
 from tests.runner import PikoTest
