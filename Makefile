@@ -49,7 +49,7 @@ include mk/cmsis.mk
 prebuild: $(CMSIS)/$(PLAT)
 
 check:
-	$(PYTHON) -m tests -p $(PLAT)
+	$(PYTHON) -m tests -p $(PLAT) --qemu $(QEMU_SYSTEM_ARM) --cc $(CC)
 
 clean:
 	find . -name "*.o" -type f -delete

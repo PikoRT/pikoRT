@@ -132,8 +132,8 @@ class PikoTest:
               % (locale.getpreferredencoding(False),
                  sys.getfilesystemencoding()))
         print()
-        print_qemu_version()
-        print_gcc_version()
+        print_qemu_version(self.ns)
+        print_gcc_version(self.ns)
 
     def accumulate_result(self, test, result):
         ok, test_time = result
@@ -212,8 +212,8 @@ class PikoTest:
         sys.exit(0)
 
 
-def print_qemu_version():
-    cmd = ["qemu-system-arm", "--version"]
+def print_qemu_version(ns):
+    cmd = [ns.qemu, "--version"]
     res = subprocess.run(cmd, universal_newlines=True, stdout=subprocess.PIPE,
                          stderr=subprocess.DEVNULL)
     print()
@@ -221,8 +221,8 @@ def print_qemu_version():
     print()
 
 
-def print_gcc_version():
-    cmd = ["arm-none-eabi-gcc", "--version"]
+def print_gcc_version(ns):
+    cmd = [ns.cc, "--version"]
     res = subprocess.run(cmd, universal_newlines=True, stdout=subprocess.PIPE,
                          stderr=subprocess.DEVNULL)
     print()
