@@ -37,9 +37,9 @@ OBJS := $(sort $(OBJS))
 
 deps := $(OBJS:%.o=.%.o.d)
 
-.PHONY: all check clean distclean
+.PHONY: all check clean distclean check_cc
 
-all: $(CMSIS)/$(PLAT) $(NAME).lds $(NAME).bin
+all: check_cc $(CMSIS)/$(PLAT) $(NAME).lds $(NAME).bin
 
 # generic build rules
 include mk/flags.mk
@@ -48,8 +48,16 @@ include mk/cmsis.mk
 
 prebuild: $(CMSIS)/$(PLAT)
 
-check:
+check: check_cc
 	$(PYTHON) -m tests -p $(PLAT) --qemu $(QEMU_SYSTEM_ARM) --cc $(CC)
+
+check_cc:
+	@$(eval PYTHON_VERSION=$(shell echo `$(PYTHON) --version 2>&1 | grep -oE '[^ ]+$$'`))
+	@$(eval PYTHON_VERSION=$(shell echo $(PYTHON_VERSION) | awk -F "." '{print $$1$$2 0}'))
+	@if [ $(PYTHON_VERSION) -lt 350 ]; then \
+		echo "Error: Python version must >= 3.5, use PYTHON=/python/binary/path"; \
+		return 1;\
+	fi;
 
 clean:
 	find . -name "*.o" -type f -delete

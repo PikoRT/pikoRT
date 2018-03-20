@@ -6,8 +6,7 @@ OBJCOPY = $(CROSS_COMPILE)objcopy
 GDB = $(CROSS_COMPILE)gdb
 HOSTCC  = gcc
 WGET = wget
-# FIXME: check version >= 3.5
-PYTHON = python3
+PYTHON ?= python
 QEMU_SYSTEM_ARM ?= qemu-system-arm
 
 # FIXME: configurable via menuconfig or command line
