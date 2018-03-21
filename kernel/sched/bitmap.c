@@ -99,12 +99,12 @@ static int sched_bitmap_elect(int flags)
     if (flags == SCHED_OPT_RESTORE_ONLY)
         thread_restore(next);  // switch_to_restore_only
     else {
-        if (next == thread_idle || next == current)
-            return 0;
-        if (flags == SCHED_OPT_TICK) {
+        if (flags == SCHED_OPT_TICK && current != thread_idle) {
             thread_enqueue(current, sched_struct.expire);
             current->ti_state = THREAD_STATE_EXPIRED;
         }
+        if (next == current)
+            return 0;
         switch_to(next, current);
     }
 
