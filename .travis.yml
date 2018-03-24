@@ -1,30 +1,31 @@
 sudo: required
 dist: trusty
+os: linux
 language: python
-python:
-  - "3.5"
-  - "3.6"
-
 cache: pip
+stage:
+  - docs
+  - core
 
-matrix:
-  fast_finish: true
+jobs:
   include:
-    - os: linux
+    - stage: docs
       env: TESTING=docs
-      language: python
       python: 3.6
+      before_install:
+        - sudo apt-get update -qq
+      install:
+        - sudo apt-get install cscope
       before_script:
         - cd docs
         - pip install sphinx
       script:
         - make check
         - make html
-    - os: linux
+    - &core-stage
+      stage: core
+      python: 3.5
       env: TESTING=Piko/RT
-      language: c
-      compiler: arm-none-eabi-gcc
-
       before_install:
         - sudo add-apt-repository -y ppa:team-gcc-arm-embedded/ppa
         - sudo apt-get update -qq
@@ -37,9 +38,12 @@ matrix:
         - sudo apt install genromfs
         - wget https://github.com/PikoRT/tools/raw/master/bin/x86_64-linux/qemu-system-arm
         - chmod 777 qemu-system-arm
-        - export PATH=$PATH:$PWD
+        - export PATH=$PWD:$PATH
       before_script:
         - arm-none-eabi-gcc --version
+        - python --version
       script:
         - make PLAT=stm32p103
         - make PLAT=stm32p103 check
+    - <<: *core-stage
+      python: 3.6
