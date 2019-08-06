@@ -1,6 +1,7 @@
 SVN_REV = 27441
 
 ARM_CMSIS_ASSETS = \
+	mbed_toolchain.h \
 	mbed_preprocessor.h \
 	mbed_assert.h
 
