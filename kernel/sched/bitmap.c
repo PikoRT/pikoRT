@@ -80,7 +80,7 @@ static int sched_bitmap_elect(int flags)
 
     next = find_next_thread(sched_struct.active);
 
-    // check each thrd timeslice in active queue
+    // check each thread timeslice in active queue
     // if necessary swap active and expire queue
     if (next == thread_idle &&
         find_next_thread(sched_struct.expire) != thread_idle) {
