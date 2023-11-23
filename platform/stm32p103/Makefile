@@ -6,7 +6,8 @@ RAMSZ = 64k
 
 CFLAGS += \
     -Iplatform/stm32p103 \
-    -I$(CMSIS)/util \
+    -I$(CMSIS)\
+    -I$(CMSIS)/platform \
     -I$(CMSIS)/arm \
     -I$(CMSIS)/arm/TARGET_CORTEX_M \
     -I$(CMSIS)/arm/TARGET_CORTEX_M/TOOLCHAIN_GCC \

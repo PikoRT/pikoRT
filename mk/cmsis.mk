@@ -20,4 +20,4 @@ $(CMSIS)/TARGET_STM:
 
 $(ARM_CMSIS_ASSETS):
 	$(VECHO) "  WGET\t\t$@\n"
-	$(Q)$(WGET) -q https://raw.github.com/ARMmbed/mbed-os/master/platform/$(notdir $@) -P $(CMSIS)/util
+	$(Q)$(WGET) -q https://raw.github.com/ARMmbed/mbed-os/master/platform/include/platform/$(notdir $@) -P $(CMSIS)/platform
