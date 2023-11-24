@@ -6,7 +6,8 @@ RAMSZ = 192k
 
 CFLAGS += \
     -Iplatform/f429disco \
-    -I$(CMSIS)/util \
+    -I$(CMSIS)\
+    -I$(CMSIS)/platform \
     -I$(CMSIS)/arm \
     -I$(CMSIS)/arm/TARGET_CORTEX_M \
     -I$(CMSIS)/arm/TARGET_CORTEX_M/TOOLCHAIN_GCC \
