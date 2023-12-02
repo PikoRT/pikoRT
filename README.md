@@ -2,6 +2,9 @@
 
 This is `Piko/RT`, a tiny Linux-like real-time operating system kernel, optimized for ARM Cortex-M series microprocessors.
 
+Prerequisites
+-------------
+- [QEMU with an STM32 microcontroller implementation](https://beckus.github.io/qemu_stm32/)
 
 ## Run test suite
 
